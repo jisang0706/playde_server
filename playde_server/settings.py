@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-)fq%^13^475dyjg*scefm)yl$js)hlv##w%chk+dm*8#29^&@v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = my_settings.ALLOWED_HOSTS
 
 # FOR UPLOAD AND LOAD IMAGE
 MEDIA_URL = '/media/'
