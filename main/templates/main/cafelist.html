@@ -1,0 +1,7 @@
+{% if cafe_list %}
+    {% for cafe in cafe_list %}
+        {{ cafe.id }}<p>{{ cafe.name }}<p>/media/{{ cafe.small_image }}<br>
+    {% endfor %}
+{% else %}
+    NULL
+{% endif %}

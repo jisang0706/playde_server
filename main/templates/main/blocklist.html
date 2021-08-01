@@ -1,0 +1,7 @@
+{% if block_list %}
+    {% for block in block_list %}
+        {{ block.id }}<p>{{ block.nickname }}<p>/media/{{ block.small_image }}<br>
+    {% endfor %}
+{% else %}
+    NULL
+{% endif %}
