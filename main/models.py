@@ -2,17 +2,19 @@ from django.db import models
 
 # Create your models here.
 class User(models.Model):
-    token = models.IntegerField()
-    name = models.CharField(max_length=100)
-    nickname = models.CharField(max_length=100)
+    token = models.TextField(default="", blank=True)
+    password = models.TextField(default="", blank=True)
+    name = models.CharField(max_length=100, default='', blank=True)
+    nickname = models.CharField(max_length=100, default='', blank=True)
     email = models.CharField(max_length=100, default='', blank=True)
     phone = models.CharField(max_length=15, default='', blank=True)
     age = models.IntegerField(default=0, blank=True)
-    location = models.CharField(max_length=100, default="", blank=True)
-    address = models.CharField(max_length=100, default="", blank=True)
+    latitude = models.FloatField(default=0.0, blank=True)
+    longitude = models.FloatField(default=0.0, blank=True)
     big_image = models.ImageField(upload_to='userimages/', default="", blank=True)
     small_image = models.ImageField(upload_to='userimages/', default="", blank=True)
     is_boss = models.BooleanField(default=False, blank=True)
+    platform = models.IntegerField(default=0, blank=True)
 
 
 class UserComment(models.Model):
