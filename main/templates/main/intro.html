@@ -105,10 +105,17 @@ ex : {{url}}/get_usercomment?user_id=2<br>
 &email={email(if platform is not 0: NULLABLE)}&password={password(if platform is 0: NOTNULL, else: NULL)}&name={name(NULLABLE)}
 &nickname={nickname(NULLABLE)}&phone={phone_number(NULLABLE)}&age={age(NULLABLE)}<br>
 ex : {{url}}/join_user?platform=1&token=123456789&name=쿠민<br>
-platform은 필수로 전달해야 하고 이메일인 경우 email, password. 카카오나 네이버인 경우 token을 전달해야 한다.<br><br>
+platform은 필수로 전달해야 하고 이메일인 경우 email, password. 카카오나 네이버인 경우 token을 전달해야 한다<br>
+이미 존재하는 계정일 경우 "ALREADY USER"을 리턴하고 이미 존재하는 닉네임일 경우 "ALREADY NICKNAME"을 리턴함<br><br>
 
 로그인<br>
 작동 방법 : login?platform={platform_number(email=0, kakao=1, naver=2)}&token={token(if platform is not 0: NOTNULL, else: NULL)}
 &email={email(if platform is not 0: NULLABLE)}&password={password(if platform is 0: NOTNULL, else: NULL)}<br>
 ex : 이메일인경우 : {{url}}/login?platform=0&email=kookmin@gmail.com&password=wowwowowowwo<br>
-네이버나 카카오인 경우 : {{url}}/login?platform=2&token=123456789<br><br>
+네이버나 카카오인 경우 : {{url}}/login?platform=2&token=123456789<br>
+로그인 성공할경우 유저id를 리턴하고 실패할 경우 "FAIL"을 리턴함<br>
+
+닉네임변경<br>
+작동 방법 : set_nickname?id={user_id}&nickname={new_nickname}<br>
+ex : {{url}}/set_nickname?id=2&nicname=temp<br>
+이미 존재하는 닉네임인 경우 "ALREADY NICKNAME"을 리턴함<br><br>

@@ -6,6 +6,9 @@ import bcrypt
 from main.helper import ConvertLocation
 import my_settings
 
+def exist_nickname(nickname):
+    return bool(len(User.objects.filter(nickname=nickname)))
+
 # Create your views here.
 def intro(request):
     url = my_settings.now_url
@@ -178,7 +181,7 @@ def join_user(request):
         obj, create = User.objects.get_or_create(platform=platform, token=token)
 
     if not create:
-        return HttpResponse('이미 존재하는 사용자입니다')
+        return HttpResponse('ALREADY USER')
 
     if platform == 0:
         password = data['password']
@@ -186,7 +189,12 @@ def join_user(request):
 
     keys = data.keys()
     if 'name' in keys:                      obj.name = data['name']
-    if 'nickname' in keys:                  obj.nickname = data['nickname']
+    if 'nickname' in keys:
+        if not exist_nickname(data['nickname']):
+            obj.nickname = data['nickname']
+        else:
+            obj.delete()
+            return HttpResponse('ALREADY NICKNAME')
     if 'email' in keys and platform != 0:   obj.email = data['email']
     if 'phone' in keys:                     obj.phone = data['phone']
     if 'age' in keys:                       obj.age = int(data['age'])
@@ -201,9 +209,13 @@ def login(request):
     if not platform:
         email = data['email']
         password = data['password']
-        obj = User.objects.get(platform=0, email=email)
-        if bcrypt.checkpw(password.encode('utf-8'), obj.password.encode('utf-8')):
-            return HttpResponse(f'{obj.id}')
+        try:
+            obj = User.objects.get(platform=0, email=email)
+        except:
+            return HttpResponse('FAIL')
+
+        return HttpResponse(f'{obj.id}') if bcrypt.checkpw(password.encode('utf-8'), obj.password.encode('utf-8')) else HttpResponse('FAIL')
+
     try:
         token = data['token']
         obj = User.objects.get(platform=platform, token=token)
@@ -211,8 +223,17 @@ def login(request):
     except:
         return HttpResponse('FAIL')
 
-def test(request):
+def set_nickname(request):
     data = request.GET
-    password = data['password']
-    print()
+    id = data['id']
+    nickname = data['nickname']
+    obj = User.objects.get(id=id)
+    if obj.nickname == nickname:    return HttpResponse('SUCCESS')
+
+    if not exist_nickname:
+        obj.nickname = nickname
+    else:
+        return HttpResponse('ALREADY NICKNAME')
+
+    obj.save()
     return HttpResponse('SUCCESS')

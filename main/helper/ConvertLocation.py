@@ -15,13 +15,12 @@ def latlng_to_address(coords):
 
     dic = response.json()
     val = dic['results'][0]['id']
-
     return val
 
 def address_to_latlng(address):
     response = requests.get(GC_BASE_URL + 'query=' + address)
+    if response.status_code != 200: return 'ERROR'
+
     dic = response.json()
-
     coords = [dic['addresses'][0]['x'], dic['addresses'][0]['y']]
-
     return coords

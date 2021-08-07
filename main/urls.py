@@ -26,7 +26,7 @@ urlpatterns = [
     path('get_usercomment', views.get_usercomment, name='getusercomment'),
     path('join_user', views.join_user, name='joinuser'),
     path('login', views.login, name='login'),
-    path('test', views.test, name='test'),
+    path('set_nickname', views.set_nickname, name='setnickname'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
