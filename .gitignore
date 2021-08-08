@@ -133,3 +133,6 @@ dmypy.json
 
 # personal
 my_settings.py
+
+#image
+media/
