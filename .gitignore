@@ -135,4 +135,4 @@ dmypy.json
 my_settings.py
 
 #image
-.media/
+.media
