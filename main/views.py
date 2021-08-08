@@ -37,16 +37,16 @@ class GameInfo(generic.DetailView):
 
 def vicinity_cafe(request):
     data = request.GET
-    coords = data['coords'].split(',')
     try:
-        user_lat = float(coords[0])
-        user_lng = float(coords[1])
+        coords = data['coords'].split(',')
+        latitude = float(coords[0])
+        longitude = float(coords[1])
     except:
-        return HttpResponse("NULL")
+        return HttpResponse("COORDS EXCEPT")
 
-    cafes = Cafe.objects.filter(latitude__range=(user_lat - 0.019, user_lat + 0.019),
-                                      longitude__range=(user_lng - 0.022, user_lng + 0.022))
-    cafes = sorted(cafes, key=lambda cafe: abs(cafe.latitude - user_lat) + abs(cafe.longitude - user_lng))[:5]
+    cafes = Cafe.objects.filter(latitude__range=(latitude - 0.019, latitude + 0.019),
+                                      longitude__range=(longitude - 0.022, longitude + 0.022))
+    cafes = sorted(cafes, key=lambda cafe: abs(cafe.latitude - latitude) + abs(cafe.longitude - longitude))[:5]
 
     return render(request, 'main/vicinity_cafe.html', {'cafes': cafes}) if cafes else HttpResponse(
         "NULL")
@@ -225,7 +225,7 @@ def login(request):
 
 def set_nickname(request):
     data = request.GET
-    id = data['id']
+    id = int(data['user_id'])
     nickname = data['nickname']
     obj = User.objects.get(id=id)
     if obj.nickname == nickname:    return HttpResponse('SUCCESS')
@@ -237,3 +237,81 @@ def set_nickname(request):
 
     obj.save()
     return HttpResponse('SUCCESS')
+
+def add_meet(request):
+    data = request.GET
+    id = int(data['user_id'])
+    try:
+        coords = data['coords'].split(',')
+        latitude, longitude = float(coords[0]), float(coords[1])
+    except:
+        return HttpResponse("COORDS EXCEPT")
+
+    if not User.objects.filter(id=id):
+        return HttpResponse("UNKNOWN USER")
+    obj, create = Meet.objects.get_or_create(user_id=id)
+    obj.latitude = latitude
+    obj.longitude = longitude
+    area1, area2, area3 = ConvertLocation.latlng_to_address([latitude, longitude])
+    if area1 != 'ERROR':
+        obj.area1 = area1
+        obj.area2 = area2
+        obj.area3 = area3
+    obj.save()
+
+    return HttpResponse('SUCCESS')
+
+def del_meet(request):
+    data = request.GET
+    id = int(data['user_id'])
+    obj, create = Meet.objects.get_or_create(id=id)
+    obj.delete()
+
+    return HttpResponse('SUCCESS')
+
+def get_meet(request):
+    data = request.GET
+    id = int(data['user_id'])
+    srt = int(data['sort'])
+    try:
+        coords = data['coords'].split(',')
+        latitude, longitude = float(coords[0]), float(coords[1])
+    except:
+        return HttpResponse("COORDS EXCEPT")
+
+    meets = Meet.objects.filter(latitude__range=(latitude - 0.038, latitude + 0.038),
+                                longitude__range=(longitude - 0.044, longitude + 0.044))
+    meets = sorted(meets, key=lambda meet: abs(meet.latitude - latitude) + abs(meet.longitude - longitude))[:40]
+    users = list()
+    for meet in meets:
+        obj = User.objects.filter(id=meet.user_id)
+        if obj and obj[0].id != id:
+            users.append(obj[0])
+
+    usercafes = [UserCafe.objects.filter(user_id=user.id) for user in users]
+    usergames = [UserWishlist.objects.filter(user_id=user.id) for user in users]
+    values = list()
+    for user, usercafe, usergame in zip(users, usercafes, usergames):
+        cafe_cnt = len([1 for cafe_id in usercafe if UserCafe.objects.filter(user_id=id, cafe_id=cafe_id.cafe_id)])
+        game_cnt = len([1 for game_id in usergame if UserWishlist.objects.filter(user_id=id, game_id=game_id.game_id)])
+        values.append([user, cafe_cnt, game_cnt])
+
+    if srt == 0:
+        values = values[:20]
+    elif srt == 1:
+        values = sorted(values, key=lambda value: value[1], reverse=True)[:20]
+    else:
+        values = sorted(values, key=lambda value: value[2], reverse=True)[:20]
+
+    return render(request, 'main/meet.html', {'values': values})
+
+def test(request):
+    data= request.GET
+    try:
+        coords = data['coords'].split(',')
+        latitude = float(coords[0])
+        longitude = float(coords[1])
+    except:
+        return HttpResponse("COORDS EXCEPT")
+
+    return HttpResponse(f'{ConvertLocation.latlng_to_address([latitude, longitude])}')

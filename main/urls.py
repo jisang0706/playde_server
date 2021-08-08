@@ -27,6 +27,10 @@ urlpatterns = [
     path('join_user', views.join_user, name='joinuser'),
     path('login', views.login, name='login'),
     path('set_nickname', views.set_nickname, name='setnickname'),
+    path('add_meet', views.add_meet, name='addmeet'),
+    path('del_meet', views.del_meet, name='delmeet'),
+    path('get_meet', views.get_meet, name='getmeet'),
+    path('test', views.test, name='test')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

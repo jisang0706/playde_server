@@ -9,8 +9,6 @@ class User(models.Model):
     email = models.CharField(max_length=100, default='', blank=True)
     phone = models.CharField(max_length=15, default='', blank=True)
     age = models.IntegerField(default=0, blank=True)
-    latitude = models.FloatField(default=0.0, blank=True)
-    longitude = models.FloatField(default=0.0, blank=True)
     big_image = models.ImageField(upload_to='userimages/', default="", blank=True)
     small_image = models.ImageField(upload_to='userimages/', default="", blank=True)
     is_boss = models.BooleanField(default=False, blank=True)
@@ -32,12 +30,16 @@ class UserBlock(models.Model):
 
 class Meet(models.Model):
     user_id = models.IntegerField()
+    latitude = models.FloatField(default=0.0, blank=True)
+    longitude = models.FloatField(default=0.0, blank=True)
+    area1 = models.CharField(max_length=20, default="", blank=True)
+    area2 = models.CharField(max_length=20, default="", blank=True)
+    area3 = models.CharField(max_length=20, default="", blank=True)
 
 
 class UserWishlist(models.Model):
     user_id = models.IntegerField()
     game_id = models.IntegerField()
-
 
 class Boss(models.Model):
     boss_id = models.IntegerField()

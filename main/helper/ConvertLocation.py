@@ -14,8 +14,13 @@ def latlng_to_address(coords):
     if response.status_code != 200: return 'ERROR'
 
     dic = response.json()
-    val = dic['results'][0]['id']
-    return val
+    if dic['status']['code'] == 0:
+        area1 = dic['results'][0]['region']['area1']['name']
+        area2 = dic['results'][0]['region']['area2']['name']
+        area3 = dic['results'][0]['region']['area3']['name']
+        return area1, area2, area3
+    else:
+        return 'ERROR', 0, 0
 
 def address_to_latlng(address):
     response = requests.get(GC_BASE_URL + 'query=' + address)
