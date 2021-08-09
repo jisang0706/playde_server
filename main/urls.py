@@ -9,8 +9,8 @@ from django.conf import settings
 app_main = 'main'
 urlpatterns = [
     path('', views.intro, name='intro'),
-    path('game_list', views.GameList.as_view(), name='gamelistinfo'),
-    path('game/<int:pk>', views.GameInfo.as_view(), name='gameinfo'),
+    path('game_list', views.GameList, name='gamelist'),
+    path('game/<int:game_id>', views.GameInfo, name='gameinfo'),
     # path('tutorial/<int:game_id>', views.game_tutorial, name='gametutorial'),
     path('vicinity_cafe', views.vicinity_cafe, name='cafelatlng'),
     path('add_wishlist', views.add_wishlist, name='addwishlist'),

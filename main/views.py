@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import User, UserComment, UserBlock, Meet, UserWishlist, Boss, Cafe, CafeWorktime, CafeGame, UserCafe, CafeBook, CafeBookWantGame, CafeSales, Game, Genre, GameGenre, PlaySystem, GamePlaySystem, GameImage, GameComment, Funding, FundingSchedule
+from .models import User, UserComment, UserBlock, Meet, UserWishlist, Boss, Cafe, CafeWorktime, CafeGame, UserCafe,\
+    CafeBook, CafeBookWantGame, CafeSales, Game, Genre, GameGenre, PlaySystem, GamePlaySystem, GameImage, GameComment,\
+    Funding, FundingSchedule, UserFriend, UserRecent
 from django.views import generic
 import bcrypt
 from main.helper import ConvertLocation
@@ -20,11 +22,19 @@ class GameList(generic.ListView):
     def get_queryset(self):
         return Game.objects.order_by('-interest')[:100]
 
+def GameList(request):
+    data = request.GET
+    game_range = [int(num) for num in data['range'].split(',')]
+    game_list = Game.objects.order_by('-interest')[game_range[0]-1:game_range[1]-1]
 
-class GameInfo(generic.DetailView):
-    model = Game
-    template_name = 'main/game.html'
+    return render(request, 'main/gamelist.html', {'game_list':game_list})
 
+def GameInfo(request, game_id):
+    game = Game.objects.get(id=game_id)
+    game.interest += 1
+    game.save()
+    game_images = GameImage.objects.filter(game_id=game_id).order_by('order')
+    return render(request, 'main/game.html', {'game':game, 'game_images':game_images})
 
 # def game_tutorial(request, game_id):
 #     try:
@@ -264,7 +274,7 @@ def add_meet(request):
 def del_meet(request):
     data = request.GET
     id = int(data['user_id'])
-    obj, create = Meet.objects.get_or_create(id=id)
+    obj, create = Meet.objects.get_or_create(user_id=id)
     obj.delete()
 
     return HttpResponse('SUCCESS')
