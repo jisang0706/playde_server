@@ -1,7 +1,3 @@
-{% if cafe_list %}
-    {% for cafe in cafe_list %}
-        {{ cafe.id }}<p>{{ cafe.name }}<p>/media/{{ cafe.small_image }}<br>
-    {% endfor %}
-{% else %}
-    NULL
-{% endif %}
+{% for cafe in cafe_list %}
+    {{ cafe.id }}<p>{{ cafe.name }}<p>{% if cafe.small_image %}/media/{{ cafe.small_image }}{% endif %}<br>
+{% endfor %}

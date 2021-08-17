@@ -1,5 +1,3 @@
-{% if cafes %}
-    {% for cafe in cafes %}
-        {{ cafe.id }}<p>{{ cafe.name }}<p>{{ cafe.latitude }}<p>{{ cafe.longitude }}<br>
-    {% endfor %}
-{% endif %}
+{% for cafe in cafes %}
+    {{ cafe.id }}<p>{{ cafe.name }}<p>{{ cafe.latitude }}<p>{{ cafe.longitude }}<br>
+{% endfor %}

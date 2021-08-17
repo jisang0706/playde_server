@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import User, UserComment, UserBlock, Meet, UserWishlist, Boss, Cafe, CafeWorktime, CafeGame, UserCafe,\
+from .models import User, UserComment, UserBlock, UserWishlist, Boss, Cafe, CafeWorktime, CafeGame, UserCafe,\
     CafeBook, CafeBookWantGame, CafeSales, Game, Genre, GameGenre, PlaySystem, GamePlaySystem, GameImage, GameComment,\
-    Funding, FundingSchedule, UserFriend, UserRecent
+    Funding, FundingSchedule, UserFriend, UserRecent, UserPlayde, Community, CommunityLike, Comment, CommentReply
 from django.views import generic
 import bcrypt
+from django.db.models import Q
 from main.helper import ConvertLocation
 import my_settings
 
@@ -16,16 +17,10 @@ def intro(request):
     url = my_settings.now_url
     return render(request, 'main/intro.html', {'url' : url})
 
-class GameList(generic.ListView):
-    template_name = 'main/gamelist.html'
-
-    def get_queryset(self):
-        return Game.objects.order_by('-interest')[:100]
-
 def GameList(request):
     data = request.GET
     game_range = [int(num) for num in data['range'].split(',')]
-    game_list = Game.objects.order_by('-interest')[game_range[0]-1:game_range[1]-1]
+    game_list = Game.objects.order_by('-interest')[game_range[0]:game_range[1]]
 
     return render(request, 'main/gamelist.html', {'game_list':game_list})
 
@@ -248,7 +243,7 @@ def set_nickname(request):
     obj.save()
     return HttpResponse('SUCCESS')
 
-def add_meet(request):
+"""def add_meet(request):
     data = request.GET
     id = int(data['user_id'])
     try:
@@ -313,7 +308,25 @@ def get_meet(request):
     else:
         values = sorted(values, key=lambda value: value[2], reverse=True)[:20]
 
-    return render(request, 'main/meet.html', {'values': values})
+    return render(request, 'main/meet.html', {'values': values})"""
+
+def playde_game(request):
+    data = request.GET
+    user_id = int(data['user_id'])
+    game_ids = [int(game_id) for game_id in data['game_ids'].replace(' ', '').split(',')]
+
+    for game_id in game_ids:
+        UserPlayde.objects.get_or_create(user_id=user_id, game_id=game_id)
+
+    return HttpResponse('SUCCESS')
+
+def search_game(request):
+    data = request.GET
+    game_name = data['game_name']
+    range = [int(rng) for rng in data['range'].split(',')]
+    games = Game.objects.filter(Q(kor_name__icontains=game_name)|Q(eng_name__icontains=game_name)).order_by('-interest')[range[0]:range[1]]
+
+    return render(request, 'main/gamelist.html', {'game_list':games})
 
 def test(request):
     data= request.GET

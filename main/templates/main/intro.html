@@ -9,25 +9,27 @@
 <br>
 
 <h5>
+    이번주 안에 html 전부 json으로 변경 예정<br>
     리턴 정보중 소괄호 내의 정보는 반복될 수 있음<br>
     이미지 가져오는 방법 : 서버 링크 + 이미지 경로<br>
     작동 방법 안에 쓰여져있는 한글은 변수를 입력하는 칸<br>
     리턴 정보중 소괄호 안에 있는 정보들은 여러개가 주어질 수 있음<br>
-    id는 사용자에게 보여지면 안됨
+    id는 사용자에게 보여지면 안됨<br>
+    url은 인코딩해야하는것으로 알고있음<br>
 </h5>
 <br>
 
 <h3>게임 리스트 표시를 위한 게임 정보</h3>
 작동 방법 : game_list?range={start, end}<br>
-ex : {{url}}/game_list?range=1,11<br>
+ex : {{url}}/game_list?range=0,10<br>
 리턴 정보 : (게임id, 게임 이름, 게임사진 작은버전)<br>
-게임은 br태그로 구분되어 있으며 게임 정보는 p태그로 구분되어서 인기 많은순으로 제공됨<br><br>
+게임은 br태그로 구분되어 있으며 게임 정보는 p태그로 구분되어서 인기 많은순으로 제공됨<br>
 
 <h3>게임 세부 정보</h3>
 작동 방법 : game/게임id<br>
 ex : {{url}}/game/1<br>
 리턴 정보 : 게임id, 게임 이름, 게임 이용 가능 최소 인원수, 게임 이용 가능 최대 인원수, 게임 소개글, (게임 사진)<br>
-해당 정보가 p태그로 구분되어서 제공됨<br><br>
+해당 정보가 p태그로 구분되어서 제공됨<br>
 
 <!-- 튜토리얼 정보<br>
 작동 방법 : tutorial/게임id<br>
@@ -38,76 +40,76 @@ ex : {{url}}/game/1<br>
 작동 방법 : vicinity_cafe?coords={user_latitude, user_longitude}<br>
 ex : {{url}}/vicinity_cafe?coords=127.57234,56.7923<br>
 리턴 정보 : (카페 id, 카페 이름, 카페 위도, 카페 경도)<br>
-해당 정보가 br태그와 p태그로 구분되어 있으며, 사용자에게 약 2km 내에 있는 카페를 가장 가까운 순으로 최대 5개를 반환함<br><br>
+해당 정보가 br태그와 p태그로 구분되어 있으며, 사용자에게 약 2km 내에 있는 카페를 가장 가까운 순으로 최대 5개를 반환함<br>
 
 <h3>위시리스트 정보</h3>
-작동 방법 : get_wishlist?user_id={user_id}<br>
-ex : {{url}}/get_wishlist?user_id=2<br>
+작동 방법 : wishlist/get?user_id={user_id}<br>
+ex : {{url}}/wishlist/get?user_id=2<br>
 리턴 정보 : (게임id, 게임 이름, 게임사진 작은버전)<br>
-게임은 br태그로 구분되어 있으며 게임 정보는 p태그로 구분되어서 제공됨.<br><br>
+게임은 br태그로 구분되어 있으며 게임 정보는 p태그로 구분되어서 제공됨.<br>
 
 <h3>위시리스트 추가</h3>
-작동 방법 : add_wishlist?user_id={user_id}&game_id={game_id}<br>
-ex : {{url}}/add_wishlist?user_id=2&game_id=1<br>
+작동 방법 : wishlist/add?user_id={user_id}&game_id={game_id}<br>
+ex : {{url}}/wishlist/add?user_id=2&game_id=1<br>
 리턴 정보 : SUCCESS, FAIL<br>
-사용자의 위시리스트에 게임을 추가함<br><br>
+사용자의 위시리스트에 게임을 추가함<br>
 
 <h3>위시리스트 삭제</h3>
-작동 방법 : del_wishlist?user_id={user_id}&game_id={game_id}<br>
-ex : {{url}}/del_wishlist?user_id=2&game_id=1<br>
+작동 방법 : wishlist/delete?user_id={user_id}&game_id={game_id}<br>
+ex : {{url}}/wishlist/delete?user_id=2&game_id=1<br>
 리턴 정보 : SUCCESS, FAIL<br>
-해당 게임을 사용자의 위시리스트에서 삭제함<br><br>
+해당 게임을 사용자의 위시리스트에서 삭제함<br>
 
 <h3>차단목록</h3>
-작동 방법 : get_block?user_id={user_id}<br>
-ex : {{url}}/get_block?user_id=2<br>
+작동 방법 : block/get?user_id={user_id}<br>
+ex : {{url}}/block/get?user_id=2<br>
 리턴 정보 : (상대유저id, 상대방 닉네임, 상대 프사 작은버전)<br>
-사용자의 차단 목록 관리를 위한 정보임<br><br>
+사용자의 차단 목록 관리를 위한 정보임<br>
 
 <h3>상대방 차단하기</h3>
-작동 방법 : add_block?user_id={user_id}&his_id={target_user_id}<br>
-ex : {{url}}/add_block?user_id=2&his_id=1<br>
+작동 방법 : block/add?user_id={user_id}&his_id={target_user_id}<br>
+ex : {{url}}/block/add?user_id=2&his_id=1<br>
 리턴 정보 : SUCCESS, FAIL<br>
-상대방을 차단 목록에 추가해서 서로 만나요에서 보이지 않고 상대방이 채팅을 보내도 보이지 않음<br><br>
+상대방을 차단 목록에 추가해서 서로 만나요에서 보이지 않고 상대방이 채팅을 보내도 보이지 않음<br>
 
 <h3>차단 해제</h3>
-작동 방법 : del_block?user_id={user_id}&his_id={target_user_id}<br>
-ex : {{url}}/del_block?user_id=2&his_id=1<br>
+작동 방법 : block/delete?user_id={user_id}&his_id={target_user_id}<br>
+ex : {{url}}/block/delete?user_id=2&his_id=1<br>
 리턴 정보 : SUCCESS, FAIL<br>
-상대방을 차단 목록에서 삭제해서 다시 만나요에서 보거나 채팅을 칠 수 있음<br><br>
+상대방을 차단 목록에서 삭제해서 다시 만나요에서 보거나 채팅을 칠 수 있음<br>
 
 <h3>저장한 카페 목록</h3>
-작동 방법 : get_fav_cafe?user_id={user_id}<br>
-ex : {{url}}/get_fav_cafe?user_id=1<br>
-리턴 정보 : (카페id, 카페이름, 카페 사진 작은버전)<br><br>
+작동 방법 : fav_cafe/get?user_id={user_id}<br>
+ex : {{url}}/fav_cafe/get?user_id=1<br>
+리턴 정보 : (카페id, 카페이름, 카페 사진 작은버전)<br>
 
 <h3>저장한 카페 추가</h3>
-작동 방법 : add_fav_cafe?user_id={user_id}&cafe_id={cafe_id}<br>
-ex : {{url}}/add_fav_cafe?user_id=1&cafe_id=1<br>
-리턴 정보 : SUCCESS, FAIL<br><br>
+작동 방법 : fav_cafe/add?user_id={user_id}&cafe_id={cafe_id}<br>
+ex : {{url}}/fav_cafe/add?user_id=1&cafe_id=1<br>
+리턴 정보 : SUCCESS, FAIL<br>
 
 <h3>저장한 카페 삭제</h3>
-작동 방법 : del_fav_cafe?user_id={user_id}&cafe_id={cafe_id}<br>
-ex : {{url}}/del_fav_cafe?user_id=1&cafe_id=1<br>
-리턴 정보 : SUCCESS, FAIL<br><br>
-
-<h3>유저 평가 추가, 수정</h3>
-작동 방법 : add_usercomment?user_id={writter_id}&his_id={target_user_id}&score={score in range(0, 11)}&comment={comment}<br>
-ex : {{url}}/add_usercomment?user_id=1&his_id=2&score=10&comment=너무 좋아요<br>
-사용자가 상대방을 처음 평가할 경우 새로 생기고 이미 존재할 경우 수정해서 데이터베이스에 저장함.<br><br>
+작동 방법 : fav_cafe/delete?user_id={user_id}&cafe_id={cafe_id}<br>
+ex : {{url}}/fav_cafe/delete?user_id=1&cafe_id=1<br>
+리턴 정보 : SUCCESS, FAIL<br>
 
 <h3>유저 평가 불러오기</h3>
-작동 방법 : get_usercomment?user_id={user_id}<br>
-ex : {{url}}/get_usercomment?user_id=2<br>
-리턴 정보 : 평점 평균, (작성자id, 작성자닉네임, 작성자프사, 평가점수, 평가내용)<br><br>
+작동 방법 : usercomment/get?user_id={user_id}<br>
+ex : {{url}}/usercomment/get?user_id=2<br>
+리턴 정보 : 평점 평균, (작성자id, 작성자닉네임, 작성자프사, 평가점수, 평가내용)<br>
+
+<h3>유저 평가 추가, 수정</h3>
+작동 방법 : usercomment/add?user_id={writter_id}&his_id={target_user_id}&score={score in range(0, 11)}&comment={comment}<br>
+ex : {{url}}/usercomment/add?user_id=1&his_id=2&score=10&comment=너무 좋아요<br>
+사용자가 상대방을 처음 평가할 경우 새로 생기고 이미 존재할 경우 수정해서 데이터베이스에 저장함.<br>
 
 <h3>회원가입</h3>
-작동 방법 : join_user?platform={platform_number(email=0, kakao=1, naver=2)}&token={token(if platform is not 0: NOTNULL, else: NULL)}
+작동 방법 : user/join?platform={platform_number(email=0, kakao=1, naver=2)}&token={token(if platform is not 0: NOTNULL, else: NULL)}
 &email={email(if platform is not 0: NULLABLE)}&password={password(if platform is 0: NOTNULL, else: NULL)}&name={name(NULLABLE)}
 &nickname={nickname(NULLABLE)}&phone={phone_number(NULLABLE)}&age={age(NULLABLE)}<br>
-ex : {{url}}/join_user?platform=1&token=123456789&name=쿠민<br>
+ex : {{url}}/user/join?platform=1&token=123456789&name=쿠민<br>
 platform은 필수로 전달해야 하고 이메일인 경우 email, password. 카카오나 네이버인 경우 token을 전달해야 한다<br>
-이미 존재하는 계정일 경우 "ALREADY USER"을 리턴하고 이미 존재하는 닉네임일 경우 "ALREADY NICKNAME"을 리턴함<br><br>
+이미 존재하는 계정일 경우 "ALREADY USER"을 리턴하고 이미 존재하는 닉네임일 경우 "ALREADY NICKNAME"을 리턴함<br>
 
 <h3>로그인</h3>
 작동 방법 : login?platform={platform_number(email=0, kakao=1, naver=2)}&token={token(if platform is not 0: NOTNULL, else: NULL)}
@@ -117,19 +119,82 @@ ex : 이메일인경우 : {{url}}/login?platform=0&email=kookmin@gmail.com&passw
 로그인 성공할경우 유저id를 리턴하고 실패할 경우 "FAIL"을 리턴함<br>
 
 <h3>닉네임변경</h3>
-작동 방법 : set_nickname?user_id={user_id}&nickname={new_nickname}<br>
+작동 방법 : nickname/change?user_id={user_id}&nickname={new_nickname}<br>
 ex : {{url}}/set_nickname?id=2&nicname=temp<br>
-이미 존재하는 닉네임인 경우 "ALREADY NICKNAME"을 리턴함<br><br>
+이미 존재하는 닉네임인 경우 "ALREADY NICKNAME"을 리턴함<br>
 
-<h3>만나요 등록</h3>
-작동 방법 : add_meet?user_id={user_id}&coords={user_latitude, user_longitude}<br>
-ex : {{url}}/add_meet?id=2&coords=127.2923750,36.5929071<br><br>
+<!--<h3>만나요 등록</h3>-->
+<!--작동 방법 : add_meet?user_id={user_id}&coords={user_latitude, user_longitude}<br>-->
+<!--ex : {{url}}/add_meet?id=2&coords=127.2923750,36.5929071<br><br>-->
 
-<h3>만나요 삭제</h3>
-작동 방법 : del_meet?user_id={user_id}<br>
-ex : {{url}}/del_meet?id=2<br><br>
+<!--<h3>만나요 삭제</h3>-->
+<!--작동 방법 : del_meet?user_id={user_id}<br>-->
+<!--ex : {{url}}/del_meet?id=2<br><br>-->
 
-<h3>만나요 불러오기</h3>
-작동 방법 : get_meet?user_id={user_id}&coords={user_latitude, user_longitude}&sort={거리순:0, 카페순:1, 게임순:2}<br>
-ex : {{url}}/get_meet?user_id=2&coords=127.2923750,36.5929071&srt=1<br>
-리턴 정보 : (유저id, 닉네임, 프로필사진, 겹치는카페개수, 겹치는게임개수)<br><br>
+<!--<h3>만나요 불러오기</h3>-->
+<!--작동 방법 : get_meet?user_id={user_id}&coords={user_latitude, user_longitude}&sort={거리순:0, 카페순:1, 게임순:2}<br>-->
+<!--ex : {{url}}/get_meet?user_id=2&coords=127.2923750,36.5929071&srt=1<br>-->
+<!--리턴 정보 : (유저id, 닉네임, 프로필사진, 겹치는카페개수, 겹치는게임개수)<br><br>-->
+
+<h3>해본게임 체크</h3>
+작동 방법 : playde_game?user_id={user_id}&game_ids={game_ids are separated by ,}<br>
+ex : {{url}}/playde_game?user_id=1&game_ids=1,2,3,6,12,168<br>
+해본 보드게임 체크를 위한 게임 리스트는 game_list에서 가져올것<br>
+
+<h3>게임 검색</h3>
+작동 방법 : game/search?game_name={game_name}&range={start, end}<br>
+ex : {{url}}/game/search?game_name=우&range=0,10<br>
+리턴 정보 : (게임id, 게임 이름, 게임사진 작은버전)<br>
+game_name이 포함된 이름을 가진 게임들을 리턴해서 여러개가 주어질 수 있음<br>
+
+<h3>커뮤니티 글 목록 불러오기</h3>
+작동 방법 : community/get?user_id={user_id}&range={start, end}&top_id={top_board_id (NULLABLE)}<br>
+ex : {{url}}/community/get?user_id=1&range=10,20&top_id=1<br>
+리턴 정보 : (글id, 글내용, 작성자닉네임, 작성자프사, 좋아요수, 내가좋아요눌렀는지, 댓글수)<br>
+
+<h3>커뮤니티 글 업로드</h3>
+작동 방법 : community/upload?user_id={user_id}&content={content}<br>
+ex : {{url}}/community/upload?user_id=1&content=안녕하세요 반가워요<br>
+
+<h3>커뮤니티 글 삭제</h3>
+작동 방법 : community/delete?user_id={user_id}&board_id={board_id}<br>
+ex : {{url}}/community/delete?user_id=1&community_id=2<br>
+리턴 정보 : 자신이 작성한 글이 아닐 경우 FAIL, 삭제 성공할 경우 SUCCESS<br>
+
+<h3>커뮤니티 글 좋아요</h3>
+작동 방법 : community/like?user_id={user_id}&board_id={board_id}<br>
+ex : {{url}}/community/like?user_id=1&board_id=1<br>
+리턴 정보 : 좋아요일 경우 LIKE, 좋아요 취소일 경우 UNLIKE<br>
+좋아요와 좋아요 취소를 구분하지 않고 호출함<br>
+
+<h3>댓글 작성</h3>
+작동 방법 : community/comment/upload?user_id={user_id}&board_id={board_id}&content={content}<br>
+ex : {{url}}/community/comment/upload?user_id=1&board_id=1&content=안녕못해<br>
+
+<h3>댓글 삭제</h3>
+작동 방법 : community/comment/delete?user_id={user_id}&comment_id={comment_id}<br>
+ex : {{url}}/community/comment/delete?user_id=1&comment_id=1<br>
+리턴 정보 : 성공할 경우 SUCCESS, 유저id가 댓글 작성자가 아니라서 삭제 실패할 경우 FAIL<br>
+
+<h3>댓글 답글 작성</h3>
+작동 방법 : community/reply/upload?user_id={user_id}&comment_id={comment_id}&content={content}<br>
+ex : {{url}}/community/reply/upload?user_id=2&comment_id=2&content={반갑습니다}<br>
+
+<h3>댓글 답글 삭제</h3>
+작동 방법 : community/reply/delete?user_id={user_id}&reply_id={reply_id}<br>
+ex : {{url}}/community/reply/delete?user_id=2&reply_id=1<br>
+
+<h3>커뮤니티 글 상세보기</h3>
+작동 방법 : community/board/{board_id}?user_id={user_id}<br>
+ex : {{url}}/community/board/1?user_id=1<br>
+리턴 정보 : 글id, 글내용, 작성자닉네임, 작성자프사경로, 좋아요수, 내가좋아요눌렀는지, 댓글수, (댓글id, 댓글내용, 댓글작성자닉네임, 댓글작성자프사경로, (대댓글id, 대댓글내용, 대댓글작성자id, 대댓글작성자닉네임, 대댓글작성자프사경로))<br>
+태그는 p, br, split으로 구성되어있으며 내용.split(br태그)를 할 경우 [0]은 커뮤니티 글 상세내용, [1]부터는 댓글들 정보가 주어짐. 댓글.split(split태그)를 할 경우 [0]은 댓글, [1]부터는 대댓글 내용이 주어짐<br>
+내용 예시 : <p style="background-color: #999999;">1&lt;p>안녕하세요 반가워요&lt;p>thoerthings&lt;p>/media/userimages/default.png&lt;p>2&lt;p>0&lt;p>1
+
+
+    &lt;br>5&lt;p>안녕 안합니다&lt;p>국봉&lt;p>/media/userimages/default.png
+
+        &lt;split>2&lt;p>아무거나&lt;p>9&lt;p>wow&lt;p>/media/userimages/default.png
+
+        &lt;split>1&lt;p>아무거나&lt;p>9&lt;p>wow&lt;p>/media/userimages/default.png
+    &lt;br></p>

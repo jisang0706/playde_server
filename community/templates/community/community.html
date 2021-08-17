@@ -1,0 +1,3 @@
+{% for board, user, like, comment, my_like in datas %}
+    {{ board.id }}<p>{{ board.content }}<p>{{ user.nickname }}<p>/media/{% if user.small_image %}{{ user.small_image }}{% else %}userimages/default.png{% endif %}<p>{{ like }}<p>{{ my_like }}<p>{{ comment }}<br>
+{% endfor %}

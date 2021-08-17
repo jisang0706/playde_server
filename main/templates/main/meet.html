@@ -1,7 +1,3 @@
-{% if values %}
-    {% for user, cafe, game in values %}
-        {{user.id}}<p>{{ user.nickname }}<p>{% if user.small_image %}{{ user.small_image }}{% else %}userimages/default.png{% endif %}<p>{{ cafe }}<p>{{ game }}<br>
-    {% endfor %}
-{% else %}
-    NULL
-{% endif %}
+{% for user, cafe, game in values %}
+    {{user.id}}<p>{{ user.nickname }}<p>/media/{% if user.small_image %}{{ user.small_image }}{% else %}userimages/default.png{% endif %}<p>{{ cafe }}<p>{{ game }}<br>
+{% endfor %}

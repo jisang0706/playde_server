@@ -25,13 +25,34 @@ class UserBlock(models.Model):
     user_id = models.IntegerField()
     user_id_blocked = models.IntegerField()
 
-class Meet(models.Model):
+# class Meet(models.Model):
+#     user_id = models.IntegerField()
+#     latitude = models.FloatField(default=0.0, blank=True)
+#     longitude = models.FloatField(default=0.0, blank=True)
+#     area1 = models.CharField(max_length=20, default="", blank=True)
+#     area2 = models.CharField(max_length=20, default="", blank=True)
+#     area3 = models.CharField(max_length=20, default="", blank=True)
+
+class Community(models.Model):
     user_id = models.IntegerField()
-    latitude = models.FloatField(default=0.0, blank=True)
-    longitude = models.FloatField(default=0.0, blank=True)
-    area1 = models.CharField(max_length=20, default="", blank=True)
-    area2 = models.CharField(max_length=20, default="", blank=True)
-    area3 = models.CharField(max_length=20, default="", blank=True)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now=True)
+
+class CommunityLike(models.Model):
+    user_id = models.IntegerField()
+    board_id = models.IntegerField()
+
+class Comment(models.Model):
+    user_id = models.IntegerField()
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now=True)
+    board_id = models.IntegerField()
+
+class CommentReply(models.Model):
+    user_id = models.IntegerField()
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now=True)
+    comment_id = models.IntegerField()
 
 class UserWishlist(models.Model):
     user_id = models.IntegerField()
@@ -77,6 +98,10 @@ class UserCafe(models.Model):
     user_id = models.IntegerField()
     cafe_id = models.IntegerField()
 
+class UserPlayde(models.Model):
+    user_id = models.IntegerField()
+    game_id = models.IntegerField()
+
 class CafeBook(models.Model):
     user_id = models.IntegerField()
     cafe_id = models.IntegerField()
@@ -95,7 +120,8 @@ class CafeSales(models.Model):
     sales_date = models.DateTimeField(auto_now_add=True)
 
 class Game(models.Model):
-    name = models.CharField(max_length=100)
+    kor_name = models.CharField(max_length=100)
+    eng_name = models.CharField(max_length=100, default='', blank=True)
     age = models.IntegerField(default=0, blank=True)
     min_user = models.IntegerField(default=1, blank=True)
     max_user = models.IntegerField(default=1, blank=True)
@@ -103,6 +129,7 @@ class Game(models.Model):
     content = models.TextField(default="", blank=True)
     exist = models.BooleanField(default=True, blank=True)
     interest = models.IntegerField(default=0, blank=True)
+    level = models.IntegerField(default=0, blank=True)
 
 """더이상 사용하지 않는 테이블"""
 # class Tutorial(models.Model):

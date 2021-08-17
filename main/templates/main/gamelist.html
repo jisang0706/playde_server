@@ -1,7 +1,3 @@
-{% if game_list %}
-    {% for game in game_list %}
-        {{ game.id }}<p>{{ game.name }}<p>/media/{{ game.small_image }}<br>
-    {% endfor %}
-{% else %}
-    NULL
-{% endif %}
+{% for game in game_list %}
+    {{ game.id }}<p>{{ game.kor_name }}<p>{% if game.small_image %}/media/{{ game.small_image }}{% endif %}<br>
+{% endfor %}

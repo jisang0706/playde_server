@@ -1,8 +1,4 @@
-{% if comments_and_writters %}
-    {{ score_average }}<br>
-    {% for comment, writter in comments_and_writters %}
-        {{ comment.my_id }}<p>{{ writter.nickname }}<p>{% if writter.small_image %}{{ writter.small_image }}{% else %}userimages/default.png{% endif %}<p>{{ comment.score }}<p>{{ comment.comment }}<br>
-    {% endfor %}
-{% else %}
-    NULL
-{% endif %}
+{{ score_average }}<br>
+{% for comment, writter in comments_and_writters %}
+    {{ comment.my_id }}<p>{{ writter.nickname }}<p>media/{% if writter.small_image %}{{ writter.small_image }}{% else %}userimages/default.png{% endif %}<p>{{ comment.score }}<p>{{ comment.comment }}<br>
+{% endfor %}
