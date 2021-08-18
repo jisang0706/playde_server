@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GAME INTRO</title>
+</head>
+<body>
+    <h3>게임 리스트</h3>
+    <p>작동 방법 : game/list?range={start, end}</p>
+    <p>ex : {{url}}/game/list?range=0,10</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>meta.count</td>
+            <td>number</td>
+            <td>게임 갯수</td>
+        </tr>
+        <tr>
+            <td>meta.start</td>
+            <td>number</td>
+            <td>시작점</td>
+        </tr>
+        <tr>
+            <td>meta.end</td>
+            <td>number</td>
+            <td>끝점</td>
+        </tr>
+        <tr>
+            <td>games[].id</td>
+            <td>number</td>
+            <td>게임 id</td>
+        </tr>
+        <tr>
+            <td>games[].kor_name</td>
+            <td>string</td>
+            <td>게임 이름</td>
+        </tr>
+        <tr>
+            <td>games[].profile_img</td>
+            <td>string</td>
+            <td>게임 프로필사진 위치</td>
+        </tr>
+        <tr>
+            <td>games[].level</td>
+            <td>number</td>
+            <td>게임 난이도</td>
+        </tr>
+        <tr>
+            <td>games[].interest</td>
+            <td>number</td>
+            <td>게임 인기도</td>
+        </tr>
+    </table>
+    <!-- ---------------------------------------------------------------------------------- -->
+<br>
+    <h3>게임 세부정보</h3>
+    <p>작동 방법 : game/게임id</p>
+    <p>ex : {{url}}/game/1</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>id</td>
+            <td>number</td>
+            <td>게임id</td>
+        </tr>
+        <tr>
+            <td>min_age</td>
+            <td>number</td>
+            <td>최소 나이</td>
+        </tr>
+        <tr>
+            <td>kor_name</td>
+            <td>string</td>
+            <td>게임 이름</td>
+        </tr>
+        <tr>
+            <td>min_user</td>
+            <td>number</td>
+            <td>최소 플레이어 수</td>
+        </tr>
+        <tr>
+            <td>max_user</td>
+            <td>number</td>
+            <td>최대 플레이어 수</td>
+        </tr>
+        <tr>
+            <td>content</td>
+            <td>string</td>
+            <td>게임 설명</td>
+        </tr>
+        <tr>
+            <td>imgs[]</td>
+            <td>string</td>
+            <td>게임 사진 위치</td>
+        </tr>
+    </table>
+    <!-- ---------------------------------------------------------------------------------- -->
+<br>
+    <h3>게임 검색</h3>
+    <p>작동 방법 : game/search?game_name={game_name}&range={start, end}</p>
+    <p>ex : {{url}}/game/search?game_name=우&range=0,10</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>meta.count</td>
+            <td>number</td>
+            <td>게임 갯수</td>
+        </tr>
+        <tr>
+            <td>meta.start</td>
+            <td>number</td>
+            <td>시작점</td>
+        </tr>
+        <tr>
+            <td>meta.end</td>
+            <td>number</td>
+            <td>끝점</td>
+        </tr>
+        <tr>
+            <td>games[].id</td>
+            <td>number</td>
+            <td>게임 id</td>
+        </tr>
+        <tr>
+            <td>games[].kor_name</td>
+            <td>string</td>
+            <td>게임 이름</td>
+        </tr>
+        <tr>
+            <td>games[].profile_img</td>
+            <td>string</td>
+            <td>게임 프로필사진 위치</td>
+        </tr>
+        <tr>
+            <td>games[].level</td>
+            <td>number</td>
+            <td>게임 난이도</td>
+        </tr>
+        <tr>
+            <td>games[].interest</td>
+            <td>number</td>
+            <td>게임 인기도</td>
+        </tr>
+    </table>
+    <!-- ---------------------------------------------------------------------------------- -->
+<br>
+    <h3>위시리스트 조회</h3>
+    <p>작동 방법 : game/wish?user_id={user_id}</p>
+    <p>ex : {{url}}/game/wish?user_id=1</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>meta.count</td>
+            <td>number</td>
+            <td>게임 갯수</td>
+        </tr>
+        <tr>
+            <td>meta.start</td>
+            <td>number</td>
+            <td>시작점</td>
+        </tr>
+        <tr>
+            <td>meta.end</td>
+            <td>number</td>
+            <td>끝점</td>
+        </tr>
+        <tr>
+            <td>games[].id</td>
+            <td>number</td>
+            <td>게임 id</td>
+        </tr>
+        <tr>
+            <td>games[].kor_name</td>
+            <td>string</td>
+            <td>게임 이름</td>
+        </tr>
+        <tr>
+            <td>games[].profile_img</td>
+            <td>string</td>
+            <td>게임 프로필사진 위치</td>
+        </tr>
+        <tr>
+            <td>games[].level</td>
+            <td>number</td>
+            <td>게임 난이도</td>
+        </tr>
+        <tr>
+            <td>games[].interest</td>
+            <td>number</td>
+            <td>게임 인기도</td>
+        </tr>
+    </table>
+    <!-- ---------------------------------------------------------------------------------- -->
+<br>
+    <h3>위시리스트 추가</h3>
+    <p>작동 방법 : game/wish/add?user_id={user_id}&game_id={game_id}</p>
+    <p>ex : {{url}}/game/wish/add?user_id=1&game_id=1</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>status</td>
+            <td>string</td>
+            <td>SUCCESS, FAIL</td>
+        </tr>
+    </table>
+    <!-- ---------------------------------------------------------------------------------- -->
+<br>
+    <h3>위시리스트 게임 삭제</h3>
+    <p>작동 방법 : game/wish/delete?user_id={user_id}&game_id={game_id}</p>
+    <p>ex : {{url}}/game/wish/delete?user_id=1&game_id=1</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>status</td>
+            <td>string</td>
+            <td>SUCCESS, FAIL</td>
+        </tr>
+    </table>
+    <!-- ---------------------------------------------------------------------------------- -->
+<br>
+    <h3>해본게임 체크</h3>
+    <p>작동 방법 : game/playde?user_id={user_id}&game_ids={game_ids}</p>
+    <p>ex : {{url}}/game/playde?user_id=1&game_ids=1,2,3,6,12,189</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>status</td>
+            <td>string</td>
+            <td>SUCCESS, FAIL</td>
+        </tr>
+    </table>
+</body>
+</html>

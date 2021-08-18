@@ -1,0 +1,51 @@
+<h3>커뮤니티 글 목록 불러오기</h3>
+작동 방법 : community/get?user_id={user_id}&range={start, end}&top_id={top_board_id (NULLABLE)}<br>
+ex : {{url}}/community/get?user_id=1&range=10,20&top_id=1<br>
+리턴 정보 : (글id, 글내용, 글작성시간, 작성자닉네임, 작성자프사, 좋아요수, 내가좋아요눌렀는지, 댓글수)<br>
+
+<h3>커뮤니티 글 업로드</h3>
+작동 방법 : community/upload?user_id={user_id}&content={content}<br>
+ex : {{url}}/community/upload?user_id=1&content=안녕하세요 반가워요<br>
+
+<h3>커뮤니티 글 삭제</h3>
+작동 방법 : community/delete?user_id={user_id}&board_id={board_id}<br>
+ex : {{url}}/community/delete?user_id=1&community_id=2<br>
+리턴 정보 : 자신이 작성한 글이 아닐 경우 FAIL, 삭제 성공할 경우 SUCCESS<br>
+
+<h3>커뮤니티 글 좋아요</h3>
+작동 방법 : community/like?user_id={user_id}&board_id={board_id}<br>
+ex : {{url}}/community/like?user_id=1&board_id=1<br>
+리턴 정보 : 좋아요일 경우 LIKE, 좋아요 취소일 경우 UNLIKE<br>
+좋아요와 좋아요 취소를 구분하지 않고 호출함<br>
+
+<h3>댓글 작성</h3>
+작동 방법 : community/comment/upload?user_id={user_id}&board_id={board_id}&content={content}<br>
+ex : {{url}}/community/comment/upload?user_id=1&board_id=1&content=안녕못해<br>
+
+<h3>댓글 삭제</h3>
+작동 방법 : community/comment/delete?user_id={user_id}&comment_id={comment_id}<br>
+ex : {{url}}/community/comment/delete?user_id=1&comment_id=1<br>
+리턴 정보 : 성공할 경우 SUCCESS, 유저id가 댓글 작성자가 아니라서 삭제 실패할 경우 FAIL<br>
+
+<h3>댓글 답글 작성</h3>
+작동 방법 : community/reply/upload?user_id={user_id}&comment_id={comment_id}&content={content}<br>
+ex : {{url}}/community/reply/upload?user_id=2&comment_id=2&content={반갑습니다}<br>
+
+<h3>댓글 답글 삭제</h3>
+작동 방법 : community/reply/delete?user_id={user_id}&reply_id={reply_id}<br>
+ex : {{url}}/community/reply/delete?user_id=2&reply_id=1<br>
+
+<h3>커뮤니티 글 상세보기</h3>
+작동 방법 : community/board/{board_id}?user_id={user_id}<br>
+ex : {{url}}/community/board/1?user_id=1<br>
+리턴 정보 : 글id, 글내용, 글작성시간, 작성자닉네임, 작성자프사경로, 좋아요수, 내가좋아요눌렀는지, 댓글수, (댓글id, 댓글내용, 댓글작성시간, 댓글작성자닉네임, 댓글작성자프사경로, (대댓글id, 대댓글내용, 대댓글작성시간, 대댓글작성자id, 대댓글작성자닉네임, 대댓글작성자프사경로))<br>
+태그는 p, br, split으로 구성되어있으며 내용.split(br태그)를 할 경우 [0]은 커뮤니티 글 상세내용, [1]부터는 댓글들 정보가 주어짐. 댓글.split(split태그)를 할 경우 [0]은 댓글, [1]부터는 대댓글 내용이 주어짐<br>
+내용 예시 : <p style="background-color: #999999;">1&lt;p>안녕하세요 반가워요&lt;p>Aug. 16, 2021, 4:26 a.m.&lt;p>thoerthings&lt;p>/media/userimages/default.png&lt;p>2&lt;p>1&lt;p>1
+
+
+    &lt;br>5&lt;p>안녕 안합니다&lt;p>Aug. 16, 2021, 6:52 a.m.&lt;p>국봉&lt;p>/media/userimages/default.png
+
+        &lt;split>2&lt;p>아무거나&lt;p>Aug. 16, 2021, 10:05 a.m.&lt;p>9&lt;p>wow&lt;p>/media/userimages/default.png
+
+        &lt;split>1&lt;p>아무거나&lt;p>Aug. 16, 2021, 9:57 a.m.&lt;p>9&lt;p>wow&lt;p>/media/userimages/default.png
+    &lt;br></p>

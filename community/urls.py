@@ -7,6 +7,7 @@ from django.conf import settings
 
 app_main = 'community'
 urlpatterns = [
+    path('', views.intro, name='communityintro'),
     path('upload', views.upload_community, name='uploadcommunity'),
     path('get', views.get_community, name='getcommunity'),
     path('delete', views.del_community, name='delcommunity'),

@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.core import serializers
 from .models import User, UserComment, UserBlock, UserWishlist, Boss, Cafe, CafeWorktime, CafeGame, UserCafe,\
     CafeBook, CafeBookWantGame, CafeSales, Game, Genre, GameGenre, PlaySystem, GamePlaySystem, GameImage, GameComment,\
     Funding, FundingSchedule, UserFriend, UserRecent, UserPlayde, Community, CommunityLike, Comment, CommentReply
@@ -16,13 +17,6 @@ def exist_nickname(nickname):
 def intro(request):
     url = my_settings.now_url
     return render(request, 'main/intro.html', {'url' : url})
-
-def GameList(request):
-    data = request.GET
-    game_range = [int(num) for num in data['range'].split(',')]
-    game_list = Game.objects.order_by('-interest')[game_range[0]:game_range[1]]
-
-    return render(request, 'main/gamelist.html', {'game_list':game_list})
 
 def GameInfo(request, game_id):
     game = Game.objects.get(id=game_id)
@@ -55,38 +49,6 @@ def vicinity_cafe(request):
 
     return render(request, 'main/vicinity_cafe.html', {'cafes': cafes}) if cafes else HttpResponse(
         "NULL")
-
-
-def add_wishlist(request):
-    data = request.GET
-    user_id = int(data['user_id'])
-    game_id = int(data['game_id'])
-
-    obj, created = UserWishlist.objects.get_or_create(user_id=user_id, game_id=game_id)
-    return HttpResponse("SUCCESS" if created else "FAIL")
-
-
-def get_wishlist(request):
-    data = request.GET
-    user_id = int(data['user_id'])
-
-    wishlist = UserWishlist.objects.filter(user_id=user_id)
-    games = [Game.objects.get(id=wish[1].game_id) for wish in enumerate(wishlist)]
-    return render(request, 'main/gamelist.html', {'game_list': games})
-
-
-def del_wishlist(request):
-    data = request.GET
-    user_id = int(data['user_id'])
-    game_id = int(data['game_id'])
-
-    try:
-        UserWishlist.objects.get(user_id=user_id, game_id=game_id).delete()
-        result = "SUCCESS"
-    except:
-        result = "FAIL"
-    return HttpResponse(result)
-
 
 def add_block(request):
     data = request.GET
@@ -309,24 +271,6 @@ def get_meet(request):
         values = sorted(values, key=lambda value: value[2], reverse=True)[:20]
 
     return render(request, 'main/meet.html', {'values': values})"""
-
-def playde_game(request):
-    data = request.GET
-    user_id = int(data['user_id'])
-    game_ids = [int(game_id) for game_id in data['game_ids'].replace(' ', '').split(',')]
-
-    for game_id in game_ids:
-        UserPlayde.objects.get_or_create(user_id=user_id, game_id=game_id)
-
-    return HttpResponse('SUCCESS')
-
-def search_game(request):
-    data = request.GET
-    game_name = data['game_name']
-    range = [int(rng) for rng in data['range'].split(',')]
-    games = Game.objects.filter(Q(kor_name__icontains=game_name)|Q(eng_name__icontains=game_name)).order_by('-interest')[range[0]:range[1]]
-
-    return render(request, 'main/gamelist.html', {'game_list':games})
 
 def test(request):
     data= request.GET

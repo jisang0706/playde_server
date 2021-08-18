@@ -19,17 +19,7 @@
 </h5>
 <br>
 
-<h3>게임 리스트 표시를 위한 게임 정보</h3>
-작동 방법 : game_list?range={start, end}<br>
-ex : {{url}}/game_list?range=0,10<br>
-리턴 정보 : (게임id, 게임 이름, 게임사진 작은버전)<br>
-게임은 br태그로 구분되어 있으며 게임 정보는 p태그로 구분되어서 인기 많은순으로 제공됨<br>
-
-<h3>게임 세부 정보</h3>
-작동 방법 : game/게임id<br>
-ex : {{url}}/game/1<br>
-리턴 정보 : 게임id, 게임 이름, 게임 이용 가능 최소 인원수, 게임 이용 가능 최대 인원수, 게임 소개글, (게임 사진)<br>
-해당 정보가 p태그로 구분되어서 제공됨<br>
+<a href="/game/">보드게임 관련 REST API 안내</a>
 
 <!-- 튜토리얼 정보<br>
 작동 방법 : tutorial/게임id<br>
@@ -41,24 +31,6 @@ ex : {{url}}/game/1<br>
 ex : {{url}}/vicinity_cafe?coords=127.57234,56.7923<br>
 리턴 정보 : (카페 id, 카페 이름, 카페 위도, 카페 경도)<br>
 해당 정보가 br태그와 p태그로 구분되어 있으며, 사용자에게 약 2km 내에 있는 카페를 가장 가까운 순으로 최대 5개를 반환함<br>
-
-<h3>위시리스트 정보</h3>
-작동 방법 : wishlist/get?user_id={user_id}<br>
-ex : {{url}}/wishlist/get?user_id=2<br>
-리턴 정보 : (게임id, 게임 이름, 게임사진 작은버전)<br>
-게임은 br태그로 구분되어 있으며 게임 정보는 p태그로 구분되어서 제공됨.<br>
-
-<h3>위시리스트 추가</h3>
-작동 방법 : wishlist/add?user_id={user_id}&game_id={game_id}<br>
-ex : {{url}}/wishlist/add?user_id=2&game_id=1<br>
-리턴 정보 : SUCCESS, FAIL<br>
-사용자의 위시리스트에 게임을 추가함<br>
-
-<h3>위시리스트 삭제</h3>
-작동 방법 : wishlist/delete?user_id={user_id}&game_id={game_id}<br>
-ex : {{url}}/wishlist/delete?user_id=2&game_id=1<br>
-리턴 정보 : SUCCESS, FAIL<br>
-해당 게임을 사용자의 위시리스트에서 삭제함<br>
 
 <h3>차단목록</h3>
 작동 방법 : block/get?user_id={user_id}<br>
@@ -135,66 +107,3 @@ ex : {{url}}/set_nickname?id=2&nicname=temp<br>
 <!--작동 방법 : get_meet?user_id={user_id}&coords={user_latitude, user_longitude}&sort={거리순:0, 카페순:1, 게임순:2}<br>-->
 <!--ex : {{url}}/get_meet?user_id=2&coords=127.2923750,36.5929071&srt=1<br>-->
 <!--리턴 정보 : (유저id, 닉네임, 프로필사진, 겹치는카페개수, 겹치는게임개수)<br><br>-->
-
-<h3>해본게임 체크</h3>
-작동 방법 : playde_game?user_id={user_id}&game_ids={game_ids are separated by ,}<br>
-ex : {{url}}/playde_game?user_id=1&game_ids=1,2,3,6,12,168<br>
-해본 보드게임 체크를 위한 게임 리스트는 game_list에서 가져올것<br>
-
-<h3>게임 검색</h3>
-작동 방법 : game/search?game_name={game_name}&range={start, end}<br>
-ex : {{url}}/game/search?game_name=우&range=0,10<br>
-리턴 정보 : (게임id, 게임 이름, 게임사진 작은버전)<br>
-game_name이 포함된 이름을 가진 게임들을 리턴해서 여러개가 주어질 수 있음<br>
-
-<h3>커뮤니티 글 목록 불러오기</h3>
-작동 방법 : community/get?user_id={user_id}&range={start, end}&top_id={top_board_id (NULLABLE)}<br>
-ex : {{url}}/community/get?user_id=1&range=10,20&top_id=1<br>
-리턴 정보 : (글id, 글내용, 작성자닉네임, 작성자프사, 좋아요수, 내가좋아요눌렀는지, 댓글수)<br>
-
-<h3>커뮤니티 글 업로드</h3>
-작동 방법 : community/upload?user_id={user_id}&content={content}<br>
-ex : {{url}}/community/upload?user_id=1&content=안녕하세요 반가워요<br>
-
-<h3>커뮤니티 글 삭제</h3>
-작동 방법 : community/delete?user_id={user_id}&board_id={board_id}<br>
-ex : {{url}}/community/delete?user_id=1&community_id=2<br>
-리턴 정보 : 자신이 작성한 글이 아닐 경우 FAIL, 삭제 성공할 경우 SUCCESS<br>
-
-<h3>커뮤니티 글 좋아요</h3>
-작동 방법 : community/like?user_id={user_id}&board_id={board_id}<br>
-ex : {{url}}/community/like?user_id=1&board_id=1<br>
-리턴 정보 : 좋아요일 경우 LIKE, 좋아요 취소일 경우 UNLIKE<br>
-좋아요와 좋아요 취소를 구분하지 않고 호출함<br>
-
-<h3>댓글 작성</h3>
-작동 방법 : community/comment/upload?user_id={user_id}&board_id={board_id}&content={content}<br>
-ex : {{url}}/community/comment/upload?user_id=1&board_id=1&content=안녕못해<br>
-
-<h3>댓글 삭제</h3>
-작동 방법 : community/comment/delete?user_id={user_id}&comment_id={comment_id}<br>
-ex : {{url}}/community/comment/delete?user_id=1&comment_id=1<br>
-리턴 정보 : 성공할 경우 SUCCESS, 유저id가 댓글 작성자가 아니라서 삭제 실패할 경우 FAIL<br>
-
-<h3>댓글 답글 작성</h3>
-작동 방법 : community/reply/upload?user_id={user_id}&comment_id={comment_id}&content={content}<br>
-ex : {{url}}/community/reply/upload?user_id=2&comment_id=2&content={반갑습니다}<br>
-
-<h3>댓글 답글 삭제</h3>
-작동 방법 : community/reply/delete?user_id={user_id}&reply_id={reply_id}<br>
-ex : {{url}}/community/reply/delete?user_id=2&reply_id=1<br>
-
-<h3>커뮤니티 글 상세보기</h3>
-작동 방법 : community/board/{board_id}?user_id={user_id}<br>
-ex : {{url}}/community/board/1?user_id=1<br>
-리턴 정보 : 글id, 글내용, 작성자닉네임, 작성자프사경로, 좋아요수, 내가좋아요눌렀는지, 댓글수, (댓글id, 댓글내용, 댓글작성자닉네임, 댓글작성자프사경로, (대댓글id, 대댓글내용, 대댓글작성자id, 대댓글작성자닉네임, 대댓글작성자프사경로))<br>
-태그는 p, br, split으로 구성되어있으며 내용.split(br태그)를 할 경우 [0]은 커뮤니티 글 상세내용, [1]부터는 댓글들 정보가 주어짐. 댓글.split(split태그)를 할 경우 [0]은 댓글, [1]부터는 대댓글 내용이 주어짐<br>
-내용 예시 : <p style="background-color: #999999;">1&lt;p>안녕하세요 반가워요&lt;p>thoerthings&lt;p>/media/userimages/default.png&lt;p>2&lt;p>0&lt;p>1
-
-
-    &lt;br>5&lt;p>안녕 안합니다&lt;p>국봉&lt;p>/media/userimages/default.png
-
-        &lt;split>2&lt;p>아무거나&lt;p>9&lt;p>wow&lt;p>/media/userimages/default.png
-
-        &lt;split>1&lt;p>아무거나&lt;p>9&lt;p>wow&lt;p>/media/userimages/default.png
-    &lt;br></p>
