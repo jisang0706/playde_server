@@ -1,15 +1,16 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from main.models import User, UserComment, UserBlock, UserWishlist, Boss, Cafe, CafeWorktime, CafeGame, UserCafe,\
     CafeBook, CafeBookWantGame, CafeSales, Game, Genre, GameGenre, PlaySystem, GamePlaySystem, GameImage, GameComment,\
     Funding, FundingSchedule, UserFriend, UserRecent, UserPlayde, Community, CommunityLike, Comment, CommentReply
 import my_settings
 from django.db.models import Q
+from community.helper import JsonDictionary
 # Create your views here.
 
 def intro(request):
     url = my_settings.now_url
-    return render(request, 'community/intro.html', {'url' : url})
+    return render(request, 'community/community_intro.html', {'url' : url})
 
 def upload_community(request):
     data = request.GET
@@ -17,25 +18,29 @@ def upload_community(request):
     content = data['content']
 
     Community.objects.create(user_id=user_id, content=content)
-    return HttpResponse('SUCCESS')
+    boolean = JsonDictionary.BoolToDictionary(True)
+    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
+                        content_type=u"application/json; charset=utf-8", status=200)
 
 def get_community(request):
     data = request.GET
     user_id = int(data['user_id'])
-    range = [int(rng) for rng in data['range'].split(',')]
+    board_range = [int(rng) for rng in data['range'].split(',')]
     try:
         top_id = int(data['top_id'])
-        communitys = Community.objects.filter(id__lte=top_id).order_by('-created_at')[range[0]:range[1]]
+        community = Community.objects.filter(id__lte=top_id).order_by('-created_at')[board_range[0]:board_range[1]]
     except:
-        communitys = Community.objects.all().order_by('-created_at')[range[0]:range[1]]
+        community = Community.objects.all().order_by('-created_at')[board_range[0]:board_range[1]]
 
 
-    users = [User.objects.get(id=community.user_id) for community in communitys]
-    comments = [len(Comment.objects.filter(board_id=community.id)) for community in communitys]
-    likes = [len(CommunityLike.objects.filter(board_id=community.id)) for community in communitys]
-    my_likes = [1 if len(CommunityLike.objects.filter(board_id=community.id, user_id=user_id)) else 0 for community in communitys]
+    users = [User.objects.get(id=community.user_id) for community in community]
+    comments = [len(Comment.objects.filter(board_id=community.id)) for community in community]
+    likes = [len(CommunityLike.objects.filter(board_id=community.id)) for community in community]
+    my_likes = [1 if len(CommunityLike.objects.filter(board_id=community.id, user_id=user_id)) else 0 for community in community]
+    community = JsonDictionary.CommunityToDirectory(community, users, likes, my_likes, comments, board_range)
 
-    return render(request, 'community/community.html', {'datas':list(zip(communitys, users, likes, my_likes, comments))})
+    return JsonResponse(community, json_dumps_params={'ensure_ascii': False},
+                        content_type=u"application/json; charset=utf-8", status=200)
 
 def del_community(request):
     data = request.GET
@@ -44,12 +49,16 @@ def del_community(request):
     try:
         obj = Community.objects.get(id=community_id)
         if obj.user_id != user_id:
-            return HttpResponse('FAIL')
-        Comment.objects.filter(board_id=obj.id).delete()
-        CommunityLike.objects.filter(board_id=obj.id).delete()
-        obj.delete()
+            boolean = False
+        else:
+            Comment.objects.filter(board_id=obj.id).delete()
+            CommunityLike.objects.filter(board_id=obj.id).delete()
+            obj.delete()
+            boolean = True
     finally:
-        return HttpResponse('SUCCESS')
+        boolean = JsonDictionary.BoolToDictionary(boolean)
+        return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
+                            content_type=u"application/json; charset=utf-8", status=200)
 
 def like_community(request):
     data = request.GET
@@ -57,10 +66,11 @@ def like_community(request):
     board_id = int(data['board_id'])
 
     obj, create = CommunityLike.objects.get_or_create(user_id=user_id, board_id=board_id)
+    boolean = JsonDictionary.LikeToDirectory(create)
     if create:
-        return HttpResponse('LIKE')
-    obj.delete()
-    return HttpResponse('UNLIKE')
+        obj.delete()
+    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
+                            content_type=u"application/json; charset=utf-8", status=200)
 
 def upload_comment(request):
     data = request.GET
@@ -69,22 +79,26 @@ def upload_comment(request):
     content = data['content']
 
     Comment.objects.create(user_id=user_id, board_id=board_id, content=content)
-    return HttpResponse('SUCCESS')
+    boolean = JsonDictionary.BoolToDictionary(True)
+    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
+                        content_type=u"application/json; charset=utf-8", status=200)
 
 def del_comment(request):
     data = request.GET
     user_id = int(data['user_id'])
     comment_id = int(data['comment_id'])
-    rt = 'SUCCESS'
+    boolean = True
 
     try:
         obj = Comment.objects.get(id=comment_id)
         if obj.user_id != user_id:
-            rt = 'FAIL'
+            boolean = False
         else:
             obj.delete()
     finally:
-        return HttpResponse(rt)
+        boolean = JsonDictionary.BoolToDictionary(boolean)
+        return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
+                            content_type=u"application/json; charset=utf-8", status=200)
 
 def upload_reply(request):
     data = request.GET
@@ -93,22 +107,27 @@ def upload_reply(request):
     content = data['content']
 
     CommentReply.objects.create(user_id=user_id, comment_id=comment_id, content=content)
-    return HttpResponse('SUCCESS')
+
+    boolean = JsonDictionary.BoolToDictionary(True)
+    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
+                        content_type=u"application/json; charset=utf-8", status=200)
 
 def delete_reply(request):
     data = request.GET
     user_id = int(data['user_id'])
     reply_id = int(data['reply_id'])
-    rt = 'SUCCESS'
+    boolean = True
 
     try:
         obj = CommentReply.objects.get(id=reply_id)
         if obj.user_id != user_id:
-            rt = 'FAIL'
+            boolean = False
         else:
             obj.delete()
     finally:
-        return HttpResponse(rt)
+        boolean = JsonDictionary.BoolToDictionary(boolean)
+        return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
+                            content_type=u"application/json; charset=utf-8", status=200)
 
 def view_board(request, board_id):
     data = request.GET
@@ -127,19 +146,8 @@ def view_board(request, board_id):
         my_like = 0
     replyss = [CommentReply.objects.filter(comment_id=comment.id).order_by('-created_at') for comment in comments]
     replyss_writer = [[User.objects.filter(id=reply.user_id)[0] for reply in replys] for replys in replyss]
-    replyss_and_writerss = list()
-    for replys, replys_writer in zip(replyss, replyss_writer):
-        temp = [[reply, reply_writer] for reply, reply_writer in zip(replys, replys_writer)]
-        replyss_and_writerss.append(temp)
 
-    print(len(replyss[0]))
-    context = {
-        'board':board,
-        'writer':writer,
-        'like':like,
-        'my_like':my_like,
-        'comment_cnt':comment_cnt,
-        'comments':list(zip(comments, comments_writer, replyss_and_writerss)),
-    }
+    board = JsonDictionary.BoardToDirectory(board, writer, like, my_like, comment_cnt, comments, comments_writer, replyss, replyss_writer)
 
-    return render(request, 'community/board.html', context)
+    return JsonResponse(board, json_dumps_params={'ensure_ascii': False},
+                            content_type=u"application/json; charset=utf-8", status=200)

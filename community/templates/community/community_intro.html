@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>COMMUNITY INTRO</title>
+</head>
+<body>
+    <h3>커뮤니티 글 목록 불러오기</h3>
+    <p>작동 방법 : community/get?user_id={user_id}&range={start, end}&top_id={top_board_id (NULLABLE)}</p>
+    <p>ex : {{url}}/community/get?user_id=1&range=10,20&top_id=1</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>meta.count</td>
+            <td>number</td>
+            <td>글 갯수</td>
+        </tr>
+        <tr>
+            <td>meta.start</td>
+            <td>number</td>
+            <td>시작점</td>
+        </tr>
+        <tr>
+            <td>mera.end</td>
+            <td>number</td>
+            <td>끝점</td>
+        </tr>
+        <tr>
+            <td>community[].board.id</td>
+            <td>number</td>
+            <td>커뮤니티 글 id</td>
+        </tr>
+        <tr>
+            <td>community[].board.content</td>
+            <td>string</td>
+            <td>커뮤니티 글 내용</td>
+        </tr>
+        <tr>
+            <td>community[].board.like</td>
+            <td>number</td>
+            <td>커뮤니티 글 좋아요 개수</td>
+        </tr>
+        <tr>
+            <td>community[].board.my_like</td>
+            <td>bool</td>
+            <td>자신이 해당 글에 좋아요를 눌렀는지</td>
+        </tr>
+        <tr>
+            <td>community[].board.created_at</td>
+            <td>date</td>
+            <td>커뮤니티 글 작성시간</td>
+        </tr>
+        <tr>
+            <td>community[].writer.id</td>
+            <td>number</td>
+            <td>글 작성자 id</td>
+        </tr>
+        <tr>
+            <td>community[].writer.nickname</td>
+            <td>string</td>
+            <td>글 작성자 닉네임</td>
+        </tr>
+        <tr>
+            <td>community[].writer.profile</td>
+            <td>string</td>
+            <td>글 작성자 프로필사진 위치</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>커뮤니티 글 업로드</h3>
+    <p>작동 방법 : community/board/upload?user_id={user_id}&content={content}</p>
+    <p>ex : {{url}}/community/board/upload?user_id=1&content=안녕하세요 반가워요</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>string</td>
+            <td>SUCCESS, FAIL</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>커뮤니티 글 삭제</h3>
+    <p>작동 방법 : community/board/delete?user_id={user_id}&board_id={board_id}</p>
+    <p>ex : {{url}}/community/board/delete?user_id=1&board_id=1</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>string</td>
+            <td>SUCCESS, FAIL</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>커뮤니티 글 좋아요</h3>
+    <p>작동 방법 : community/like?user_id={user_id}&board_id={board_id}</p>
+    <p>ex : {{url}}/community/like?user_id=1&board_id=1</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>like</td>
+            <td>string</td>
+            <td>DO, UNDO</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>댓글 작성</h3>
+    <p>작동 방법 : community/comment/upload?user_id={user_id}&board_id={board_id}&content={content}</p>
+    <p>ex : {{url}}/community/comment/upload?user_id=1&board_id=1&content=안녕못해</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>string</td>
+            <td>SUCCESS, FAIL</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>댓글 삭제</h3>
+    <p>작동 방법 : community/comment/delete?user_id={user_id}&comment_id={comment_id}</p>
+    <p>ex : {{url}}/community/comment/delete?user_id=1&comment_id=1</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>string</td>
+            <td>SUCCESS, FAIL</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>대댓글 작성</h3>
+    <p>작동 방법 : community/reply/upload?user_id={user_id}&comment_id={comment_id}&content={content}</p>
+    <p>ex : {{url}}/community/reply/upload?user_id=2&comment_id=2&content={반갑습니다}</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>string</td>
+            <td>SUCCESS, FAIL</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>대댓글 삭제</h3>
+    <p>작동 방법 : community/reply/delete?user_id={user_id}&reply_id={reply_id}</p>
+    <p>ex : {{url}}/community/reply/delete?user_id=2&reply_id=1</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>string</td>
+            <td>SUCCESS, FAIL</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>커뮤니티 글 상세보기</h3>
+    <p>작동 방법 : community/board/{board_id}?user_id={user_id}</p>
+    <p>ex : {{url}}/community/board/1?user_id=1</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>board.id</td>
+            <td>number</td>
+            <td>본문id</td>
+        </tr>
+        <tr>
+            <td>board.content</td>
+            <td>string</td>
+            <td>본문 내용</td>
+        </tr>
+        <tr>
+            <td>board.like</td>
+            <td>number</td>
+            <td>글 좋아요 수</td>
+        </tr>
+        <tr>
+            <td>board.my_like</td>
+            <td>bool</td>
+            <td>내가 글 좋아요 눌렀는지</td>
+        </tr>
+        <tr>
+            <td>board.created_at</td>
+            <td>date</td>
+            <td>글 작성시간</td>
+        </tr>
+        <tr>
+            <td>board.comment_cnt</td>
+            <td>number</td>
+            <td>댓글 수</td>
+        </tr>
+        <tr>
+            <td>writer.id</td>
+            <td>number</td>
+            <td>글 작성자 id</td>
+        </tr>
+        <tr>
+            <td>writer.nickname</td>
+            <td>string</td>
+            <td>글 작성자 닉네임</td>
+        </tr>
+        <tr>
+            <td>writer.profile</td>
+            <td>string</td>
+            <td>글 작성자 프로필사진 위치</td>
+        </tr>
+        <tr>
+            <td>comment[].id</td>
+            <td>number</td>
+            <td>댓글 id</td>
+        </tr>
+        <tr>
+            <td>comment[].content</td>
+            <td>string</td>
+            <td>댓글 내용</td>
+        </tr>
+        <tr>
+            <td>comment[].created_at</td>
+            <td>date</td>
+            <td>댓글 작성 시간</td>
+        </tr>
+        <tr>
+            <td>comment[].writer.id</td>
+            <td>number</td>
+            <td>댓글 작성자 id</td>
+        </tr>
+        <tr>
+            <td>comment[].writer.nickname</td>
+            <td>string</td>
+            <td>댓글 작성자 닉네임</td>
+        </tr>
+        <tr>
+            <td>comment[].writer.profile</td>
+            <td>string</td>
+            <td>댓글 작성자 프로필사진 위치</td>
+        </tr>
+        <tr>
+            <td>comment[].reply[].id</td>
+            <td>number</td>
+            <td>대댓글 id</td>
+        </tr>
+        <tr>
+            <td>comment[].reply[].content</td>
+            <td>string</td>
+            <td>대댓글 내용</td>
+        </tr>
+        <tr>
+            <td>comment[].reply[].created_at</td>
+            <td>date</td>
+            <td>대댓글 작성 시간</td>
+        </tr>
+        <tr>
+            <td>comment[].reply[].writer.id</td>
+            <td>number</td>
+            <td>대댓글 작성자 id</td>
+        </tr>
+        <tr>
+            <td>comment[].reply[].writer.nickname</td>
+            <td>string</td>
+            <td>대댓글 작성자 닉네임</td>
+        </tr>
+        <tr>
+            <td>comment[].reply[].writer.profile</td>
+            <td>string</td>
+            <td>대댓글 작성자 프로필사진 위치</td>
+        </tr>
+    </table>
+</body>
+</html>

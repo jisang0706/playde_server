@@ -16,7 +16,7 @@ def exist_nickname(nickname):
 # Create your views here.
 def intro(request):
     url = my_settings.now_url
-    return render(request, 'main/intro.html', {'url' : url})
+    return render(request, 'main/main_intro.html', {'url' : url})
 
 def GameInfo(request, game_id):
     game = Game.objects.get(id=game_id)

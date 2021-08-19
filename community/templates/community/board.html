@@ -1,8 +1,0 @@
-{{ board.id }}<p>{{ board.content }}<p>{{ board.created_at }}<p>{{ writer.nickname }}<p>/media/{% if writer.small_image %}{{ writer.small_image }}{% else %}userimages/default.png{% endif %}<p>{{ like }}<p>{{ my_like }}<p>{{ comment_cnt }}
-
-{% for comment, comment_writer, replys_and_writers in comments %}
-    <br>{{ comment.id }}<p>{{ comment.content }}<p>{{ comment.created_at }}<p>{{ comment_writer.nickname}}<p>/media/{% if comment_writer.small_image %}{{ comment_writer.small_image }}{% else %}userimages/default.png{% endif %}
-    {% for reply_and_writer in replys_and_writers %}
-        <split>{{ reply_and_writer.0.id }}<p>{{ reply_and_writer.0.content }}<p>{{ reply_and_writer.0.created_at }}<p>{{ reply_and_writer.1.id}}<p>{{ reply_and_writer.1.nickname}}<p>/media/{% if reply_writer.small_image %}{{ reply_and_writer.1.small_image }}{% else %}userimages/default.png{% endif %}
-    {% endfor %}<br>
-{% endfor %}

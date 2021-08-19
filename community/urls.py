@@ -8,10 +8,10 @@ from django.conf import settings
 app_main = 'community'
 urlpatterns = [
     path('', views.intro, name='communityintro'),
-    path('upload', views.upload_community, name='uploadcommunity'),
+    path('board/upload', views.upload_community, name='uploadcommunity'),
     path('get', views.get_community, name='getcommunity'),
-    path('delete', views.del_community, name='delcommunity'),
-    path('like', views.like_community, name='likecommunity'),
+    path('board/delete', views.del_community, name='delcommunity'),
+    path('board/like', views.like_community, name='likecommunity'),
     path('comment/upload', views.upload_comment, name='uploadcomment'),
     path('comment/delete', views.del_comment, name='delcomment'),
     path('reply/upload', views.upload_reply, name='uploadreply'),

@@ -10,7 +10,7 @@ from game.helper import JsonDictionary
 
 def intro(request):
     url = my_settings.now_url
-    return render(request, 'game/intro.html', {'url' : url})
+    return render(request, 'game/game_intro.html', {'url' : url})
 
 def game_list(request):
     data = request.GET
