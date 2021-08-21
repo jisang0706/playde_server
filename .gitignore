@@ -136,3 +136,6 @@ my_settings.py
 
 #image
 media/
+
+#model
+main/migrations/
