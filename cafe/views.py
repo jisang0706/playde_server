@@ -17,7 +17,7 @@ def cafe_list(request):
     srt = int(data['sort'])
     latitude = float(coords[0])
     longitude = float(coords[1])
-    cafe_range = [int(rng) for rng in data['range'].split(',')]
+    cafe_range = [int(rng)-1 for rng in data['range'].split(',')]
     cafes = Cafe.objects.filter(latitude__range=(latitude - 0.019, latitude + 0.019),
                                 longitude__range=(longitude - 0.022, longitude + 0.022))
     for cafe in cafes:

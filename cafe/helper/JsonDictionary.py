@@ -7,10 +7,12 @@ def BoolToDictionary(boolean):
 
 def CafesToDictionary(cafes, worktimes, rng):
     output = {
-        'count': len(cafes),
-        'start': rng[0],
-        'end': rng[1],
-        'cafe': [],
+        'meta': {
+            'count': len(cafes),
+            'start': rng[0]+1,
+            'end': rng[0]+1+len(cafes),
+            'cafe': [],
+        },
     }
 
     for cafe, worktime in zip(cafes, worktimes):
@@ -48,7 +50,9 @@ def CafeToDirectory(cafe, cafe_images, worktime, like):
 
 def FavCafesToDictionary(cafes):
     output = {
-        'count': len(cafes),
+        'meta': {
+            'count': len(cafes),
+        },
         'cafe': [],
     }
 

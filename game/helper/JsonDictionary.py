@@ -2,8 +2,8 @@ def GamesToDictionary(games, rng):
     output = {}
     output['meta'] = {
         'count': len(games),
-        'start': rng[0],
-        'end': rng[0] + len(games),
+        'start': rng[0]+1,
+        'end': rng[0] + 1 + len(games),
     }
     output['games'] = []
     for i, game in enumerate(games):

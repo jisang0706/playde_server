@@ -12,7 +12,7 @@ def intro(request):
 
 def game_list(request):
     data = request.GET
-    game_range = [int(num) for num in data['range'].split(',')]
+    game_range = [int(num)-1 for num in data['range'].split(',')]
     games = Game.objects.order_by('-interest')[game_range[0]:game_range[1]]
     games = JsonDictionary.GamesToDictionary(games, game_range)
 
@@ -32,7 +32,7 @@ def game_info(request, game_id):
 def game_search(request):
     data = request.GET
     game_name = data['game_name']
-    game_range = [int(rng) for rng in data['range'].split(',')]
+    game_range = [int(rng)-1 for rng in data['range'].split(',')]
     games = Game.objects.filter(Q(kor_name__icontains=game_name)|Q(eng_name__icontains=game_name)).order_by('-interest')[game_range[0]:game_range[1]]
     games = JsonDictionary.GamesToDictionary(games, game_range)
 

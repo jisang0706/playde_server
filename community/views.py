@@ -23,7 +23,7 @@ def upload_community(request):
 def get_community(request):
     data = request.GET
     user_id = int(data['user_id'])
-    board_range = [int(rng) for rng in data['range'].split(',')]
+    board_range = [int(rng)-1 for rng in data['range'].split(',')]
     try:
         top_id = int(data['top_id'])
         community = Community.objects.filter(id__lte=top_id).order_by('-created_at')[board_range[0]:board_range[1]]

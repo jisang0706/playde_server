@@ -9,8 +9,8 @@ def CommunityToDirectory(community, users, likes, my_likes, comments, rng):
     output = {}
     output['meta'] = {
         'count': len(community),
-        'start': rng[0],
-        'end': rng[0] + len(community),
+        'start': rng[0]+1,
+        'end': rng[0] + 1 + len(community),
     }
     output['community'] = []
     for board, user, like, my_like, comment in zip(community, users, likes, my_likes, comments):
