@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import User, UserComment, UserBlock, UserWishlist, Boss, Cafe, CafeWorktime, CafeGame, UserCafe,\
-    CafeBook, CafeBookWantGame, CafeSales, Game, Genre, GameGenre, PlaySystem, GamePlaySystem, GameImage, GameComment,\
+    CafeBook, CafeBookWantGame, CafeSales, CafeImage, Game, Genre, GameGenre, PlaySystem, GamePlaySystem, GameImage, GameComment,\
     Funding, FundingSchedule, UserFriend, UserRecent, UserPlayde, Community, CommunityLike, Comment, CommentReply
 
 admin.site.register(User)
@@ -33,3 +33,4 @@ admin.site.register(Community)
 admin.site.register(CommunityLike)
 admin.site.register(Comment)
 admin.site.register(CommentReply)
+admin.site.register(CafeImage)

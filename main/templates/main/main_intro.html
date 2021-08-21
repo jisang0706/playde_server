@@ -29,17 +29,13 @@
 <a href="/game/">보드게임 관련 REST API 안내</a>
 <br><br>
 <a href="/community/">커뮤니티 관련 REST API 안내</a>
+<br><br>
+<a href="/cafe/">카페 관련 REST API 안내</a>
 
 <!-- 튜토리얼 정보<br>
 작동 방법 : tutorial/게임id<br>
 리턴 정보 : 튜토리얼 영상 링크, (타임라인 순서, 타임라인 시간정보, 부분 썸네일)<br>
 해당 정보가 br태그와 p태그로 구분되어 있으며, 타임라인 시간정보는 mm:ss 형태로 주어짐<br><br> -->
-
-<h3>사용자와 가까운 보드게임 카페 안내</h3>
-작동 방법 : vicinity_cafe?coords={user_latitude, user_longitude}<br>
-ex : {{url}}/vicinity_cafe?coords=127.57234,56.7923<br>
-리턴 정보 : (카페 id, 카페 이름, 카페 위도, 카페 경도)<br>
-해당 정보가 br태그와 p태그로 구분되어 있으며, 사용자에게 약 2km 내에 있는 카페를 가장 가까운 순으로 최대 5개를 반환함<br>
 
 <h3>차단목록</h3>
 작동 방법 : block/get?user_id={user_id}<br>
@@ -58,21 +54,6 @@ ex : {{url}}/block/add?user_id=2&his_id=1<br>
 ex : {{url}}/block/delete?user_id=2&his_id=1<br>
 리턴 정보 : SUCCESS, FAIL<br>
 상대방을 차단 목록에서 삭제해서 다시 만나요에서 보거나 채팅을 칠 수 있음<br>
-
-<h3>저장한 카페 목록</h3>
-작동 방법 : fav_cafe/get?user_id={user_id}<br>
-ex : {{url}}/fav_cafe/get?user_id=1<br>
-리턴 정보 : (카페id, 카페이름, 카페 사진 작은버전)<br>
-
-<h3>저장한 카페 추가</h3>
-작동 방법 : fav_cafe/add?user_id={user_id}&cafe_id={cafe_id}<br>
-ex : {{url}}/fav_cafe/add?user_id=1&cafe_id=1<br>
-리턴 정보 : SUCCESS, FAIL<br>
-
-<h3>저장한 카페 삭제</h3>
-작동 방법 : fav_cafe/delete?user_id={user_id}&cafe_id={cafe_id}<br>
-ex : {{url}}/fav_cafe/delete?user_id=1&cafe_id=1<br>
-리턴 정보 : SUCCESS, FAIL<br>
 
 <h3>유저 평가 불러오기</h3>
 작동 방법 : usercomment/get?user_id={user_id}<br>

@@ -1,8 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from main.models import User, UserComment, UserBlock, UserWishlist, Boss, Cafe, CafeWorktime, CafeGame, UserCafe,\
-    CafeBook, CafeBookWantGame, CafeSales, Game, Genre, GameGenre, PlaySystem, GamePlaySystem, GameImage, GameComment,\
-    Funding, FundingSchedule, UserFriend, UserRecent, UserPlayde, Community, CommunityLike, Comment, CommentReply
+from main.models import UserWishlist, Game, GameImage, UserPlayde
 import my_settings
 from django.db.models import Q
 from game.helper import JsonDictionary

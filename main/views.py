@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
-from .models import User, UserComment, UserBlock, UserWishlist, Boss, Cafe, CafeWorktime, CafeGame, UserCafe,\
+from .models import User, UserComment, UserBlock, UserWishlist, Boss, Cafe, CafeGame, UserCafe,\
     CafeBook, CafeBookWantGame, CafeSales, Game, Genre, GameGenre, PlaySystem, GamePlaySystem, GameImage, GameComment,\
     Funding, FundingSchedule, UserFriend, UserRecent, UserPlayde, Community, CommunityLike, Comment, CommentReply
 from django.views import generic
@@ -17,38 +17,6 @@ def exist_nickname(nickname):
 def intro(request):
     url = my_settings.now_url
     return render(request, 'main/main_intro.html', {'url' : url})
-
-def GameInfo(request, game_id):
-    game = Game.objects.get(id=game_id)
-    game.interest += 1
-    game.save()
-    game_images = GameImage.objects.filter(game_id=game_id).order_by('order')
-    return render(request, 'main/game.html', {'game':game, 'game_images':game_images})
-
-# def game_tutorial(request, game_id):
-#     try:
-#         tutorial_data = Tutorial.objects.get(game_id = game_id)
-#         tutorial_timelines = TutorialTimeLine.objects.filter(tutorial_id = tutorial_data.id).order_by('number')
-
-#         return render(request, 'main/tutorial_link.html', {'tutorial_data' : tutorial_data, 'timelines' : tutorial_timelines})
-#     except:
-#         return HttpResponse("NULL")
-
-def vicinity_cafe(request):
-    data = request.GET
-    try:
-        coords = data['coords'].split(',')
-        latitude = float(coords[0])
-        longitude = float(coords[1])
-    except:
-        return HttpResponse("COORDS EXCEPT")
-
-    cafes = Cafe.objects.filter(latitude__range=(latitude - 0.019, latitude + 0.019),
-                                      longitude__range=(longitude - 0.022, longitude + 0.022))
-    cafes = sorted(cafes, key=lambda cafe: abs(cafe.latitude - latitude) + abs(cafe.longitude - longitude))[:5]
-
-    return render(request, 'main/vicinity_cafe.html', {'cafes': cafes}) if cafes else HttpResponse(
-        "NULL")
 
 def add_block(request):
     data = request.GET
@@ -80,38 +48,6 @@ def del_block(request):
     except:
         result = "FAIL"
     return HttpResponse(result)
-
-
-def add_fav_cafe(request):
-    data = request.GET
-    user_id = int(data['user_id'])
-    cafe_id = int(data['cafe_id'])
-
-    obj, created = UserCafe.objects.get_or_create(user_id=user_id, cafe_id=cafe_id)
-    return HttpResponse("SUCCESS" if created else "FAIL")
-
-
-def get_fav_cafe(request):
-    data = request.GET
-    user_id = int(data['user_id'])
-
-    cafelist = UserCafe.objects.filter(user_id=user_id)
-    cafes = [Cafe.objects.get(id=cafe[1].cafe_id) for cafe in enumerate(cafelist)]
-    return render(request, 'main/cafelist.html', {'cafe_list': cafes})
-
-
-def del_fav_cafe(request):
-    data = request.GET
-    user_id = int(data['user_id'])
-    cafe_id = int(data['cafe_id'])
-
-    try:
-        UserCafe.objects.get(user_id=user_id, cafe_id=cafe_id).delete()
-        result = "SUCCESS"
-    except:
-        result = "FAIL"
-    return HttpResponse(result)
-
 
 def add_usercomment(request):
     data = request.GET

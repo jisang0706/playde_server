@@ -77,18 +77,21 @@ class Cafe(models.Model):
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
     address = models.CharField(max_length=100)
-    big_image = models.ImageField(upload_to='cafeimages/', default="", blank=True)
     small_image = models.ImageField(upload_to='cafeimages/', default="", blank=True)
-    intro = models.TextField(default="", blank=True)
+    content = models.TextField(default="", blank=True)
+    table_cnt = models.IntegerField(default=0, blank=True)
+    book_price = models.IntegerField(default=0, blank=True)
+
+class CafeImage(models.Model):
+    cafe_id = models.IntegerField()
+    order = models.IntegerField()
+    content_image = models.ImageField(upload_to='cafecontentimages/', default="", blank=True)
 
 class CafeWorktime(models.Model):
     cafe_id = models.IntegerField()
-    weekday_open = models.CharField(max_length=5)
-    weekday_close = models.CharField(max_length=5)
-    saturday_open = models.CharField(max_length=5)
-    saturday_close = models.CharField(max_length=5)
-    sunday_open = models.CharField(max_length=5)
-    sunday_close = models.CharField(max_length=5)
+    weekday = models.IntegerField(default=0)
+    open = models.TimeField(default=0)
+    close = models.TimeField(default=0)
 
 class CafeGame(models.Model):
     cafe_id = models.IntegerField()
@@ -97,6 +100,7 @@ class CafeGame(models.Model):
 class UserCafe(models.Model):
     user_id = models.IntegerField()
     cafe_id = models.IntegerField()
+    created_at = models.DateTimeField(auto_now=True)
 
 class UserPlayde(models.Model):
     user_id = models.IntegerField()
