@@ -138,4 +138,4 @@ my_settings.py
 media/
 
 #model
-main/migrations/
+main/migrations
