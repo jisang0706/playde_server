@@ -135,7 +135,9 @@ dmypy.json
 my_settings.py
 
 #image
+.media
 media/
 
 #model
+.main/migrations
 main/migrations
