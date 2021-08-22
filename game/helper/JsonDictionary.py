@@ -34,7 +34,7 @@ def GameinfoToDictionary(game, game_imgs):
 
 def BoolToDictionary(boolean):
     output = {
-        'act': 'SUCCESS' if boolean else 'FAIL'
+        'act': boolean
     }
 
     return output

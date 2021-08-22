@@ -64,7 +64,7 @@ def like_community(request):
     board_id = int(data['board_id'])
 
     obj, create = CommunityLike.objects.get_or_create(user_id=user_id, board_id=board_id)
-    boolean = JsonDictionary.LikeToDirectory(create)
+    boolean = JsonDictionary.BoolToDictionary(create)
     if create:
         obj.delete()
     return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},

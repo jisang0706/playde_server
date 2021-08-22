@@ -1,6 +1,6 @@
 def BoolToDictionary(boolean):
     output = {
-        'act': 'SUCCESS' if boolean else 'FAIL'
+        'act': boolean
     }
 
     return output
@@ -28,13 +28,6 @@ def CommunityToDirectory(community, users, likes, my_likes, comments, rng):
                 'profile': '/media/' + str(user.small_image) if user.small_image else '',
             }
         })
-
-    return output
-
-def LikeToDirectory(like):
-    output = {
-        'like': 'DO' if like else 'UNDO'
-    }
 
     return output
 

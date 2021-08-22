@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'community.apps.CommunityConfig',
     'game.apps.GameConfig',
     'cafe.apps.CafeConfig',
+    'user.apps.UserConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

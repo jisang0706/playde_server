@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h3>로그인</h3>
+    <p>작동 방법 : user/login?platform={이메일: 0, 카카오:1, 네이버:2}&token={token (카카오나 네이버일때만 입력)}
+    &email={email (이메일로 로그인일때만 입력)}&password={password (이메일로 로그인일때만 입력)}</p>
+    <p>ex : 이메일인경우 : {{url}}/user/login?platform=0&email=kookmin@gmail.com&password=wowwowowowwo<br>
+        네이버나 카카오인 경우 : {{url}}/login?platform=2&token=123456789</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>id</td>
+            <td>number, bool</td>
+            <td>로그인 성공할경우 사용자id, 존재하지 않는 계정일경우 false, 비밀번호가 틀릴경우 true</td>
+        </tr>
+        <tr>
+            <td>access</td>
+            <td>bool</td>
+            <td>로그인 성공할경우 true, 실패할경우 false</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>회원가입</h3>
+    <p>작동 방법 : user/join?platform={이메일: 0, 카카오:1, 네이버:2}&token={token (카카오나 네이버일때만 입력)}
+    &email={email (이메일로 로그인일때만 입력)}&password={password (이메일로 로그인일때만 입력)}&name={name(공백가능)}
+        &nickname={nickname(공백가능)}&phone={phone_number(공백가능)}&age={age(공백가능)}</p>
+    <p>ex : {{url}}/user/join?platform=1&token=123456789&name=쿠민</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>access</td>
+            <td>bool</td>
+            <td>회원가입 성공할경우 true, 실패할경우 false</td>
+        </tr>
+        <tr>
+            <td>message</td>
+            <td>number, string</td>
+            <td>회원가입 성공했을 경우 사용자id, 실패했을 때 이미 존재하는 사용자일경우 ALREADY USER, 이미 존재하는 닉네임일 경우 ALREADY NICKNAME</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>닉네임변경</h3>
+    <p>작동 방법 : user/nickname/set?user_id={user_id}&nickname={new_nickname}</p>
+    <p>ex : {{url}}/user/nickname/set?id=2&nickname=temp</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>access</td>
+            <td>bool</td>
+            <td>닉네임 변경 성공할경우 true, 실패할경우 false</td>
+        </tr>
+        <tr>
+            <td>message</td>
+            <td>string</td>
+            <td>닉네임 변경 성공했을 경우 SUCCESS, 실패했을 때 이미 존재하는 닉네임일 경우 ALREADY NICKNAME</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>차단목록</h3>
+    <p>작동 방법 : user/block?user_id={user_id}</p>
+    <p>ex : {{url}}/user/block?user_id=2<br>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>meta.count</td>
+            <td>number</td>
+            <td>차단한 유저 수</td>
+        </tr>
+        <tr>
+            <td>user[].id</td>
+            <td>number</td>
+            <td>차단한 사용자 id</td>
+        </tr>
+        <tr>
+            <td>user[].nickname</td>
+            <td>string</td>
+            <td>차단한 사용자 닉네임</td>
+        </tr>
+        <tr>
+            <td>user[].profile</td>
+            <td>string</td>
+            <td>차단한 사용자 프사 경로</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>상대방 차단하기</h3>
+    <p>작동 방법 : user/block/add?user_id={user_id}&his_id={target_user_id}<p>
+    <p>ex : {{url}}/user/block/add?user_id=2&his_id=1</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>bool</td>
+            <td>성공할경우 true, 이미 차단한 사용자일경우 false</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>차단 해제</h3>
+    <p>작동 방법 : user/block/delete?user_id={user_id}&his_id={target_user_id}</p>
+    <p>ex : {{url}}/user/block/delete?user_id=2&his_id=1</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>bool</td>
+            <td>성공할경우 true, 이미 차단 해제한 사용자일경우 false</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>유저 평가 불러오기</h3>
+    <p>작동 방법 : user/comment?user_id={user_id}</p>
+    <p>ex : {{url}}/user/comment?user_id=2</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>meta.count</td>
+            <td>number</td>
+            <td>평가 수</td>
+        </tr>
+        <tr>
+            <td>average</td>
+            <td>number</td>
+            <td>평균 점수</td>
+        </tr>
+        <tr>
+            <td>comment[].id</td>
+            <td>number</td>
+            <td>평가글id</td>
+        </tr>
+        <tr>
+            <td>comment[].score</td>
+            <td>number</td>
+            <td>평가 점수</td>
+        </tr>
+        <tr>
+            <td>comment[].content</td>
+            <td>string</td>
+            <td>평가 내용</td>
+        </tr>
+        <tr>
+            <td>comment[].writter.id</td>
+            <td>number</td>
+            <td>평가글 작성자 id</td>
+        </tr>
+        <tr>
+            <td>comment[].writter.nickname</td>
+            <td>string</td>
+            <td>평가글 작성자 닉네임</td>
+        </tr>
+        <tr>
+            <td>comment[].writter.profile</td>
+            <td>string</td>
+            <td>평가글 작성자 프사 위치</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>유저 평가 추가, 수정</h3>
+    <p>작동 방법 : user/comment/add?user_id={writter_id}&his_id={target_user_id}&score={score in range(0, 11)}&content={content}</p>
+    <p>ex : {{url}}/user/comment/add?user_id=1&his_id=2&score=10&content=너무 좋아요</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>bool</td>
+            <td>true, false</td>
+        </tr>
+    </table>
+</body>
+</html>
