@@ -31,10 +31,10 @@ def get_community(request):
         community = Community.objects.all().order_by('-created_at')[board_range[0]:board_range[1]]
 
 
-    users = [User.objects.get(id=community.user_id) for community in community]
-    comments = [len(Comment.objects.filter(board_id=community.id)) for community in community]
-    likes = [len(CommunityLike.objects.filter(board_id=community.id)) for community in community]
-    my_likes = [1 if len(CommunityLike.objects.filter(board_id=community.id, user_id=user_id)) else 0 for community in community]
+    users = [User.objects.get(id=board.user_id) for board in community]
+    comments = [len(Comment.objects.filter(board_id=board.id)) + len(CommentReply.objects.filter(board_id=board.id)) for board in community]
+    likes = [len(CommunityLike.objects.filter(board_id=board.id)) for board in community]
+    my_likes = [1 if len(CommunityLike.objects.filter(board_id=board.id, user_id=user_id)) else 0 for board in community]
     community = JsonDictionary.CommunityToDirectory(community, users, likes, my_likes, comments, board_range)
 
     return JsonResponse(community, json_dumps_params={'ensure_ascii': False},
@@ -104,7 +104,7 @@ def upload_reply(request):
     comment_id = int(data['comment_id'])
     content = data['content']
 
-    CommentReply.objects.create(user_id=user_id, comment_id=comment_id, content=content)
+    CommentReply.objects.create(user_id=user_id, comment_id=comment_id, board_id=Comment.objects.get(id=comment_id).board_id, content=content)
 
     boolean = JsonDictionary.BoolToDictionary(True)
     return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},

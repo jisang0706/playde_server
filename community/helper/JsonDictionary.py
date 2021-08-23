@@ -20,7 +20,8 @@ def CommunityToDirectory(community, users, likes, my_likes, comments, rng):
                 'content': board.content,
                 'like': like,
                 'my_like': my_like,
-                'created_at': board.created_at
+                'created_at': board.created_at,
+                'comment_cnt': comment,
             },
             'writer':{
                 'id': user.id,

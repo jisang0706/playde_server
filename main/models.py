@@ -53,6 +53,7 @@ class CommentReply(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now=True)
     comment_id = models.IntegerField()
+    board_id = models.IntegerField(default=0, blank=True)
 
 class UserWishlist(models.Model):
     user_id = models.IntegerField()
