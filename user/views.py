@@ -142,9 +142,9 @@ def add_comment(request):
 
 def set_nickname(request):
     data = request.GET
-    id = int(data['user_id'])
+    user_id = int(data['user_id'])
     nickname = data['nickname']
-    obj = User.objects.get(id=id)
+    obj = User.objects.get(id=user_id)
     if obj.nickname != nickname:
         if not LoginHelper.exist_nickname(nickname):
             obj.nickname = nickname
@@ -155,4 +155,15 @@ def set_nickname(request):
         obj.save()
     access = JsonDictionary.JoinToDictionary(True, 'SUCCESS')
     return JsonResponse(access, json_dumps_params={'ensure_ascii': False},
+                        content_type=u"application/json; charset=utf-8", status=200)
+
+def profile(request):
+    data = request.GET
+    user_id = int(data['user_id'])
+
+    user = User.objects.get(id=user_id)
+    comments = UserComment.objects.filter(his_id=user_id)
+    user.score = sum([comment.score for comment in comments]) / len(comments) if comments else 0,
+    user = JsonDictionary.ProfileToDictionary(user)
+    return JsonResponse(user, json_dumps_params={'ensure_ascii': False},
                         content_type=u"application/json; charset=utf-8", status=200)

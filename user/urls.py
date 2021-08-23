@@ -16,6 +16,7 @@ urlpatterns = [
     path('comment', views.comment, name='usercomment'),
     path('comment/add', views.add_comment, name='useraddcomment'),
     path('nickname/set', views.set_nickname, name='nicknameset'),
+    path('profile', views.profile, name='profile'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
