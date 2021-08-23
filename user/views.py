@@ -163,7 +163,7 @@ def profile(request):
 
     user = User.objects.get(id=user_id)
     comments = UserComment.objects.filter(his_id=user_id)
-    user.score = sum([comment.score for comment in comments]) / len(comments) if comments else 0,
-    user = JsonDictionary.ProfileToDictionary(user)
+    score = sum([comment.score for comment in comments]) / len(comments) if comments else 0
+    user = JsonDictionary.ProfileToDictionary(user, score)
     return JsonResponse(user, json_dumps_params={'ensure_ascii': False},
                         content_type=u"application/json; charset=utf-8", status=200)

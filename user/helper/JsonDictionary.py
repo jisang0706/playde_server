@@ -57,11 +57,11 @@ def CommentToDictionary(comments, writters):
 
     return output
 
-def ProfileToDictionary(user):
+def ProfileToDictionary(user, score):
     output = {
         'id': user.id,
         'nickname': user.nickname,
         'profile': '/media/'+str(user.small_image) if user.small_image else '',
-        'score': user.score,
+        'score': score,
     }
     return output
