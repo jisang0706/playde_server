@@ -136,7 +136,7 @@ def view_board(request, board_id):
     comments = Comment.objects.filter(board_id=board_id).order_by('-created_at')
     comments_writer = [User.objects.filter(id=comment.user_id)[0] for comment in comments]
     like = len(CommunityLike.objects.filter(board_id=board_id))
-    comment_cnt = len(Comment.objects.filter(board_id=board.id))
+    comment_cnt = len(Comment.objects.filter(board_id=board.id)) + len(CommentReply.objects.filter(board_id=board.id))
     try:
         CommunityLike.objects.get(board_id=board_id, user_id=user_id)
         my_like = 1
