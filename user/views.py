@@ -74,7 +74,7 @@ def join(request):
     if 'age' in keys:                       obj.age = int(data['age'])
     obj.save()
 
-    access = JsonDictionary.JoinToDictionary(obj.id, 'SUCCESS')
+    access = JsonDictionary.JoinToDictionary(True, obj.id)
     return JsonResponse(access, json_dumps_params={'ensure_ascii': False},
                         content_type=u"application/json; charset=utf-8", status=200)
 
