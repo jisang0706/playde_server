@@ -1,19 +1,12 @@
 import sys
 
-from django.core.files import File
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.db.models.fields.files import ImageFieldFile
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from django.core import serializers
-from rest_framework.generics import CreateAPIView
 from .serializers import imageSerializer
 from rest_framework.generics import (CreateAPIView)
-import base64
 from PIL import Image
-from django.core.files.temp import NamedTemporaryFile
 from io import BytesIO
-import matplotlib.pyplot as plt
 
 from .models import User, UserComment, UserBlock, UserWishlist, Boss, Cafe, CafeGame, UserCafe,\
     CafeBook, CafeBookWantGame, CafeSales, Game, Genre, GameGenre, PlaySystem, GamePlaySystem, GameImage, GameComment,\
