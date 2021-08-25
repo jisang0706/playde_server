@@ -20,10 +20,6 @@ def intro(request):
     url = my_settings.now_url
     return render(request, 'main/main_intro.html', {'url' : url})
 
-class test(CreateAPIView):
-    serializer_class = imageSerializer
-    queryset = User.objects.all()
-
 def rescale(image):
     img = Image.open(image)
     width, height = img.size
