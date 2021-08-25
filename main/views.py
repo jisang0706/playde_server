@@ -1,12 +1,26 @@
+import sys
+
+from django.core.files import File
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.db.models.fields.files import ImageFieldFile
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
+from rest_framework.generics import CreateAPIView
+from .serializers import imageSerializer
+from rest_framework.generics import (CreateAPIView)
+import base64
+from PIL import Image
+from django.core.files.temp import NamedTemporaryFile
+from io import BytesIO
+import matplotlib.pyplot as plt
+
 from .models import User, UserComment, UserBlock, UserWishlist, Boss, Cafe, CafeGame, UserCafe,\
     CafeBook, CafeBookWantGame, CafeSales, Game, Genre, GameGenre, PlaySystem, GamePlaySystem, GameImage, GameComment,\
     Funding, FundingSchedule, UserFriend, UserRecent, UserPlayde, Community, CommunityLike, Comment, CommentReply
 from django.views import generic
 import bcrypt
-from django.db.models import Q
+from django.db.models import Q, ImageField
 from main.helper import ConvertLocation
 import my_settings
 
@@ -15,28 +29,57 @@ def intro(request):
     url = my_settings.now_url
     return render(request, 'main/main_intro.html', {'url' : url})
 
-def set_nickname(request):
-    data = request.GET
-    id = int(data['user_id'])
-    nickname = data['nickname']
-    obj = User.objects.get(id=id)
-    if obj.nickname == nickname:    return HttpResponse('SUCCESS')
+class test(CreateAPIView):
+    serializer_class = imageSerializer
+    queryset = User.objects.all()
 
-    if not exist_nickname:
-        obj.nickname = nickname
-    else:
-        return HttpResponse('ALREADY NICKNAME')
+def rescale(image):
+    img = Image.open(image)
+    width, height = img.size
+    mn = min(width, height)
+    area = ((width - mn) / 2, (height - mn) / 2, (width + mn) / 2, (height + mn) / 2)
+    img = img.crop(area)
+    img.save(image.name, 'PNG')
+    image.file = img
 
-    obj.save()
-    return HttpResponse('SUCCESS')
+    image.file.name = image.name
+    return image
 
 def test(request):
-    data= request.GET
-    try:
-        coords = data['coords'].split(',')
-        latitude = float(coords[0])
-        longitude = float(coords[1])
-    except:
-        return HttpResponse("COORDS EXCEPT")
+    data = request.POST
+    user_id = data.get('user_id')
+    obj = User.objects.get(id=user_id)
+    image = request.FILES['image']
 
-    return HttpResponse(f'{ConvertLocation.latlng_to_address([latitude, longitude])}')
+    image1 = Image.open(image)
+    width, height = image1.size
+    mn = min(width, height)
+    area = ((width - mn) / 2, (height - mn) / 2, (width + mn) / 2, (height + mn) / 2)
+    image1 = image1.crop(area)
+    buffer1 = BytesIO()
+    image1.save(buffer1, format='png')
+    file1 = InMemoryUploadedFile(
+        buffer1,
+        '{}'.format(obj.big_image),
+        '{}'.format(obj.big_image),
+        'image/png',
+        buffer1.tell(),
+        None,
+    )
+    obj.big_image = file1
+
+    image2 = image1.resize((100, 100))
+    buffer2 = BytesIO()
+    image2.save(buffer2, format='png')
+    file2 = InMemoryUploadedFile(
+        buffer2,
+        '{}'.format(obj.small_image),
+        '{}'.format(obj.small_image),
+        'image/png',
+        buffer2.tell(),
+        None,
+    )
+    obj.small_image = file2
+    obj.save()
+
+    return HttpResponse('SUCCESS')

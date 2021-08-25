@@ -65,3 +65,11 @@ def ProfileToDictionary(user, score):
         'score': score,
     }
     return output
+
+def ProfileImageToDictionary(boolean, user):
+    output = {
+        'act': boolean,
+        'id': user.id,
+        'image': '/media/' + str(user.big_image),
+    }
+    return output
