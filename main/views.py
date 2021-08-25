@@ -3,8 +3,6 @@ import sys
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from .serializers import imageSerializer
-from rest_framework.generics import (CreateAPIView)
 from PIL import Image
 from io import BytesIO
 
