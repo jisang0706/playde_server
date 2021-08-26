@@ -19,7 +19,7 @@ class UserComment(models.Model):
     my_id = models.IntegerField()
     score = models.IntegerField(default=0, blank=True)
     comment = models.TextField(default="", blank=True)
-    written_date = models.DateTimeField(auto_now=True)
+    written_date = models.DateTimeField(auto_now_add=True)
 
 class UserBlock(models.Model):
     user_id = models.IntegerField()
@@ -36,7 +36,9 @@ class UserBlock(models.Model):
 class Community(models.Model):
     user_id = models.IntegerField()
     content = models.TextField()
-    created_at = models.DateTimeField(auto_now=True)
+    tag = models.TextField(default="", blank=True)
+    visit = models.IntegerField(default=0, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 class CommunityLike(models.Model):
     user_id = models.IntegerField()
@@ -45,13 +47,13 @@ class CommunityLike(models.Model):
 class Comment(models.Model):
     user_id = models.IntegerField()
     content = models.TextField()
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     board_id = models.IntegerField()
 
 class CommentReply(models.Model):
     user_id = models.IntegerField()
     content = models.TextField()
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     comment_id = models.IntegerField()
     board_id = models.IntegerField(default=0, blank=True)
 
@@ -101,7 +103,7 @@ class CafeGame(models.Model):
 class UserCafe(models.Model):
     user_id = models.IntegerField()
     cafe_id = models.IntegerField()
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 class UserPlayde(models.Model):
     user_id = models.IntegerField()

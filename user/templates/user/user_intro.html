@@ -233,7 +233,11 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>사용자 프로필사진 변경</h3>
-    <p>요청 방식 : POST</p>
+    <p>url로 요청할 경우 요청 방식 : GET</p>
+    <p>사용 방법 : user/profile/image/set?user_id={user_id}&image_url={image_url}</p>
+    <p>ex : {{url}}/user/profile/image/set?user_id=2&image_url=http://google.com/image/1</p>
+    <p>응답은 아래 표와 동일함</p>
+    <p>jpg, png로 요청할 경우 요청 방식 : POST</p>
     <p>사용 방법 : user/profile/image/set | body(user_id={user_id}, image={profile_image})</p>
     <p>ex : {{url}}/user/profile/image/set | body(user_id=1, image=프사.jpg)</p>
     <p>응답</p>

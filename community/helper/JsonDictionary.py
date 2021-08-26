@@ -22,6 +22,7 @@ def CommunityToDirectory(community, users, likes, my_likes, comments, rng):
                 'my_like': my_like,
                 'created_at': board.created_at,
                 'comment_cnt': comment,
+                'teg': board.tag,
             },
             'writer':{
                 'id': user.id,
@@ -41,6 +42,8 @@ def BoardToDirectory(board, writer, like, my_like, comment_cnt, comments, commen
         'my_like': my_like,
         'created_at': board.created_at,
         'comment_cnt': comment_cnt,
+        'visit': board.visit,
+        'tag': board.tag,
     }
     output['writer'] = {
         'id': writer.id,

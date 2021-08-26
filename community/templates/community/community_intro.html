@@ -54,6 +54,16 @@
             <td>커뮤니티 글 작성시간</td>
         </tr>
         <tr>
+            <td>community[].board.visit</td>
+            <td>number</td>
+            <td>커뮤니티 글 방문 수</td>
+        </tr>
+        <tr>
+            <td>community[].board.tag</td>
+            <td>string</td>
+            <td>커뮤니티 글 게시판</td>
+        </tr>
+        <tr>
             <td>community[].board.comment_cnt</td>
             <td>number</td>
             <td>커뮤니티 글 댓글 수</td>
@@ -77,8 +87,8 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>커뮤니티 글 업로드</h3>
-    <p>작동 방법 : community/board/upload?user_id={user_id}&content={content}</p>
-    <p>ex : {{url}}/community/board/upload?user_id=1&content=안녕하세요 반가워요</p>
+    <p>작동 방법 : community/board/upload?user_id={user_id}&content={content}&tag={tag (공백 가능)}</p>
+    <p>ex : {{url}}/community/board/upload?user_id=1&content=안녕하세요 반가워요&tag=만나요</p>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -220,6 +230,16 @@
             <td>board.created_at</td>
             <td>date</td>
             <td>글 작성시간</td>
+        </tr>
+        <tr>
+            <td>board.visit</td>
+            <td>number</td>
+            <td>글 방문 수</td>
+        </tr>
+        <tr>
+            <td>board.tag</td>
+            <td>string</td>
+            <td>글 게시판</td>
         </tr>
         <tr>
             <td>board.comment_cnt</td>

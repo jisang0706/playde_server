@@ -15,7 +15,14 @@ def upload_community(request):
     user_id = int(data['user_id'])
     content = data['content']
 
-    Community.objects.create(user_id=user_id, content=content)
+    obj = Community.objects.create(user_id=user_id, content=content)
+    try:
+        tag = data['tag']
+        obj.tag = tag
+        obj.save()
+    except:
+        1
+
     boolean = JsonDictionary.BoolToDictionary(True)
     return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
                         content_type=u"application/json; charset=utf-8", status=200)
@@ -132,6 +139,8 @@ def view_board(request, board_id):
     user_id = int(data['user_id'])
 
     board = Community.objects.get(id=board_id)
+    board.visit += 1
+    board.save()
     writer = User.objects.get(id=board.user_id)
     comments = Comment.objects.filter(board_id=board_id).order_by('-created_at')
     comments_writer = [User.objects.filter(id=comment.user_id)[0] for comment in comments]

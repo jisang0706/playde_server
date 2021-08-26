@@ -1,4 +1,5 @@
 from io import BytesIO
+from urllib.parse import urlparse
 
 from PIL import Image
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -10,7 +11,7 @@ from main.models import User, UserComment, UserBlock, UserWishlist, Boss, Cafe, 
 import my_settings
 import bcrypt
 from django.db.models import Q
-from user.helper import JsonDictionary, LoginHelper
+from user.helper import JsonDictionary, LoginHelper, ImageHelper
 # Create your views here.
 
 def intro(request):
@@ -177,42 +178,50 @@ def set_profile_image(request):
         data = request.POST
         user_id = int(data['user_id'])
         image = request.FILES['image']
-        user = User.objects.get(id=user_id)
-
-        image1 = Image.open(image)
-        width, height = image1.size
-        mn = min(width, height)
-        area = ((width - mn) / 2, (height - mn) / 2, (width + mn) / 2, (height + mn) / 2)
-        image1 = image1.crop(area)
-        buffer1 = BytesIO()
-        image1.save(buffer1, format='png')
-        file = InMemoryUploadedFile(
-            buffer1,
-            '{}'.format(user.big_image),
-            '{}'.format(user.big_image),
-            'image/png',
-            buffer1.tell(),
-            None,
-        )
-        user.big_image = file
-
-        image2 = image1.resize((100, 100))
-        buffer2 = BytesIO()
-        image2.save(buffer2, format='png')
-        file = InMemoryUploadedFile(
-            buffer2,
-            '{}'.format(user.small_image),
-            '{}'.format(user.small_image),
-            'image/png',
-            buffer2.tell(),
-            None,
-        )
-        user.small_image = file
-        user.save()
-        user = JsonDictionary.ProfileImageToDictionary(True, User.objects.get(id=user_id))
-        return JsonResponse(user, json_dumps_params={'ensure_ascii': False},
-                            content_type=u"application/json; charset=utf-8", status=200)
     else:
-        boolean = JsonDictionary.BoolToDictionary(False)
-        return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
-                            content_type=u"application/json; charset=utf-8", status=200)
+        data = request.GET
+        user_id = int(data['user_id'])
+        image_url = data['image_url']
+
+        image = ImageHelper.download(image_url)
+        # image_name = '{urlparse}.{ext}'.format(
+        #     urlparse=urlparse(image_url).path.split("/")[-1].split('.')[0],
+        #     ext=ImageHelper.get_buffer_ext(image)
+        # )
+
+
+    user = User.objects.get(id=user_id)
+
+    image1 = Image.open(image)
+    width, height = image1.size
+    mn = min(width, height)
+    area = ((width - mn) / 2, (height - mn) / 2, (width + mn) / 2, (height + mn) / 2)
+    image1 = image1.crop(area)
+    buffer1 = BytesIO()
+    image1.save(buffer1, format='png')
+    file = InMemoryUploadedFile(
+        buffer1,
+        '{}'.format(user.big_image),
+        '{}'.format(user.big_image),
+        'image/png',
+        buffer1.tell(),
+        None,
+    )
+    user.big_image = file
+
+    image2 = image1.resize((100, 100))
+    buffer2 = BytesIO()
+    image2.save(buffer2, format='png')
+    file = InMemoryUploadedFile(
+        buffer2,
+        '{}'.format(user.small_image),
+        '{}'.format(user.small_image),
+        'image/png',
+        buffer2.tell(),
+        None,
+    )
+    user.small_image = file
+    user.save()
+    user = JsonDictionary.ProfileImageToDictionary(True, User.objects.get(id=user_id))
+    return JsonResponse(user, json_dumps_params={'ensure_ascii': False},
+                        content_type=u"application/json; charset=utf-8", status=200)
