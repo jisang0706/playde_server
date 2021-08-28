@@ -184,10 +184,6 @@ def set_profile_image(request):
         image_url = data['image_url']
 
         image = ImageHelper.download(image_url)
-        # image_name = '{urlparse}.{ext}'.format(
-        #     urlparse=urlparse(image_url).path.split("/")[-1].split('.')[0],
-        #     ext=ImageHelper.get_buffer_ext(image)
-        # )
 
 
     user = User.objects.get(id=user_id)
