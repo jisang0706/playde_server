@@ -11,8 +11,8 @@ def CafesToDictionary(cafes, worktimes, rng):
             'count': len(cafes),
             'start': rng[0]+1,
             'end': rng[0]+1+len(cafes),
-            'cafe': [],
         },
+        'cafe': [],
     }
 
     for cafe, worktime in zip(cafes, worktimes):
