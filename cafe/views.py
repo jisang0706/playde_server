@@ -61,7 +61,7 @@ def get_fav_cafe(request):
     data = request.GET
     user_id = int(data['user_id'])
 
-    usercafes = UserCafe.objects.filter(user_id=user_id).order_by('-created')
+    usercafes = UserCafe.objects.filter(user_id=user_id).order_by('-id')
     cafes = [Cafe.objects.get(id=usercafe.cafe_id) for usercafe in usercafes]
 
     cafes = JsonDictionary.FavCafesToDictionary(cafes)

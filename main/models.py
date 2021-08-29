@@ -104,7 +104,6 @@ class CafeGame(models.Model):
 class UserCafe(models.Model):
     user_id = models.IntegerField()
     cafe_id = models.IntegerField()
-    created_at = models.DateTimeField(auto_now_add=True)
 
 class UserPlayde(models.Model):
     user_id = models.IntegerField()

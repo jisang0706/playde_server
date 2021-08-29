@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8000
 
 ENTRYPOINT ["dockerize", "-wait", "tcp://mysql_service:3306", "-timeout", "20s"]
-CMD ["gunicorn", "--bind", "0.0.0.0:80", "playde_server.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "playde_server.wsgi:application"]

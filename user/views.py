@@ -178,12 +178,17 @@ def set_profile_image(request):
         data = request.POST
         user_id = int(data['user_id'])
         image = request.FILES['image']
+        image_name = image.name
     else:
         data = request.GET
         user_id = int(data['user_id'])
         image_url = data['image_url']
 
         image = ImageHelper.download(image_url)
+        image_name = '{fir}.{sec}'.format(
+                fir=image_url.split('/')[-1].split('.')[0],
+                sec=image_url.split('/')[-1].split('.')[-1]
+                )
 
 
     user = User.objects.get(id=user_id)
@@ -198,7 +203,7 @@ def set_profile_image(request):
     file = InMemoryUploadedFile(
         buffer1,
         '{}'.format(user.big_image),
-        '{}'.format(user.big_image),
+        '{}'.format('big'+image_name),
         'image/png',
         buffer1.tell(),
         None,
@@ -211,7 +216,7 @@ def set_profile_image(request):
     file = InMemoryUploadedFile(
         buffer2,
         '{}'.format(user.small_image),
-        '{}'.format(user.small_image),
+        '{}'.format('small'+image_name),
         'image/png',
         buffer2.tell(),
         None,
