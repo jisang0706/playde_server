@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:80
+    volumes:
+      - ./:/usr/src/app/
+    ports:
+      - 80:8000
+    env_file:
+      - ./.env.dev
+  mysql:
+    image: mysql
+    container_name: mysql_service
+    volumes:
+      - ../volumes-mysql/mysql/:/var/lib/mysql/
+    environment:
+      MYSQL_ROOT_PASSWORD: "easy-sang1"
+      MYSQL_DATABASE: "django_playde"
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    ports:
+      - 3306:3306
