@@ -2,7 +2,6 @@ def BoolToDictionary(boolean):
     output = {
         'act': boolean
     }
-
     return output
 
 def CommunityToDirectory(community, users, likes, my_likes, comments, rng):
@@ -30,7 +29,6 @@ def CommunityToDirectory(community, users, likes, my_likes, comments, rng):
                 'profile': '/media/' + str(user.small_image) if user.small_image else '',
             }
         })
-
     return output
 
 def BoardToDirectory(board, writer, like, my_like, comment_cnt, comments, comments_writer, replyss, replyss_writer):
@@ -61,10 +59,11 @@ def BoardToDirectory(board, writer, like, my_like, comment_cnt, comments, commen
                 'nickname': comment_writer.nickname,
                 'profile': '/media/' + str(comment_writer.small_image) if comment_writer.small_image else '',
             },
-            'reply': []
+            'reply': False,
         }
+        output['comment'].append(temp)
         for reply, reply_writer in zip(replys, replys_writer):
-            temp['reply'].append({
+            temp = {
                 'id': reply.id,
                 'content': reply.content,
                 'created_at': reply.created_at,
@@ -72,8 +71,8 @@ def BoardToDirectory(board, writer, like, my_like, comment_cnt, comments, commen
                     'id': reply_writer.id,
                     'nickname': reply_writer.nickname,
                     'profile': '/media/' + str(reply_writer.small_image) if reply_writer.small_image else '',
-                }
-            })
-        output['comment'].append(temp)
-
+                },
+                'reply': True,
+            }
+            output['comment'].append(temp)
     return output
