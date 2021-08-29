@@ -31,13 +31,26 @@ def get_community(request):
     data = request.GET
     user_id = int(data['user_id'])
     board_range = [int(rng)-1 for rng in data['range'].split(',')]
-    try:
+
+    if 'tag' in data.keys():
+        tag = data['tag']
+        tag = Q(tag=tag)
+    else:
+        tag = Q(tag__icontains='')
+
+    if 'top_id' in data.keys():
         top_id = int(data['top_id'])
-        community = Community.objects.filter(id__lte=top_id).order_by('-created_at')[board_range[0]:board_range[1]]
-    except:
-        community = Community.objects.all().order_by('-created_at')[board_range[0]:board_range[1]]
+        top_id = Q(id__lte=top_id)
+    else:
+        top_id = Q(id__gte=0)
 
+    if 'content' in data.keys():
+        content = data['content']
+        content = Q(content__icontains=content)
+    else:
+        content = Q(content__icontains='')
 
+    community = Community.objects.filter(tag, top_id, content).order_by('-created_at')[board_range[0]:board_range[1]]
     users = [User.objects.get(id=board.user_id) for board in community]
     comments = [len(Comment.objects.filter(board_id=board.id)) + len(CommentReply.objects.filter(board_id=board.id)) for board in community]
     likes = [len(CommunityLike.objects.filter(board_id=board.id)) for board in community]

@@ -6,8 +6,8 @@
 </head>
 <body>
     <h3>커뮤니티 글 목록 불러오기</h3>
-    <p>작동 방법 : community/get?user_id={user_id}&range={start, end}&top_id={top_board_id (NULLABLE)}</p>
-    <p>ex : {{url}}/community/get?user_id=1&range=10,20&top_id=1</p>
+    <p>작동 방법 : community/get?user_id={user_id}&range={start, end}&tag={tag (NULLABLE)}&top_id={top_board_id (NULLABLE)}</p>
+    <p>ex : {{url}}/community/get?user_id=1&range=1,11&tag=만나요&top_id=1</p>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -292,34 +292,9 @@
             <td>댓글 작성자 프로필사진 위치</td>
         </tr>
         <tr>
-            <td>comment[].reply[].id</td>
-            <td>number</td>
-            <td>대댓글 id</td>
-        </tr>
-        <tr>
-            <td>comment[].reply[].content</td>
-            <td>string</td>
-            <td>대댓글 내용</td>
-        </tr>
-        <tr>
-            <td>comment[].reply[].created_at</td>
-            <td>date</td>
-            <td>대댓글 작성 시간</td>
-        </tr>
-        <tr>
-            <td>comment[].reply[].writer.id</td>
-            <td>number</td>
-            <td>대댓글 작성자 id</td>
-        </tr>
-        <tr>
-            <td>comment[].reply[].writer.nickname</td>
-            <td>string</td>
-            <td>대댓글 작성자 닉네임</td>
-        </tr>
-        <tr>
-            <td>comment[].reply[].writer.profile</td>
-            <td>string</td>
-            <td>대댓글 작성자 프로필사진 위치</td>
+            <td>comment[].reply</td>
+            <td>boolean</td>
+            <td>대댓글이면 True, 그냥 댓글이면 False</td>
         </tr>
     </table>
 </body>

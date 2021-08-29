@@ -13,13 +13,26 @@ def intro(request):
 
 def cafe_list(request):
     data = request.GET
-    coords = data['coords'].split(',')
+    if 'coords' in data.keys():
+        coords = data['coords'].split(',')
+        latitude = float(coords[0])
+        latitudeQ = Q(latitude__range=(latitude - 0.19, latitude + 0.19))
+        longitude = float(coords[1])
+        longitudeQ = Q(longitude__range=(longitude - 0.22, longitude + 0.22))
+    else:
+        latitudeQ = Q(latitude__range=(-181, 181))
+        longitudeQ = Q(longitude__range=(-91, 91))
+
+    if 'cafe_name' in data.keys():
+        cafe_name = data['cafe_name']
+        cafe_name = Q(name__icontains=cafe_name)
+    else:
+        cafe_name = Q(name__icontains='')
+
     srt = int(data['sort'])
-    latitude = float(coords[0])
-    longitude = float(coords[1])
+
     cafe_range = [int(rng)-1 for rng in data['range'].split(',')]
-    cafes = Cafe.objects.filter(latitude__range=(latitude - 0.19, latitude + 0.19),
-                                longitude__range=(longitude - 0.22, longitude + 0.22))
+    cafes = Cafe.objects.filter(latitudeQ, longitudeQ, cafe_name)
     for cafe in cafes:
         cafe.like = len(UserCafe.objects.filter(cafe_id=cafe.id))
 

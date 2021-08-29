@@ -141,3 +141,8 @@ media/
 #model
 .main/migrations
 main/migrations
+
+#docker
+.env.dev
+docker-compose.yml
+Dockerfile
