@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/usr/src/app/_static
+      - media_volume:/usr/src/app/_media
+    ports: 80:80
+    depends_on: web
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn playde_server.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/usr/src/app/_static
+      - media_volume:/usr/src/app/_media
+      - ./:/usr/src/app/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env.dev
+  mysql:
+    image: mysql
+    container_name: mysql_service
+    volumes:
+      - ../volumes-mysql/mysql/:/var/lib/mysql/
+    environment:
+      MYSQL_ROOT_PASSWORD: "easy-sang1"
+      MYSQL_DATABASE: "django_playde"
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    ports:
+      - 3306:3306
+volumes:
+  static_volume:
+  media_volume:

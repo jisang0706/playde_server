@@ -144,8 +144,8 @@ main/migrations
 
 #docker
 .env.dev
-docker-compose.yml
+#docker-compose.yml
 Dockerfile
-./docker-compose.yml
+#./docker-compose.yml
 ./Dockerfile
 ./.env.dev
