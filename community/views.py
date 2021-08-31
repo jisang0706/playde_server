@@ -1,9 +1,13 @@
+from PIL import Image
+from io import BytesIO
+
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from main.models import User, Community, CommunityLike, Comment, CommentReply
+from main.models import User, Community, CommunityLike, Comment, CommentReply, UserBlock, CommunityImage
 import my_settings
 from django.db.models import Q
-from community.helper import JsonDictionary
+from community.helper import JsonDictionary, ImageHelper
 # Create your views here.
 
 def intro(request):
@@ -16,12 +20,33 @@ def upload_community(request):
     content = data['content']
 
     obj = Community.objects.create(user_id=user_id, content=content)
-    try:
-        tag = data['tag']
-        obj.tag = tag
-        obj.save()
-    except:
-        1
+    if 'tag' in data.keys():
+        obj.tag = data['tag']
+
+    if 'images' in data.keys():
+        urls = data['images'].split(',')
+        for i, url in enumerate(urls):
+            communityimage = CommunityImage.objects.create(board_id=obj.id, order=i)
+            image = ImageHelper.download(url)
+            image_name = '{fir}.{sec}'.format(
+                fir=url.split('/')[-1].split('.')[0],
+                sec=url.split('/')[-1].split('.')[-1]
+            )
+            image1 = Image.open(image)
+            buffer = BytesIO()
+            image1.save(buffer, format='png')
+            file =InMemoryUploadedFile(
+                buffer,
+                '{}'.format(communityimage.image),
+                '{}'.format(image_name),
+                'image/png',
+                buffer.tell(),
+                None,
+            )
+            communityimage.image = file
+            communityimage.save()
+
+    obj.save()
 
     boolean = JsonDictionary.BoolToDictionary(True)
     return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
@@ -50,7 +75,10 @@ def get_community(request):
     else:
         content = Q(content__icontains='')
 
-    community = Community.objects.filter(tag, top_id, content).order_by('-created_at')[board_range[0]:board_range[1]]
+    block = Q(user_id__in=[block.user_id_blocked for block in UserBlock.objects.filter(user_id=user_id)])
+    blocked = Q(user_id__in=[block.user_id for block in UserBlock.objects.filter(user_id_blocked=user_id)])
+
+    community = Community.objects.filter(tag, top_id, content).exclude(block | blocked).order_by('-created_at')[board_range[0]:board_range[1]]
     users = [User.objects.get(id=board.user_id) for board in community]
     comments = [len(Comment.objects.filter(board_id=board.id)) + len(CommentReply.objects.filter(board_id=board.id)) for board in community]
     likes = [len(CommunityLike.objects.filter(board_id=board.id)) for board in community]
@@ -70,7 +98,9 @@ def del_community(request):
             boolean = False
         else:
             Comment.objects.filter(board_id=obj.id).delete()
+            CommentReply.objects.filter(board_id=obj.id).delete()
             CommunityLike.objects.filter(board_id=obj.id).delete()
+            CommunityImage.objects.filter(board_id=obj.id).delete()
             obj.delete()
             boolean = True
     finally:
@@ -112,6 +142,7 @@ def del_comment(request):
         if obj.user_id != user_id:
             boolean = False
         else:
+            CommentReply.objects.filter(comment_id=obj.id).delete()
             obj.delete()
     finally:
         boolean = JsonDictionary.BoolToDictionary(boolean)
@@ -166,8 +197,26 @@ def view_board(request, board_id):
         my_like = 0
     replyss = [CommentReply.objects.filter(comment_id=comment.id).order_by('-created_at') for comment in comments]
     replyss_writer = [[User.objects.filter(id=reply.user_id)[0] for reply in replys] for replys in replyss]
+    user_block = [block.user_id_blocked for block in UserBlock.objects.filter(user_id=user_id)]
+    board_images = CommunityImage.objects.filter(board_id=board_id).order_by('order')
 
-    board = JsonDictionary.BoardToDirectory(board, writer, like, my_like, comment_cnt, comments, comments_writer, replyss, replyss_writer)
+    board = JsonDictionary.BoardToDirectory(board, board_images, writer, like, my_like, comment_cnt, comments, comments_writer, replyss, replyss_writer, user_block)
 
     return JsonResponse(board, json_dumps_params={'ensure_ascii': False},
+                            content_type=u"application/json; charset=utf-8", status=200)
+
+def del_board_image(request):
+    data = request.GET
+    user_id = int(data['user_id'])
+    board_id = int(data['board_id'])
+    image_id = int(data['image_id'])
+
+    obj = Community.objects.get(id=board_id)
+    if obj.user_id == user_id:
+        CommunityImage.objects.get(id=image_id).delete()
+        boolean = True
+    else:
+        boolean = False
+    boolean = JsonDictionary.BoolToDictionary(boolean)
+    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
                             content_type=u"application/json; charset=utf-8", status=200)
