@@ -31,7 +31,7 @@ def CommunityToDirectory(community, users, likes, my_likes, comments, rng):
         })
     return output
 
-def BoardToDirectory(board, writer, like, my_like, comment_cnt, comments, comments_writer, replyss, replyss_writer):
+def BoardToDirectory(board, board_images, writer, like, my_like, comment_cnt, comments, comments_writer, replyss, replyss_writer, user_block):
     output = {}
     output['board'] = {
         'id': board.id,
@@ -42,7 +42,14 @@ def BoardToDirectory(board, writer, like, my_like, comment_cnt, comments, commen
         'comment_cnt': comment_cnt,
         'visit': board.visit,
         'tag': board.tag,
+        'images': list(),
     }
+    for board_image in board_images:
+        output['board']['images'].append({
+            'id': board_image.id,
+            'order': board_image.order,
+            'image': '/media/' + str(board_image.image),
+        })
     output['writer'] = {
         'id': writer.id,
         'nickname': writer.nickname,
@@ -52,12 +59,12 @@ def BoardToDirectory(board, writer, like, my_like, comment_cnt, comments, commen
     for comment, comment_writer, replys, replys_writer in zip(comments, comments_writer, replyss, replyss_writer):
         temp = {
             'id': comment.id,
-            'content': comment.content,
+            'content': comment.content if comment_writer not in user_block else '차단한 사용자의 댓글입니다.',
             'created_at': comment.created_at,
             'writer': {
-                'id': comment_writer.id,
-                'nickname': comment_writer.nickname,
-                'profile': '/media/' + str(comment_writer.small_image) if comment_writer.small_image else '',
+                'id': comment_writer.id if comment_writer not in user_block else 0,
+                'nickname': comment_writer.nickname if comment_writer not in user_block else '',
+                'profile': '/media/' + str(comment_writer.small_image) if comment_writer.small_image and comment_writer not in user_block else '',
             },
             'reply': False,
         }
@@ -65,12 +72,12 @@ def BoardToDirectory(board, writer, like, my_like, comment_cnt, comments, commen
         for reply, reply_writer in zip(replys, replys_writer):
             temp = {
                 'id': reply.id,
-                'content': reply.content,
+                'content': reply.content if reply_writer not in user_block else '차단한 사용자의 답글입니다.',
                 'created_at': reply.created_at,
                 'writer': {
-                    'id': reply_writer.id,
-                    'nickname': reply_writer.nickname,
-                    'profile': '/media/' + str(reply_writer.small_image) if reply_writer.small_image else '',
+                    'id': reply_writer.id if reply_writer not in user_block else 0,
+                    'nickname': reply_writer.nickname if reply_writer not in user_block else '',
+                    'profile': '/media/' + str(reply_writer.small_image) if reply_writer.small_image and reply_writer not in user_block else '',
                 },
                 'reply': True,
             }

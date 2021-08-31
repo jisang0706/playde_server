@@ -41,6 +41,11 @@ class Community(models.Model):
     visit = models.IntegerField(default=0, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+class CommunityImage(models.Model):
+    board_id = models.IntegerField()
+    order = models.IntegerField()
+    image = models.ImageField(upload_to='communityimages/', default="", blank=True)
+
 class CommunityLike(models.Model):
     user_id = models.IntegerField()
     board_id = models.IntegerField()

@@ -17,6 +17,7 @@ urlpatterns = [
     path('reply/upload', views.upload_reply, name='uploadreply'),
     path('reply/delete', views.delete_reply, name='deletereply'),
     path('board/<int:board_id>', views.view_board, name='board'),
+    path('board/image/delete', views.del_board_image, name='boardimagedelete'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
