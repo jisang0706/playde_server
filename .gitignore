@@ -149,3 +149,7 @@ Dockerfile
 #./docker-compose.yml
 ./Dockerfile
 ./.env.dev
+
+#firebase
+./serviceAccountKey.json
+serviceAccountKey.json
