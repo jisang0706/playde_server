@@ -151,5 +151,4 @@ Dockerfile
 ./.env.dev
 
 #firebase
-./serviceAccountKey.json
-serviceAccountKey.json
+/serviceAccountKey.json
