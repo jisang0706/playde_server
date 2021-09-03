@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-# import firebase_admin
-# from firebase_admin import credentials
+import firebase_admin
+from firebase_admin import credentials
 
 import my_settings
 
@@ -24,8 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 #firebase
 cred_path = os.path.join(BASE_DIR, 'serviceAccountKey.json')
-# cred = credentials.Certificate(cred_path)
-# firebase_admin.initialize_app(cred)
+cred = credentials.Certificate(cred_path)
+firebase_admin.initialize_app(cred)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
