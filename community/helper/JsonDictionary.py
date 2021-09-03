@@ -21,6 +21,7 @@ def CommunityToDirectory(community, users, likes, my_likes, comments, rng):
                 'my_like': bool(my_like),
                 'created_at': board.created_at,
                 'comment_cnt': comment,
+                'visit': board.visit,
                 'tag': board.tag,
             },
             'writer':{
