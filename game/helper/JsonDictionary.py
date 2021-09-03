@@ -10,7 +10,7 @@ def GamesToDictionary(games, rng):
         output['games'].append({
             'id': game.id,
             'kor_name': game.kor_name,
-            'profile_img': '/media/'+str(game.small_image) if game.small_image else '',
+            'profile_img': game.image,
             'level': game.level,
             'interest': game.interest,
         })
@@ -25,10 +25,10 @@ def GameinfoToDictionary(game, game_imgs):
         'min_user': game.min_user,
         'max_user': game.max_user,
         'content': game.content,
-        'imgs': [],
+        'images': [],
     }
     for i, img in enumerate(game_imgs):
-        output['imgs'].append('/media/'+str(img.content_image))
+        output['images'].append(img.content_image)
 
     return output
 

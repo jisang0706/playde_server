@@ -21,7 +21,6 @@ def CafesToDictionary(cafes, worktimes, rng):
             'name': cafe.name,
             'address': cafe.address,
             'coords': f'{cafe.latitude},{cafe.longitude}',
-            'profile': '/media/' + str(cafe.small_image) if cafe.small_image else '',
             'table_cnt': cafe.table_cnt,
             'open': worktime.open,
             'close': worktime.close,
@@ -36,7 +35,6 @@ def CafeToDirectory(cafe, cafe_images, worktime, like):
         'name': cafe.name,
         'address': cafe.address,
         'coords': f'{cafe.latitude},{cafe.longitude}',
-        'profile': '/media/' + str(cafe.small_image) if cafe.small_image else '',
         'table_cnt': cafe.table_cnt,
         'open': worktime.open,
         'close': worktime.close,
@@ -44,7 +42,7 @@ def CafeToDirectory(cafe, cafe_images, worktime, like):
         'image': [],
     }
     for image in cafe_images:
-        output['image'].append('/media/' + str(image))
+        output['image'].append(image)
 
     return output
 
@@ -60,7 +58,7 @@ def FavCafesToDictionary(cafes):
         output['cafe'].append({
             'id': cafe.id,
             'name': cafe.name,
-            'profile': '/media/' + str(cafe.small_image) if cafe.small_image else '',
+            'profile': cafe.image,
         })
 
     return output

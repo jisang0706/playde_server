@@ -12,12 +12,20 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import firebase_admin
+from firebase_admin import credentials
 
 import my_settings
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+#firebase
+cred_path = os.path.join(BASE_DIR, 'serviceAccountKey.json')
+cred = credentials.Certificate(cred_path)
+firebase_admin.initialize_app(cred)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -43,6 +51,7 @@ INSTALLED_APPS = [
     'game.apps.GameConfig',
     'cafe.apps.CafeConfig',
     'user.apps.UserConfig',
+    'message.apps.MessageConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -4,13 +4,13 @@ from urllib.parse import urlparse
 from PIL import Image
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
 from main.models import User, UserComment, UserBlock, UserWishlist, Boss, Cafe, CafeGame, UserCafe,\
     CafeBook, CafeBookWantGame, CafeSales, Game, Genre, GameGenre, PlaySystem, GamePlaySystem, GameImage, GameComment,\
     Funding, FundingSchedule, UserFriend, UserRecent, UserPlayde, Community, CommunityLike, Comment, CommentReply
 import my_settings
 import bcrypt
 from django.db.models import Q
+from main.helper.JsonDictionary import returnjson
 from user.helper import JsonDictionary, LoginHelper, ImageHelper
 # Create your views here.
 
@@ -41,8 +41,7 @@ def login(request):
         except:
             account = JsonDictionary.LoginToDictionary(False, False)
 
-    return JsonResponse(account, json_dumps_params={'ensure_ascii': False},
-                            content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(account)
 
 def join(request):
     data = request.GET
@@ -57,8 +56,7 @@ def join(request):
 
     if not create:
         access = JsonDictionary.JoinToDictionary(False, 'ALREADY USER')
-        return JsonResponse(access, json_dumps_params={'ensure_ascii': False},
-                            content_type=u"application/json; charset=utf-8", status=200)
+        return returnjson(access)
 
     if platform == 0:
         password = data['password']
@@ -72,16 +70,14 @@ def join(request):
         else:
             obj.delete()
             access = JsonDictionary.JoinToDictionary(False, 'ALREADY NICKNAME')
-            return JsonResponse(access, json_dumps_params={'ensure_ascii': False},
-                                content_type=u"application/json; charset=utf-8", status=200)
+            return returnjson(access)
     if 'email' in keys and platform != 0:   obj.email = data['email']
     if 'phone' in keys:                     obj.phone = data['phone']
     if 'age' in keys:                       obj.age = int(data['age'])
     obj.save()
 
     access = JsonDictionary.JoinToDictionary(True, obj.id)
-    return JsonResponse(access, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(access)
 
 def get_block(request):
     data = request.GET
@@ -91,8 +87,7 @@ def get_block(request):
 
     users = [User.objects.get(id=block[1].user_id_blocked) for block in enumerate(blocklist)]
     users = JsonDictionary.UsersToDictionary(users)
-    return JsonResponse(users, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(users)
 
 def add_block(request):
     data = request.GET
@@ -101,8 +96,7 @@ def add_block(request):
 
     obj, created = UserBlock.objects.get_or_create(user_id=user_id, user_id_blocked=his_id)
     boolean = JsonDictionary.BoolToDictionary(created)
-    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(boolean)
 
 def del_block(request):
     data = request.GET
@@ -116,18 +110,16 @@ def del_block(request):
         boolean = False
 
     boolean = JsonDictionary.BoolToDictionary(boolean)
-    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(boolean)
 
 def comment(request):
     data = request.GET
     user_id = int(data['user_id'])
 
     comments = UserComment.objects.filter(his_id=user_id).order_by('-written_date')
-    writters = [User.objects.get(id=comment.my_id) for comment in comments]
-    comments = JsonDictionary.CommentToDictionary(comments, writters)
-    return JsonResponse(comments, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    writers = [User.objects.get(id=comment.my_id) for comment in comments]
+    comments = JsonDictionary.CommentToDictionary(comments, writers)
+    return returnjson(comments)
 
 
 def add_comment(request):
@@ -142,8 +134,7 @@ def add_comment(request):
     obj.comment = content
     obj.save()
     boolean = JsonDictionary.BoolToDictionary(True)
-    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(boolean)
 
 def set_nickname(request):
     data = request.GET
@@ -155,12 +146,10 @@ def set_nickname(request):
             obj.nickname = nickname
         else:
             access = JsonDictionary.JoinToDictionary(False, 'ALREADY NICKNAME')
-            return JsonResponse(access, json_dumps_params={'ensure_ascii': False},
-                                content_type=u"application/json; charset=utf-8", status=200)
+            return returnjson(access)
         obj.save()
     access = JsonDictionary.JoinToDictionary(True, 'SUCCESS')
-    return JsonResponse(access, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(access)
 
 def profile(request):
     data = request.GET
@@ -170,59 +159,44 @@ def profile(request):
     comments = UserComment.objects.filter(his_id=user_id)
     score = sum([comment.score for comment in comments]) / len(comments) if comments else 0
     user = JsonDictionary.ProfileToDictionary(user, score)
-    return JsonResponse(user, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(user)
 
 def set_profile_image(request):
-    if request.method == "POST":
-        data = request.POST
-        user_id = int(data['user_id'])
-        image = request.FILES['image']
-        image_name = image.name
-    else:
-        data = request.GET
-        user_id = int(data['user_id'])
-        image_url = data['image_url']
-
-        image = ImageHelper.download(image_url)
-        image_name = '{fir}.{sec}'.format(
-                fir=image_url.split('/')[-1].split('.')[0],
-                sec=image_url.split('/')[-1].split('.')[-1]
-                )
-
-
+    data = request.GET
+    user_id = int(data['user_id'])
+    image_url = data['image_url']
     user = User.objects.get(id=user_id)
-
-    image1 = Image.open(image)
-    width, height = image1.size
-    mn = min(width, height)
-    area = ((width - mn) / 2, (height - mn) / 2, (width + mn) / 2, (height + mn) / 2)
-    image1 = image1.crop(area)
-    buffer1 = BytesIO()
-    image1.save(buffer1, format='png')
-    file = InMemoryUploadedFile(
-        buffer1,
-        '{}'.format(user.big_image),
-        '{}'.format('big'+image_name),
-        'image/png',
-        buffer1.tell(),
-        None,
-    )
-    user.big_image = file
-
-    image2 = image1.resize((100, 100))
-    buffer2 = BytesIO()
-    image2.save(buffer2, format='png')
-    file = InMemoryUploadedFile(
-        buffer2,
-        '{}'.format(user.small_image),
-        '{}'.format('small'+image_name),
-        'image/png',
-        buffer2.tell(),
-        None,
-    )
-    user.small_image = file
+    user.image = image_url
     user.save()
     user = JsonDictionary.ProfileImageToDictionary(True, User.objects.get(id=user_id))
-    return JsonResponse(user, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(user)
+
+def posible_nickname(request):
+    data = request.GET
+    nickname = data['nickname']
+    try:
+        User.objects.get(nickname=nickname)
+        boolean = False
+    except:
+        boolean = True
+    boolean = JsonDictionary.BoolToDictionary(boolean)
+    return returnjson(boolean)
+
+
+def set_push_token(request):
+    data = request.GET
+    user_id = int(data['user_id'])
+    push_token = data['token']
+    user = User.objects.get(id=user_id)
+    user.push_token = push_token
+    boolean = JsonDictionary.BoolToDictionary(True)
+    return returnjson(boolean)
+
+def set_message_token(request):
+    data = request.GET
+    user_id = int(data['user_id'])
+    message_token = data['token']
+    user = User.objects.get(id=user_id)
+    user.message_token = message_token
+    boolean = JsonDictionary.BoolToDictionary(True)
+    return returnjson(boolean)

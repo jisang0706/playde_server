@@ -3,10 +3,10 @@ from io import BytesIO
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
 from main.models import User, Community, CommunityLike, Comment, CommentReply, UserBlock, CommunityImage
 import my_settings
 from django.db.models import Q
+from main.helper.JsonDictionary import returnjson
 from community.helper import JsonDictionary, ImageHelper
 # Create your views here.
 
@@ -26,31 +26,12 @@ def upload_community(request):
     if 'images' in data.keys():
         urls = data['images'].split(',')
         for i, url in enumerate(urls):
-            communityimage = CommunityImage.objects.create(board_id=obj.id, order=i)
-            image = ImageHelper.download(url)
-            image_name = '{fir}.{sec}'.format(
-                fir=url.split('/')[-1].split('.')[0],
-                sec=url.split('/')[-1].split('.')[-1]
-            )
-            image1 = Image.open(image)
-            buffer = BytesIO()
-            image1.save(buffer, format='png')
-            file =InMemoryUploadedFile(
-                buffer,
-                '{}'.format(communityimage.image),
-                '{}'.format(image_name),
-                'image/png',
-                buffer.tell(),
-                None,
-            )
-            communityimage.image = file
-            communityimage.save()
+            CommunityImage.objects.create(board_id=obj.id, order=i, image=url)
 
     obj.save()
 
     boolean = JsonDictionary.BoolToDictionary(True)
-    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(boolean)
 
 def get_community(request):
     data = request.GET
@@ -85,8 +66,7 @@ def get_community(request):
     my_likes = [1 if len(CommunityLike.objects.filter(board_id=board.id, user_id=user_id)) else 0 for board in community]
     community = JsonDictionary.CommunityToDirectory(community, users, likes, my_likes, comments, board_range)
 
-    return JsonResponse(community, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(community)
 
 def del_community(request):
     data = request.GET
@@ -105,8 +85,7 @@ def del_community(request):
             boolean = True
     finally:
         boolean = JsonDictionary.BoolToDictionary(boolean)
-        return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
-                            content_type=u"application/json; charset=utf-8", status=200)
+        return returnjson(boolean)
 
 def like_community(request):
     data = request.GET
@@ -117,8 +96,7 @@ def like_community(request):
     boolean = JsonDictionary.BoolToDictionary(create)
     if not create:
         obj.delete()
-    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
-                            content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(boolean)
 
 def upload_comment(request):
     data = request.GET
@@ -128,8 +106,7 @@ def upload_comment(request):
 
     Comment.objects.create(user_id=user_id, board_id=board_id, content=content)
     boolean = JsonDictionary.BoolToDictionary(True)
-    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(boolean)
 
 def del_comment(request):
     data = request.GET
@@ -146,8 +123,7 @@ def del_comment(request):
             obj.delete()
     finally:
         boolean = JsonDictionary.BoolToDictionary(boolean)
-        return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
-                            content_type=u"application/json; charset=utf-8", status=200)
+        return returnjson(boolean)
 
 def upload_reply(request):
     data = request.GET
@@ -158,8 +134,7 @@ def upload_reply(request):
     CommentReply.objects.create(user_id=user_id, comment_id=comment_id, board_id=Comment.objects.get(id=comment_id).board_id, content=content)
 
     boolean = JsonDictionary.BoolToDictionary(True)
-    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(boolean)
 
 def delete_reply(request):
     data = request.GET
@@ -175,8 +150,7 @@ def delete_reply(request):
             obj.delete()
     finally:
         boolean = JsonDictionary.BoolToDictionary(boolean)
-        return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
-                            content_type=u"application/json; charset=utf-8", status=200)
+        return returnjson(boolean)
 
 def view_board(request, board_id):
     data = request.GET
@@ -202,8 +176,7 @@ def view_board(request, board_id):
 
     board = JsonDictionary.BoardToDirectory(board, board_images, writer, like, my_like, comment_cnt, comments, comments_writer, replyss, replyss_writer, user_block)
 
-    return JsonResponse(board, json_dumps_params={'ensure_ascii': False},
-                            content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(board)
 
 def del_board_image(request):
     data = request.GET
@@ -218,5 +191,4 @@ def del_board_image(request):
     else:
         boolean = False
     boolean = JsonDictionary.BoolToDictionary(boolean)
-    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
-                            content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(boolean)

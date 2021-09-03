@@ -18,6 +18,9 @@ urlpatterns = [
     path('nickname/set', views.set_nickname, name='nicknameset'),
     path('profile', views.profile, name='profile'),
     path('profile/image/set', views.set_profile_image, name='profile'),
+    path('posible_nickname', views.posible_nickname, name='posiblenickname'),
+    path('push_token/set', views.set_push_token, name='setpushtoken'),
+    path('message_token/set', views.set_message_token, name='setmessagetoken'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

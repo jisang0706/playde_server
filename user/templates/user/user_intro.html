@@ -97,7 +97,7 @@
         <tr>
             <td>user[].profile</td>
             <td>string</td>
-            <td>차단한 사용자 프사 경로</td>
+            <td>차단한 사용자 프사 url</td>
         </tr>
     </table>
 <!-- ---------------------------------------------------------------------------------- -->
@@ -168,25 +168,25 @@
             <td>평가 내용</td>
         </tr>
         <tr>
-            <td>comment[].writter.id</td>
+            <td>comment[].writer.id</td>
             <td>number</td>
             <td>평가글 작성자 id</td>
         </tr>
         <tr>
-            <td>comment[].writter.nickname</td>
+            <td>comment[].writer.nickname</td>
             <td>string</td>
             <td>평가글 작성자 닉네임</td>
         </tr>
         <tr>
-            <td>comment[].writter.profile</td>
+            <td>comment[].writer.profile</td>
             <td>string</td>
-            <td>평가글 작성자 프사 위치</td>
+            <td>평가글 작성자 프사 url</td>
         </tr>
     </table>
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>유저 평가 추가, 수정</h3>
-    <p>작동 방법 : user/comment/add?user_id={writter_id}&his_id={target_user_id}&score={score in range(0, 11)}&content={content}</p>
+    <p>작동 방법 : user/comment/add?user_id={writer_id}&his_id={target_user_id}&score={score in range(0, 11)}&content={content}</p>
     <p>ex : {{url}}/user/comment/add?user_id=1&his_id=2&score=10&content=너무 좋아요</p>
     <p>응답</p>
     <table border="2">
@@ -222,24 +222,24 @@
         <tr>
             <td>profile</td>
             <td>string</td>
-            <td>사용자 프사 위치</td>
+            <td>사용자 프사 url</td>
         </tr>
         <tr>
             <td>score</td>
             <td>number</td>
             <td>사용자 평균 평가 점수</td>
         </tr>
+        <tr>
+            <td>push_token</td>
+            <td>string</td>
+            <td>파이어베이스 push 토큰</td>
+        </tr>
     </table>
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>사용자 프로필사진 변경</h3>
-    <p>url로 요청할 경우 요청 방식 : GET</p>
     <p>사용 방법 : user/profile/image/set?user_id={user_id}&image_url={image_url}</p>
     <p>ex : {{url}}/user/profile/image/set?user_id=2&image_url=http://google.com/image/1</p>
-    <p>응답은 아래 표와 동일함</p>
-    <p>jpg, png로 요청할 경우 요청 방식 : POST</p>
-    <p>사용 방법 : user/profile/image/set | body(user_id={user_id}, image={profile_image})</p>
-    <p>ex : {{url}}/user/profile/image/set | body(user_id=1, image=프사.jpg)</p>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -258,7 +258,39 @@
         <tr>
             <td>image</td>
             <td>string</td>
-            <td>프로필사진 위치</td>
+            <td>프로필사진 url</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>닉네임 사용 가능 확인</h3>
+    <p>사용 방법 : user/posible_nickname?nickname={nickname}</p>
+    <p>ex : {{url}}/user/posible_nickname?nickname=닉네임</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>bool</td>
+            <td>사용 가능하면 True, 불가능하면 False</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>푸시 알림을 위한 firebase 토큰 저장</h3>
+    <p>사용 방법 : user/push_token/set?token={firebase_token}</p>
+    <p>ex : {{url}}/user/push_token/set?token=askjefhablsjk</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>bool</td>
+            <td>True, False</td>
         </tr>
     </table>
 </body>

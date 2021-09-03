@@ -10,8 +10,9 @@ class User(models.Model):
     email = models.CharField(max_length=100, default='', blank=True)
     phone = models.CharField(max_length=15, default='', blank=True)
     age = models.IntegerField(default=0, blank=True)
-    big_image = models.ImageField(upload_to='userimages/', default="", blank=True)
-    small_image = models.ImageField(upload_to='userimages/', default="", blank=True)
+    image = models.TextField(default="", blank=True)
+    push_token = models.TextField(default="", blank=True)
+    message_token = models.TextField(default="", blank=True)
     is_boss = models.BooleanField(default=False, blank=True)
     platform = models.IntegerField(default=0, blank=True)
 
@@ -44,7 +45,7 @@ class Community(models.Model):
 class CommunityImage(models.Model):
     board_id = models.IntegerField()
     order = models.IntegerField()
-    image = models.ImageField(upload_to='communityimages/', default="", blank=True)
+    image = models.TextField(default="", blank=True)
 
 class CommunityLike(models.Model):
     user_id = models.IntegerField()
@@ -86,7 +87,6 @@ class Cafe(models.Model):
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
     address = models.CharField(max_length=100)
-    small_image = models.ImageField(upload_to='cafeimages/', default="", blank=True)
     content = models.TextField(default="", blank=True)
     table_cnt = models.IntegerField(default=0, blank=True)
     book_price = models.IntegerField(default=0, blank=True)
@@ -94,7 +94,7 @@ class Cafe(models.Model):
 class CafeImage(models.Model):
     cafe_id = models.IntegerField()
     order = models.IntegerField()
-    content_image = models.ImageField(upload_to='cafecontentimages/', default="", blank=True)
+    content_image = models.TextField(default="", blank=True)
 
 class CafeWorktime(models.Model):
     cafe_id = models.IntegerField()
@@ -137,7 +137,7 @@ class Game(models.Model):
     age = models.IntegerField(default=0, blank=True)
     min_user = models.IntegerField(default=1, blank=True)
     max_user = models.IntegerField(default=1, blank=True)
-    small_image = models.ImageField(upload_to='gameimages/', default="", blank=True)
+    small_image = models.TextField(default="", blank=True)
     content = models.TextField(default="", blank=True)
     exist = models.BooleanField(default=True, blank=True)
     interest = models.IntegerField(default=0, blank=True)
@@ -171,7 +171,7 @@ class GamePlaySystem(models.Model):
 class GameImage(models.Model):
     game_id = models.IntegerField()
     order = models.IntegerField()
-    content_image = models.ImageField(upload_to='gamecontentimages/', default="", blank=True)
+    content_image = models.TextField()
 
 class GameComment(models.Model):
     game_id = models.IntegerField()

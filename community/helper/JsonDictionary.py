@@ -26,7 +26,7 @@ def CommunityToDirectory(community, users, likes, my_likes, comments, rng):
             'writer':{
                 'id': user.id,
                 'nickname': user.nickname,
-                'profile': '/media/' + str(user.small_image) if user.small_image else '',
+                'profile': user.image,
             }
         })
     return output
@@ -48,12 +48,12 @@ def BoardToDirectory(board, board_images, writer, like, my_like, comment_cnt, co
         output['board']['images'].append({
             'id': board_image.id,
             'order': board_image.order,
-            'image': '/media/' + str(board_image.image),
+            'image': board_image.image,
         })
     output['writer'] = {
         'id': writer.id,
         'nickname': writer.nickname,
-        'profile': '/media/' + str(writer.small_image) if writer.small_image else '',
+        'profile': writer.image,
     }
     output['comment'] = []
     for comment, comment_writer, replys, replys_writer in zip(comments, comments_writer, replyss, replyss_writer):
@@ -64,7 +64,7 @@ def BoardToDirectory(board, board_images, writer, like, my_like, comment_cnt, co
             'writer': {
                 'id': comment_writer.id if comment_writer not in user_block else 0,
                 'nickname': comment_writer.nickname if comment_writer not in user_block else '',
-                'profile': '/media/' + str(comment_writer.small_image) if comment_writer.small_image and comment_writer not in user_block else '',
+                'profile': comment_writer.image,
             },
             'reply': False,
         }
@@ -77,7 +77,7 @@ def BoardToDirectory(board, board_images, writer, like, my_like, comment_cnt, co
                 'writer': {
                     'id': reply_writer.id if reply_writer not in user_block else 0,
                     'nickname': reply_writer.nickname if reply_writer not in user_block else '',
-                    'profile': '/media/' + str(reply_writer.small_image) if reply_writer.small_image and reply_writer not in user_block else '',
+                    'profile': reply_writer.image,
                 },
                 'reply': True,
             }

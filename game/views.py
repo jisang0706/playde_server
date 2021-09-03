@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
 from main.models import UserWishlist, Game, GameImage, UserPlayde
 import my_settings
-from django.db.models import Q
+from django.db.models import Q, Min
+from main.helper.JsonDictionary import returnjson
 from game.helper import JsonDictionary
 # Create your views here.
 
@@ -14,10 +14,12 @@ def game_list(request):
     data = request.GET
     game_range = [int(num)-1 for num in data['range'].split(',')]
     games = Game.objects.order_by('-interest')[game_range[0]:game_range[1]]
+    images = [GameImage.objects.filter(game_id=game.id).aggregate(order=Min('order')) for game in games]
+    for i, image in enumerate(images):
+        games[i].image = image
     games = JsonDictionary.GamesToDictionary(games, game_range)
 
-    return JsonResponse(games, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(games)
 
 def game_info(request, game_id):
     game = Game.objects.get(id=game_id)
@@ -26,8 +28,7 @@ def game_info(request, game_id):
     game_images = GameImage.objects.filter(game_id=game_id).order_by('order')
     game = JsonDictionary.GameinfoToDictionary(game, game_images)
 
-    return JsonResponse(game, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(game)
 
 def game_search(request):
     data = request.GET
@@ -36,8 +37,7 @@ def game_search(request):
     games = Game.objects.filter(Q(kor_name__icontains=game_name)|Q(eng_name__icontains=game_name)).order_by('-interest')[game_range[0]:game_range[1]]
     games = JsonDictionary.GamesToDictionary(games, game_range)
 
-    return JsonResponse(games, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(games)
 
 def game_wish_add(request):
     data = request.GET
@@ -45,8 +45,7 @@ def game_wish_add(request):
     game_id = int(data['game_id'])
     UserWishlist.objects.get_or_create(user_id=user_id, game_id=game_id)
     boolean = JsonDictionary.BoolToDictionary(True)
-    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(boolean)
 
 def game_wish_get(request):
     data = request.GET
@@ -55,8 +54,7 @@ def game_wish_get(request):
     games = [Game.objects.get(id=wish[1].game_id) for wish in enumerate(wishlist)]
     games = JsonDictionary.GamesToDictionary(games, [0,len(games)])
     print(games)
-    return JsonResponse(games, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(games)
 
 def game_wish_del(request):
     data = request.GET
@@ -64,8 +62,7 @@ def game_wish_del(request):
     game_id = int(data['game_id'])
     UserWishlist.objects.get_or_create(user_id=user_id, game_id=game_id).delete()
     boolean = JsonDictionary.BoolToDictionary(True)
-    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(boolean)
 
 def game_playde(request):
     data = request.GET
@@ -74,5 +71,4 @@ def game_playde(request):
     for game_id in game_ids:
         UserPlayde.objects.get_or_create(user_id=user_id, game_id=game_id)
     boolean = JsonDictionary.BoolToDictionary(True)
-    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(boolean)

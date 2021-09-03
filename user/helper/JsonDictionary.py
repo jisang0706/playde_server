@@ -29,12 +29,12 @@ def UsersToDictionary(users):
         output['user'].append({
             'id': user.id,
             'nickname': user.nickname,
-            'profile': 'media' + str(user.small_image) if user.small_image else '',
+            'profile': user.image,
         })
 
     return output
 
-def CommentToDictionary(comments, writters):
+def CommentToDictionary(comments, writers):
     print(len(comments))
     output = {
         'meta':{
@@ -43,15 +43,15 @@ def CommentToDictionary(comments, writters):
         'average': sum([comment.score for comment in comments]) / len(comments) if comments else 0,
         'comment': []
     }
-    for comment, writter in zip(comments, writters):
+    for comment, writer in zip(comments, writers):
         output['comment'].append({
             'id': comment.id,
             'score': comment.score,
             'content': comment.comment,
-            'writter':{
-                'id': writter.id,
-                'nickname': writter.nickname,
-                'profile': '/media/' + writter.small_image if writter.small_image else '',
+            'writer':{
+                'id': writer.id,
+                'nickname': writer.nickname,
+                'profile': writer.image,
             },
         })
 
@@ -61,8 +61,9 @@ def ProfileToDictionary(user, score):
     output = {
         'id': user.id,
         'nickname': user.nickname,
-        'profile': '/media/'+str(user.small_image) if user.small_image else '',
+        'profile': user.image,
         'score': score,
+        'message_token': user.message_token,
     }
     return output
 
@@ -70,6 +71,6 @@ def ProfileImageToDictionary(boolean, user):
     output = {
         'act': boolean,
         'id': user.id,
-        'image': '/media/' + str(user.big_image),
+        'image': user.image,
     }
     return output

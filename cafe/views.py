@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
 from main.models import Cafe, CafeWorktime, UserCafe, CafeImage
 import my_settings
-from django.db.models import Q
+from django.db.models import Q, Min
+from main.helper.JsonDictionary import returnjson
 from cafe.helper import JsonDictionary
 import datetime
 # Create your views here.
@@ -45,8 +45,7 @@ def cafe_list(request):
 
     worktimes = [CafeWorktime.objects.get(cafe_id=cafe.id, weekday=datetime.datetime.today().weekday()) for cafe in cafes]
     cafes = JsonDictionary.CafesToDictionary(cafes, worktimes, cafe_range)
-    return JsonResponse(cafes, json_dumps_params={'ensure_ascii': False},
-                            content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(cafes)
 
 def cafe_get(request, cafe_id):
     cafe = Cafe.objects.get(id=cafe_id)
@@ -54,8 +53,7 @@ def cafe_get(request, cafe_id):
     worktime = CafeWorktime.objects.get(cafe_id=cafe.id, weekday=datetime.datetime.today().weekday())
     like = len(UserCafe.objects.filter(cafe_id=cafe_id))
     cafe = JsonDictionary.CafeToDirectory(cafe, cafe_images, worktime, like)
-    return JsonResponse(cafe, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(cafe)
 
 def get_fav_cafe(request):
     data = request.GET
@@ -63,10 +61,12 @@ def get_fav_cafe(request):
 
     usercafes = UserCafe.objects.filter(user_id=user_id).order_by('-id')
     cafes = [Cafe.objects.get(id=usercafe.cafe_id) for usercafe in usercafes]
+    images = [CafeImage.objects.filter(cafe_id=cafe.id).aggregate(order=Min('order')) for cafe in cafes]
+    for i, image in enumerate(images):
+        cafes[i].image = image
 
     cafes = JsonDictionary.FavCafesToDictionary(cafes)
-    return JsonResponse(cafes, json_dumps_params={'ensure_ascii': False},
-                            content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(cafes)
 
 def add_fav_cafe(request):
     data = request.GET
@@ -75,8 +75,7 @@ def add_fav_cafe(request):
 
     obj, created = UserCafe.objects.get_or_create(user_id=user_id, cafe_id=cafe_id)
     boolean = JsonDictionary.BoolToDictionary(created)
-    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
-                            content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(boolean)
 
 def del_fav_cafe(request):
     data = request.GET
@@ -85,5 +84,4 @@ def del_fav_cafe(request):
 
     UserCafe.objects.get_or_create(user_id=user_id, cafe_id=cafe_id)[0].delete()
     boolean = JsonDictionary.BoolToDictionary(True)
-    return JsonResponse(boolean, json_dumps_params={'ensure_ascii': False},
-                        content_type=u"application/json; charset=utf-8", status=200)
+    return returnjson(boolean)
