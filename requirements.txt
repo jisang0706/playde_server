@@ -24,3 +24,4 @@ serializers==0.2.4
 six==1.16.0
 sqlparse==0.4.1
 urllib3==1.26.6
+firebase-admin==5.0.2
