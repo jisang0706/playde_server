@@ -26,11 +26,12 @@ def CafesToDictionary(cafes, worktimes, rng):
             'open': worktime.open,
             'close': worktime.close,
             'like': cafe.like,
+            'my_like': cafe.my_like,
         })
 
     return output
 
-def CafeToDirectory(cafe, cafe_images, worktime, like):
+def CafeToDirectory(cafe, cafe_images, worktime, like, my_like):
     output = {
         'id': cafe.id,
         'name': cafe.name,
@@ -40,6 +41,7 @@ def CafeToDirectory(cafe, cafe_images, worktime, like):
         'open': worktime.open,
         'close': worktime.close,
         'like': like,
+        'my_like': my_like,
         'image': [],
     }
     for image in cafe_images:

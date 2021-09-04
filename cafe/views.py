@@ -13,6 +13,7 @@ def intro(request):
 
 def cafe_list(request):
     data = request.GET
+    user_id = data['user_id']
     if 'coords' in data.keys():
         coords = data['coords'].split(',')
         latitude = float(coords[0])
@@ -35,6 +36,7 @@ def cafe_list(request):
     cafes = Cafe.objects.filter(latitudeQ, longitudeQ, cafe_name)
     for cafe in cafes:
         cafe.like = len(UserCafe.objects.filter(cafe_id=cafe.id))
+        cafe.my_like = True if len(UserCafe.objects.filter(cafe_id=cafe.id, user_id=user_id)) else False
 
     if srt == 0:
         cafes = sorted(cafes, key=lambda cafe: cafe.like)[cafe_range[0]:cafe_range[1]]
@@ -51,11 +53,14 @@ def cafe_list(request):
     return returnjson(cafes)
 
 def cafe_get(request, cafe_id):
+    data = request.GET
+    user_id = data['user_id']
     cafe = Cafe.objects.get(id=cafe_id)
     cafe_images = CafeImage.objects.filter(cafe_id=cafe.id).order_by('order')
     worktime = CafeWorktime.objects.get(cafe_id=cafe.id, weekday=datetime.datetime.today().weekday())
     like = len(UserCafe.objects.filter(cafe_id=cafe_id))
-    cafe = JsonDictionary.CafeToDirectory(cafe, cafe_images, worktime, like)
+    my_like = True if len(UserCafe.objects.filter(cafe_id=cafe_id, user_id=user_id)) else False
+    cafe = JsonDictionary.CafeToDirectory(cafe, cafe_images, worktime, like, my_like)
     return returnjson(cafe)
 
 def get_fav_cafe(request):

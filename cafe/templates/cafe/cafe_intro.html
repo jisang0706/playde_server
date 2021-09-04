@@ -6,8 +6,8 @@
 </head>
 <body>
     <h3>카페 리스트</h3>
-    <p>작동 방법 : cafe/list?coords={user coords (NULLABLE)}&sort={찜많은순:0, 가까운순:1 (coords가 주어졌을때만 가능), 가격낮은순:2}&range={range}&cafe_name={search_cafename (NULLABLE)}</p>
-    <p>ex : {{url}}/cafe/list?coors=127.12123,12.134&sort=0&range=1,11</p>
+    <p>작동 방법 : cafe/list?user_id={user_id}&coords={user coords (NULLABLE)}&sort={찜많은순:0, 가까운순:1 (coords가 주어졌을때만 가능), 가격낮은순:2}&range={range}&cafe_name={search_cafename (NULLABLE)}</p>
+    <p>ex : {{url}}/cafe/list?user_id=1&coors=127.12123,12.134&sort=0&range=1,11</p>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -73,12 +73,17 @@
             <td>number</td>
             <td>카페 찜한사람 수</td>
         </tr>
+        <tr>
+            <td>cafe[].my_like</td>
+            <td>boolean</td>
+            <td>카페 찜했는지 안했는지</td>
+        </tr>
     </table>
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>카페 상세</h3>
-    <p>작동 방법 : cafe/{cafe_id}</p>
-    <p>ex : {{url}}/cafe/1</p>
+    <p>작동 방법 : cafe/{cafe_id}?user_id={user_id}</p>
+    <p>ex : {{url}}/cafe/1?user_id=1</p>
     <table border="2">
         <th scope="col">속성</th>
         <th scope="col">데이터타입</th>
@@ -122,6 +127,11 @@
             <td>like</td>
             <td>number</td>
             <td>카페 찜한사람 수</td>
+        </tr>
+        <tr>
+            <td>my_like</td>
+            <td>boolean</td>
+            <td>카페 찜했는지 안했는지</td>
         </tr>
         <tr>
             <td>image[]</td>
