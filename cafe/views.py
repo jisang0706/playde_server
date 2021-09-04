@@ -43,6 +43,9 @@ def cafe_list(request):
     else:
         cafes = sorted(cafes, key=lambda cafe: cafe.book_price)[cafe_range[0]:cafe_range[1]]
 
+    images = [CafeImage.objects.filter(cafe_id=cafe.id).aggregate(order=Min('order')) for cafe in cafes]
+    for i, image in enumerate(images):
+        cafes[i].image = image
     worktimes = [CafeWorktime.objects.get(cafe_id=cafe.id, weekday=datetime.datetime.today().weekday()) for cafe in cafes]
     cafes = JsonDictionary.CafesToDictionary(cafes, worktimes, cafe_range)
     return returnjson(cafes)

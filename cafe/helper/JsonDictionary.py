@@ -19,6 +19,7 @@ def CafesToDictionary(cafes, worktimes, rng):
         output['cafe'].append({
             'id': cafe.id,
             'name': cafe.name,
+            'profile': cafe.image,
             'address': cafe.address,
             'coords': f'{cafe.latitude},{cafe.longitude}',
             'table_cnt': cafe.table_cnt,
