@@ -43,7 +43,7 @@ def cafe_list(request):
     elif srt == 1:
         cafes = sorted(cafes, key=lambda cafe: abs(cafe.latitude - latitude) + abs(cafe.longitude - longitude))[cafe_range[0]:cafe_range[1]]
     elif srt == 2:
-        cafes = sorted(cafes, key=lambda cafe: cafe.like)[cafe_range[0]:cafe_range[1]]
+        cafes = sorted(cafes, key=lambda cafe: -cafe.like)[cafe_range[0]:cafe_range[1]]
     else:
         cafes = sorted(cafes, key=lambda cafe: cafe.book_price)[cafe_range[0]:cafe_range[1]]
 
