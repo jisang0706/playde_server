@@ -10,14 +10,15 @@ def GamesToDictionary(games, rng):
         output['games'].append({
             'id': game.id,
             'kor_name': game.kor_name,
-            'profile_img': game.image,
+            'my_like': game.my_like,
+            'profile': game.image.content_image if type(game.image) != int else '0',
             'level': game.level,
             'interest': game.interest,
         })
 
     return output
 
-def GameinfoToDictionary(game, game_imgs):
+def GameinfoToDictionary(game, my_like, game_imgs):
     output = {
         'id': game.id,
         'min_age': game.age,
@@ -25,6 +26,7 @@ def GameinfoToDictionary(game, game_imgs):
         'min_user': game.min_user,
         'max_user': game.max_user,
         'content': game.content,
+        'my_like': my_like,
         'images': [],
     }
     for i, img in enumerate(game_imgs):

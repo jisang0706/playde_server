@@ -6,8 +6,8 @@
 </head>
 <body>
     <h3>카페 리스트</h3>
-    <p>작동 방법 : cafe/list?user_id={user_id}&coords={user coords (NULLABLE)}&sort={찜많은순:0, 가까운순:1 (coords가 주어졌을때만 가능), 가격낮은순:2}&range={range}&cafe_name={search_cafename (NULLABLE)}</p>
-    <p>ex : {{url}}/cafe/list?user_id=1&coors=127.12123,12.134&sort=0&range=1,11</p>
+    <p>작동 방법 : cafe/list?user_id={user_id}&coords={user coords (NULLABLE)}&sort={기본순:0, 가까운순:1 (coords가 주어졌을때만 가능), 찜 많은 순:2, 가격 낮은순:3}&range={range}&cafe_name={search_cafename (NULLABLE)}</p>
+    <p>ex : {{url}}/cafe/list?user_id=1&coors=127.12123,12.134&sort=1&range=1,11</p>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -41,7 +41,7 @@
         <tr>
             <td>cafe[].profile</td>
             <td>string</td>
-            <td>카페 이미지 url</td>
+            <td>카페 이미지 url, 존재하지 않을 경우 0</td>
         </tr>
         <tr>
             <td>cafe[].address</td>

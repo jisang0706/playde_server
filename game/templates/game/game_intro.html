@@ -6,8 +6,8 @@
 </head>
 <body>
     <h3>게임 리스트</h3>
-    <p>작동 방법 : game/list?range={start, end}</p>
-    <p>ex : {{url}}/game/list?range=0,10</p>
+    <p>작동 방법 : game/list?range={start, end}&user_id={user_id}</p>
+    <p>ex : {{url}}/game/list?range=0,10&user_id=1</p>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -39,7 +39,7 @@
             <td>게임 이름</td>
         </tr>
         <tr>
-            <td>games[].profile_img</td>
+            <td>games[].profile</td>
             <td>string</td>
             <td>게임 프로필사진 위치 url</td>
         </tr>
@@ -53,12 +53,17 @@
             <td>number</td>
             <td>게임 인기도</td>
         </tr>
+        <tr>
+            <td>games[].my_like</td>
+            <td>boolean</td>
+            <td>위시리스트에 추가 했는지 안했는지</td>
+        </tr>
     </table>
     <!-- ---------------------------------------------------------------------------------- -->
 <br>
     <h3>게임 세부정보</h3>
-    <p>작동 방법 : game/게임id</p>
-    <p>ex : {{url}}/game/1</p>
+    <p>작동 방법 : game/게임id?user_id={user_id}</p>
+    <p>ex : {{url}}/game/1?user_id=1</p>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -95,6 +100,11 @@
             <td>게임 설명</td>
         </tr>
         <tr>
+            <td>my_like</td>
+            <td>boolean</td>
+            <td>위시리스트 추가 했는지 안했는지</td>
+        </tr>
+        <tr>
             <td>images[]</td>
             <td>string</td>
             <td>게임 사진 위치 url</td>
@@ -103,8 +113,9 @@
     <!-- ---------------------------------------------------------------------------------- -->
 <br>
     <h3>게임 검색</h3>
-    <p>작동 방법 : game/search?game_name={game_name}&range={start, end}</p>
-    <p>ex : {{url}}/game/search?game_name=우&range=0,10</p>
+    <p>작동 방법 : game/search?game_name={game_name}&range={start, end}&user_id={user_id}</p>
+    <p>ex : {{url}}/game/search?game_name=우&range=0,10&user_id=1</p>
+    <p>응답</p>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -136,7 +147,7 @@
             <td>게임 이름</td>
         </tr>
         <tr>
-            <td>games[].profile_img</td>
+            <td>games[].profile</td>
             <td>string</td>
             <td>게임 프로필사진 위치 url</td>
         </tr>
@@ -149,6 +160,11 @@
             <td>games[].interest</td>
             <td>number</td>
             <td>게임 인기도</td>
+        </tr>
+        <tr>
+            <td>games[].my_like</td>
+            <td>boolean</td>
+            <td>위시리스트에 추가 했는지 안했는지</td>
         </tr>
     </table>
     <!-- ---------------------------------------------------------------------------------- -->

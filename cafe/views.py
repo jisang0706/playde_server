@@ -39,16 +39,20 @@ def cafe_list(request):
         cafe.my_like = True if len(UserCafe.objects.filter(cafe_id=cafe.id, user_id=user_id)) else False
 
     if srt == 0:
-        cafes = sorted(cafes, key=lambda cafe: cafe.like)[cafe_range[0]:cafe_range[1]]
+        cafes = sorted(cafes, key=lambda cafe: -cafe.id)[cafe_range[0]:cafe_range[1]]
     elif srt == 1:
         cafes = sorted(cafes, key=lambda cafe: abs(cafe.latitude - latitude) + abs(cafe.longitude - longitude))[cafe_range[0]:cafe_range[1]]
+    elif srt == 2:
+        cafes = sorted(cafes, key=lambda cafe: cafe.like)[cafe_range[0]:cafe_range[1]]
     else:
         cafes = sorted(cafes, key=lambda cafe: cafe.book_price)[cafe_range[0]:cafe_range[1]]
 
-    images = [CafeImage.objects.filter(cafe_id=cafe.id).aggregate(order=Min('order')) for cafe in cafes]
+    images = [CafeImage.objects.filter(cafe_id=cafe.id).order_by('order')[0].content_image
+              if CafeImage.objects.filter(cafe_id=cafe.id).order_by('order') else 0 for cafe in cafes]
     for i, image in enumerate(images):
         cafes[i].image = image
-    worktimes = [CafeWorktime.objects.get(cafe_id=cafe.id, weekday=datetime.datetime.today().weekday()) for cafe in cafes]
+    worktimes = [CafeWorktime.objects.filter(cafe_id=cafe.id, weekday=datetime.datetime.today().weekday())[0]
+                 if CafeWorktime.objects.filter(cafe_id=cafe.id, weekday=datetime.datetime.today().weekday()) else 0 for cafe in cafes]
     cafes = JsonDictionary.CafesToDictionary(cafes, worktimes, cafe_range)
     return returnjson(cafes)
 
@@ -57,7 +61,10 @@ def cafe_get(request, cafe_id):
     user_id = data['user_id']
     cafe = Cafe.objects.get(id=cafe_id)
     cafe_images = CafeImage.objects.filter(cafe_id=cafe.id).order_by('order')
-    worktime = CafeWorktime.objects.get(cafe_id=cafe.id, weekday=datetime.datetime.today().weekday())
+    try:
+        worktime = CafeWorktime.objects.get(cafe_id=cafe.id, weekday=datetime.datetime.today().weekday())
+    except:
+        worktime = 0
     like = len(UserCafe.objects.filter(cafe_id=cafe_id))
     my_like = True if len(UserCafe.objects.filter(cafe_id=cafe_id, user_id=user_id)) else False
     cafe = JsonDictionary.CafeToDirectory(cafe, cafe_images, worktime, like, my_like)
