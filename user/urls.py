@@ -20,7 +20,7 @@ urlpatterns = [
     path('profile/image/set', views.set_profile_image, name='profile'),
     path('posible_nickname', views.posible_nickname, name='posiblenickname'),
     path('push_token/set', views.set_push_token, name='setpushtoken'),
-    path('message_token/set', views.set_message_token, name='setmessagetoken'),
+    path('profile/chat', views.get_profile_chat, name='getprofilechat'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

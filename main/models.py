@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User as auth_user
 
 # Create your models here.
 class User(models.Model):
@@ -12,7 +13,6 @@ class User(models.Model):
     age = models.IntegerField(default=0, blank=True)
     image = models.TextField(default="", blank=True)
     push_token = models.TextField(default="", blank=True)
-    message_token = models.TextField(default="", blank=True)
     is_boss = models.BooleanField(default=False, blank=True)
     platform = models.IntegerField(default=0, blank=True)
 
@@ -188,3 +188,21 @@ class FundingSchedule(models.Model):
     funding_id = models.IntegerField()
     schedule = models.DateTimeField()
     content = models.TextField()
+
+class UserMessage(models.Model):
+    first_user_id = models.IntegerField()
+    second_user_id = models.IntegerField()
+    message_stack = models.IntegerField(default=0, blank=True)
+
+def unique_rand():
+    while True:
+        room_token = auth_user.objects.make_random_password(length=8)
+        if not Room.objects.filter(room_token=room_token).exists():
+            return room_token
+
+class Room(models.Model):
+    room_token = models.CharField(max_length=8, unique=True, default=unique_rand)
+
+class UserRoom(models.Model):
+    room_id = models.IntegerField()
+    user_id = models.IntegerField()

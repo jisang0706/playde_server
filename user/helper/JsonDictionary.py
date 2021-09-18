@@ -74,3 +74,11 @@ def ProfileImageToDictionary(boolean, user):
         'image': user.image,
     }
     return output
+
+def ChatprofileToDictionary(user):
+    output = {
+        'id': user.id,
+        'nickname': user.nickname,
+        'image': user.image,
+    }
+    return output

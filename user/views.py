@@ -192,11 +192,9 @@ def set_push_token(request):
     boolean = JsonDictionary.BoolToDictionary(True)
     return returnjson(boolean)
 
-def set_message_token(request):
+def get_profile_chat(request):
     data = request.GET
     user_id = int(data['user_id'])
-    message_token = data['token']
     user = User.objects.get(id=user_id)
-    user.message_token = message_token
-    boolean = JsonDictionary.BoolToDictionary(True)
-    return returnjson(boolean)
+    user = JsonDictionary.ChatprofileToDictionary(user)
+    return returnjson(user)
