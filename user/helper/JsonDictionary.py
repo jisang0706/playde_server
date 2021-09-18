@@ -63,7 +63,6 @@ def ProfileToDictionary(user, score):
         'nickname': user.nickname,
         'profile': user.image,
         'score': score,
-        'message_token': user.message_token,
     }
     return output
 
