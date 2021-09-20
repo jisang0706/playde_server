@@ -18,6 +18,7 @@ urlpatterns = [
     path('reply/delete', views.delete_reply, name='deletereply'),
     path('board/<int:board_id>', views.view_board, name='board'),
     path('board/image/delete', views.del_board_image, name='boardimagedelete'),
+    path('temp/get', views.get_temp_community, name='tempget'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

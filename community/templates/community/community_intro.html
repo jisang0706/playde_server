@@ -106,7 +106,7 @@
     </table>
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
-    <h3>커뮤니티 글 업로드</h3>
+    <h3>커뮤니티, 임시저장 글 업로드</h3>
     <p>작동 방법 : {{url}}/community/board/upload</p>
     <p>body</p>
     <table border="2">
@@ -127,6 +127,10 @@
         <tr>
             <td>images</td>
             <td>{image_urls} (url이 쉼표로 구분되어 여러개 가능, NULLABLE)</td>
+        </tr>
+        <tr>
+            <td>temp</td>
+            <td>{임시저장일때:True, 업로드일때:False}</td>
         </tr>
     </table>
     <p>응답</p>
@@ -470,6 +474,60 @@
             <td>act</td>
             <td>bool</td>
             <td>true, false</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>임시저장 글 목록 불러오기</h3>
+    <p>작동 방법 : {{url}}/community/temp/get</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>range</td>
+            <td>{start},{end}</td>
+        </tr>
+    </table>
+    <p>임시저장 글 상세보기는 기존 커뮤니티 글 불러오는 방식과 동일하게 가져오면 되고 임시저장 글을 가져온 후 삭제하거나 업로드, 다시 임시저장을 할 경우 업로드 후 기존 글을 삭제해야함</p>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>meta.count</td>
+            <td>number</td>
+            <td>임시저장 글 갯수</td>
+        </tr>
+        <tr>
+            <td>meta.start</td>
+            <td>number</td>
+            <td>시작점</td>
+        </tr>
+        <tr>
+            <td>meta.end</td>
+            <td>number</td>
+            <td>끝점</td>
+        </tr>
+        <tr>
+            <td>community[].id</td>
+            <td>number</td>
+            <td>임시저장 글 id</td>
+        </tr>
+        <tr>
+            <td>community[].content</td>
+            <td>string</td>
+            <td>내용</td>
+        </tr>
+        <tr>
+            <td>community[].tag</td>
+            <td>string</td>
+            <td>게시판</td>
         </tr>
     </table>
 </body>

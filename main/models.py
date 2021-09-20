@@ -41,6 +41,7 @@ class Community(models.Model):
     tag = models.TextField(default="", blank=True)
     visit = models.IntegerField(default=0, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    temp = models.IntegerField(default=False, blank=True)
 
 class CommunityImage(models.Model):
     board_id = models.IntegerField()

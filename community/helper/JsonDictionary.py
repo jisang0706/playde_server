@@ -84,3 +84,19 @@ def BoardToDirectory(board, board_images, writer, like, my_like, comment_cnt, co
             }
             output['comment'].append(temp)
     return output
+
+def TempCommunityToDirectory(community, rng):
+    output = {}
+    output['meta'] = {
+        'count': len(community),
+        'start': rng[0]+1,
+        'end': rng[0] + 1 + len(community),
+    }
+    output['community'] = []
+    for board in community:
+        output['community'].append({
+            'id': board.id,
+            'content': board.content,
+            'tag': board.tag,
+        })
+    return output

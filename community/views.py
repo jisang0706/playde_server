@@ -18,8 +18,9 @@ def upload_community(request):
     data = request.POST
     user_id = int(data['user_id'])
     content = data['content']
+    temporary = bool(data['temp'])
 
-    obj = Community.objects.create(user_id=user_id, content=content)
+    obj = Community.objects.create(user_id=user_id, content=content, temp=temporary)
     if 'tag' in data.keys():
         obj.tag = data['tag']
 
@@ -55,11 +56,12 @@ def get_community(request):
         content = Q(content__icontains=content)
     else:
         content = Q(content__icontains='')
+    temporary = Q(temp=False)
 
     block = Q(user_id__in=[block.user_id_blocked for block in UserBlock.objects.filter(user_id=user_id)])
     blocked = Q(user_id__in=[block.user_id for block in UserBlock.objects.filter(user_id_blocked=user_id)])
 
-    community = Community.objects.filter(tag, top_id, content).exclude(block | blocked).order_by('-created_at')[board_range[0]:board_range[1]]
+    community = Community.objects.filter(temporary, tag, top_id, content).exclude(block | blocked).order_by('-created_at')[board_range[0]:board_range[1]]
     users = [User.objects.get(id=board.user_id) for board in community]
     comments = [len(Comment.objects.filter(board_id=board.id)) + len(CommentReply.objects.filter(board_id=board.id)) for board in community]
     likes = [len(CommunityLike.objects.filter(board_id=board.id)) for board in community]
@@ -192,3 +194,12 @@ def del_board_image(request):
         boolean = False
     boolean = JsonDictionary.BoolToDictionary(boolean)
     return returnjson(boolean)
+
+def get_temp_community(request):
+    data = request.POST
+    user_id = int(data['user_id'])
+    board_range = [int(rng)-1 for rng in data['range'].split(',')]
+
+    community = Community.objects.filter(user_id=user_id, temp=True).order_by('-created_at')[board_range[0]:board_range[1]]
+    community = JsonDictionary.TempCommunityToDirectory(community, board_range)
+    return returnjson(community)
