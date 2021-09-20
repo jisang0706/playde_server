@@ -19,7 +19,7 @@ def intro(request):
     return render(request, 'user/user_intro.html', {'url' : url})
 
 def login(request):
-    data = request.GET
+    data = request.POST
     platform = int(data['platform'])
 
     if not platform:
@@ -44,7 +44,7 @@ def login(request):
     return returnjson(account)
 
 def join(request):
-    data = request.GET
+    data = request.POST
     platform = int(data['platform'])
 
     if platform == 0:
@@ -80,7 +80,7 @@ def join(request):
     return returnjson(access)
 
 def get_block(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
 
     blocklist = UserBlock.objects.filter(user_id=user_id)
@@ -90,7 +90,7 @@ def get_block(request):
     return returnjson(users)
 
 def add_block(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     his_id = int(data['his_id'])
 
@@ -99,7 +99,7 @@ def add_block(request):
     return returnjson(boolean)
 
 def del_block(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     his_id = int(data['his_id'])
 
@@ -113,7 +113,7 @@ def del_block(request):
     return returnjson(boolean)
 
 def comment(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
 
     comments = UserComment.objects.filter(his_id=user_id).order_by('-written_date')
@@ -123,7 +123,7 @@ def comment(request):
 
 
 def add_comment(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     his_id = int(data['his_id'])
     score = int(data['score'])
@@ -137,7 +137,7 @@ def add_comment(request):
     return returnjson(boolean)
 
 def set_nickname(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     nickname = data['nickname']
     obj = User.objects.get(id=user_id)
@@ -152,7 +152,7 @@ def set_nickname(request):
     return returnjson(access)
 
 def profile(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
 
     user = User.objects.get(id=user_id)
@@ -162,7 +162,7 @@ def profile(request):
     return returnjson(user)
 
 def set_profile_image(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     image_url = data['image_url']
     user = User.objects.get(id=user_id)
@@ -172,7 +172,7 @@ def set_profile_image(request):
     return returnjson(user)
 
 def posible_nickname(request):
-    data = request.GET
+    data = request.POST
     nickname = data['nickname']
     try:
         User.objects.get(nickname=nickname)
@@ -184,7 +184,7 @@ def posible_nickname(request):
 
 
 def set_push_token(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     push_token = data['token']
     user = User.objects.get(id=user_id)
@@ -193,7 +193,7 @@ def set_push_token(request):
     return returnjson(boolean)
 
 def get_profile_chat(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     user = User.objects.get(id=user_id)
     user = JsonDictionary.ChatprofileToDictionary(user)

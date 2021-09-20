@@ -6,8 +6,20 @@
 </head>
 <body>
     <h3>게임 리스트</h3>
-    <p>작동 방법 : game/list?range={start, end}&user_id={user_id}</p>
-    <p>ex : {{url}}/game/list?range=0,10&user_id=1</p>
+    <p>작동 방법 : {{url}}/game/list</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>range</td>
+            <td>{start},{end}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -62,8 +74,16 @@
     <!-- ---------------------------------------------------------------------------------- -->
 <br>
     <h3>게임 세부정보</h3>
-    <p>작동 방법 : game/게임id?user_id={user_id}</p>
-    <p>ex : {{url}}/game/1?user_id=1</p>
+    <p>작동 방법 : {{url}}/game/{game_id}</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -113,9 +133,24 @@
     <!-- ---------------------------------------------------------------------------------- -->
 <br>
     <h3>게임 검색</h3>
-    <p>작동 방법 : game/search?game_name={game_name}&range={start, end}&user_id={user_id}</p>
-    <p>ex : {{url}}/game/search?game_name=우&range=0,10&user_id=1</p>
-    <p>응답</p>
+    <p>작동 방법 : {{url}}/game/search</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>game_name</td>
+            <td>{game_name}</td>
+        </tr>
+        <tr>
+            <td>range</td>
+            <td>{start},{end}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -170,8 +205,16 @@
     <!-- ---------------------------------------------------------------------------------- -->
 <br>
     <h3>위시리스트 조회</h3>
-    <p>작동 방법 : game/wish?user_id={user_id}</p>
-    <p>ex : {{url}}/game/wish?user_id=1</p>
+    <p>작동 방법 : {{url}}/game/wish</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -221,8 +264,20 @@
     <!-- ---------------------------------------------------------------------------------- -->
 <br>
     <h3>위시리스트 추가</h3>
-    <p>작동 방법 : game/wish/add?user_id={user_id}&game_id={game_id}</p>
-    <p>ex : {{url}}/game/wish/add?user_id=1&game_id=1</p>
+    <p>작동 방법 : {{url}}/game/wish/add</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>game_id</td>
+            <td>{game_id}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -237,8 +292,20 @@
     <!-- ---------------------------------------------------------------------------------- -->
 <br>
     <h3>위시리스트 게임 삭제</h3>
-    <p>작동 방법 : game/wish/delete?user_id={user_id}&game_id={game_id}</p>
-    <p>ex : {{url}}/game/wish/delete?user_id=1&game_id=1</p>
+    <p>작동 방법 : {{url}}/game/wish/delete</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>game_id</td>
+            <td>{game_id}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -253,8 +320,20 @@
     <!-- ---------------------------------------------------------------------------------- -->
 <br>
     <h3>해본게임 체크</h3>
-    <p>작동 방법 : game/playde?user_id={user_id}&game_ids={game_ids}</p>
-    <p>ex : {{url}}/game/playde?user_id=1&game_ids=1,2,3,6,12,189</p>
+    <p>작동 방법 : {{url}}/game/playde</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>game_ids</td>
+            <td>{game_ids} ex:1,2,3,6,12,189</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>

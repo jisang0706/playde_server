@@ -6,8 +6,28 @@
 </head>
 <body>
     <h3>커뮤니티 글 목록 불러오기</h3>
-    <p>작동 방법 : community/get?user_id={user_id}&range={start, end}&tag={tag (NULLABLE)}&top_id={top_board_id (NULLABLE)}</p>
-    <p>ex : {{url}}/community/get?user_id=1&range=1,11&tag=만나요&top_id=1</p>
+    <p>작동 방법 : {{url}}/community/get</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>range</td>
+            <td>{start},{end}</td>
+        </tr>
+        <tr>
+            <td>tag</td>
+            <td>{hashtag} (NULLABLE)</td>
+        </tr>
+        <tr>
+            <td>top_id</td>
+            <td>{top_board_id} (NULLABLE)</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -87,8 +107,28 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>커뮤니티 글 업로드</h3>
-    <p>작동 방법 : community/board/upload?user_id={user_id}&content={content}&tag={tag (공백 가능)}&images={image_urls (url이 쉼표로 구분되며 공백 가능)}</p>
-    <p>ex : {{url}}/community/board/upload?user_id=1&content=안녕하세요 반가워요&tag=만나요&images=https://google.com/wow.png,http://naver.com/good,zkjsvhlka</p>
+    <p>작동 방법 : {{url}}/community/board/upload</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>content</td>
+            <td>{content}</td>
+        </tr>
+        <tr>
+            <td>tag</td>
+            <td>{hashtag} (NULLABLE)</td>
+        </tr>
+        <tr>
+            <td>images</td>
+            <td>{image_urls} (url이 쉼표로 구분되어 여러개 가능, NULLABLE)</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -103,8 +143,20 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>커뮤니티 글 삭제</h3>
-    <p>작동 방법 : community/board/delete?user_id={user_id}&board_id={board_id}</p>
-    <p>ex : {{url}}/community/board/delete?user_id=1&board_id=1</p>
+    <p>작동 방법 : {{url}}/community/board/delete</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>board_id</td>
+            <td>{board_id}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -119,8 +171,20 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>커뮤니티 글 좋아요</h3>
-    <p>작동 방법 : community/like?user_id={user_id}&board_id={board_id}</p>
-    <p>ex : {{url}}/community/like?user_id=1&board_id=1</p>
+    <p>작동 방법 : {{url}}/community/like</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>board_id</td>
+            <td>{board_id}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -135,8 +199,24 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>댓글 작성</h3>
-    <p>작동 방법 : community/comment/upload?user_id={user_id}&board_id={board_id}&content={content}</p>
-    <p>ex : {{url}}/community/comment/upload?user_id=1&board_id=1&content=안녕못해</p>
+    <p>작동 방법 : {{url}}/community/comment/upload</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>board_id</td>
+            <td>{board_id}</td>
+        </tr>
+        <tr>
+            <td>content</td>
+            <td>{content}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -151,8 +231,20 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>댓글 삭제</h3>
-    <p>작동 방법 : community/comment/delete?user_id={user_id}&comment_id={comment_id}</p>
-    <p>ex : {{url}}/community/comment/delete?user_id=1&comment_id=1</p>
+    <p>작동 방법 : {{url}}/community/comment/delete</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>comment_id</td>
+            <td>{comment_id}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -167,8 +259,24 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>대댓글 작성</h3>
-    <p>작동 방법 : community/reply/upload?user_id={user_id}&comment_id={comment_id}&content={content}</p>
-    <p>ex : {{url}}/community/reply/upload?user_id=2&comment_id=2&content={반갑습니다}</p>
+    <p>작동 방법 : {{url}}/community/reply/upload</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>comment_id</td>
+            <td>{comment_id}</td>
+        </tr>
+        <tr>
+            <td>content</td>
+            <td>{content}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -183,8 +291,20 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>대댓글 삭제</h3>
-    <p>작동 방법 : community/reply/delete?user_id={user_id}&reply_id={reply_id}</p>
-    <p>ex : {{url}}/community/reply/delete?user_id=2&reply_id=1</p>
+    <p>작동 방법 : {{url}}/community/reply/delete</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>reply_id</td>
+            <td>{reply_id}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -199,8 +319,16 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>커뮤니티 글 상세보기</h3>
-    <p>작동 방법 : community/board/{board_id}?user_id={user_id}</p>
-    <p>ex : {{url}}/community/board/1?user_id=1</p>
+    <p>작동 방법 : {{url}}/community/board/{board_id}</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -315,8 +443,24 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>커뮤니티 글 이미지 삭제</h3>
-    <p>작동 방법 : community/board/image/delete?user_id={user_id}&board_id={board_id}&image_id={image_id}</p>
-    <p>ex : {{url}}/community/board/image/delete?user_id=2&board_id=1&image_id=3</p>
+    <p>작동 방법 : {{url}}/community/board/image/delete</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>board_id</td>
+            <td>{board_id}</td>
+        </tr>
+        <tr>
+            <td>image_id</td>
+            <td>{image_id}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>

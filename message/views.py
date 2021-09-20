@@ -12,7 +12,7 @@ def intro(request):
     return render(request, 'message/message_intro.html', {'url' : url})
 
 def send(request):
-    data = request.GET
+    data = request.POST
     writer_id = data['writer_id']
     target_id = data['target_id']
     content = data['content']
@@ -26,7 +26,7 @@ def send(request):
     return returnjson(content)
 
 def get_rooms(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     rooms = [Room.objects.filter(id=room.room_id)[0] for room in UserRoom.objects.filter(user_id=user_id) if Room.objects.filter(id=room.room_id)]
     for i, room in enumerate(rooms):
@@ -36,7 +36,7 @@ def get_rooms(request):
     return returnjson(rooms)
 
 def get_room(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     his_id = int(data['his_id'])
     my_rooms = [room.room_id for room in UserRoom.objects.filter(user_id=user_id)]

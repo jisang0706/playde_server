@@ -15,7 +15,7 @@ def intro(request):
     return render(request, 'community/community_intro.html', {'url' : url})
 
 def upload_community(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     content = data['content']
 
@@ -34,7 +34,7 @@ def upload_community(request):
     return returnjson(boolean)
 
 def get_community(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     board_range = [int(rng)-1 for rng in data['range'].split(',')]
 
@@ -69,7 +69,7 @@ def get_community(request):
     return returnjson(community)
 
 def del_community(request):
-    data = request.GET
+    data = request.POST
     community_id = int(data['board_id'])
     user_id = int(data['user_id'])
     try:
@@ -88,7 +88,7 @@ def del_community(request):
         return returnjson(boolean)
 
 def like_community(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     board_id = int(data['board_id'])
 
@@ -99,7 +99,7 @@ def like_community(request):
     return returnjson(boolean)
 
 def upload_comment(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     board_id = int(data['board_id'])
     content = data['content']
@@ -109,7 +109,7 @@ def upload_comment(request):
     return returnjson(boolean)
 
 def del_comment(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     comment_id = int(data['comment_id'])
     boolean = True
@@ -126,7 +126,7 @@ def del_comment(request):
         return returnjson(boolean)
 
 def upload_reply(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     comment_id = int(data['comment_id'])
     content = data['content']
@@ -137,7 +137,7 @@ def upload_reply(request):
     return returnjson(boolean)
 
 def delete_reply(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     reply_id = int(data['reply_id'])
     boolean = True
@@ -153,7 +153,7 @@ def delete_reply(request):
         return returnjson(boolean)
 
 def view_board(request, board_id):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
 
     board = Community.objects.get(id=board_id)
@@ -179,7 +179,7 @@ def view_board(request, board_id):
     return returnjson(board)
 
 def del_board_image(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     board_id = int(data['board_id'])
     image_id = int(data['image_id'])

@@ -6,10 +6,28 @@
 </head>
 <body>
     <h3>로그인</h3>
-    <p>작동 방법 : user/login?platform={이메일: 0, 카카오:1, 네이버:2}&token={token (카카오나 네이버일때만 입력)}
-    &email={email (이메일로 로그인일때만 입력)}&password={password (이메일로 로그인일때만 입력)}</p>
-    <p>ex : 이메일인경우 : {{url}}/user/login?platform=0&email=kookmin@gmail.com&password=wowwowowowwo<br>
-        네이버나 카카오인 경우 : {{url}}/login?platform=2&token=123456789</p>
+    <p>작동 방법 : {{url}}/user/login</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>platform</td>
+            <td>{이메일:0, 카카오:1, 네이버:2}</td>
+        </tr>
+        <tr>
+            <td>token</td>
+            <td>{token} (카카오나 네이버일때만 입력)</td>
+        </tr>
+        <tr>
+            <td>email</td>
+            <td>{email} (이메일로 로그인일때만 입력)</td>
+        </tr>
+        <tr>
+            <td>password</td>
+            <td>{password} (이메일로 로그인일때만 입력)</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -29,10 +47,44 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>회원가입</h3>
-    <p>작동 방법 : user/join?platform={이메일: 0, 카카오:1, 네이버:2}&token={token (카카오나 네이버일때만 입력)}
-    &email={email (이메일로 로그인일때만 입력)}&password={password (이메일로 로그인일때만 입력)}&name={name(공백가능)}
-        &nickname={nickname(공백가능)}&phone={phone_number(공백가능)}&age={age(공백가능)}</p>
-    <p>ex : {{url}}/user/join?platform=1&token=123456789&name=쿠민</p>
+    <p>작동 방법 : {{url}}/user/join</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>platform</td>
+            <td>{이메일:0, 카카오:1, 네이버:2}</td>
+        </tr>
+        <tr>
+            <td>token</td>
+            <td>{token} (카카오나 네이버일때만 입력)</td>
+        </tr>
+        <tr>
+            <td>email</td>
+            <td>{email} (카카오나 네이버일때는 생략 가능)</td>
+        </tr>
+        <tr>
+            <td>password</td>
+            <td>{password} (이메일일때만 입력)</td>
+        </tr>
+        <tr>
+            <td>name</td>
+            <td>{user_name}</td>
+        </tr>
+        <tr>
+            <td>nickname</td>
+            <td>{nickname}</td>
+        </tr>
+        <tr>
+            <td>phone</td>
+            <td>{phone_number} (NULLABLE)</td>
+        </tr>
+        <tr>
+            <td>age</td>
+            <td>{user_age} (NULLABLE)</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -52,8 +104,20 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>닉네임변경</h3>
-    <p>작동 방법 : user/nickname/set?user_id={user_id}&nickname={new_nickname}</p>
-    <p>ex : {{url}}/user/nickname/set?id=2&nickname=temp</p>
+    <p>작동 방법 : {{url}}/user/nickname/set</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>nickname</td>
+            <td>{nickname}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -73,8 +137,17 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>차단목록</h3>
-    <p>작동 방법 : user/block?user_id={user_id}</p>
-    <p>ex : {{url}}/user/block?user_id=2<br>
+    <p>작동 방법 : {{url}}/user/block</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+    </table>
+    <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
         <th scope="col">데이터타입</th>
@@ -103,8 +176,20 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>상대방 차단하기</h3>
-    <p>작동 방법 : user/block/add?user_id={user_id}&his_id={target_user_id}<p>
-    <p>ex : {{url}}/user/block/add?user_id=2&his_id=1</p>
+    <p>작동 방법 : {{url}}/user/block/add<p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>his_id</td>
+            <td>{target_user_id}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -119,8 +204,20 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>차단 해제</h3>
-    <p>작동 방법 : user/block/delete?user_id={user_id}&his_id={target_user_id}</p>
-    <p>ex : {{url}}/user/block/delete?user_id=2&his_id=1</p>
+    <p>작동 방법 : {{url}}/user/block/delete</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>his_id</td>
+            <td>{target_user_id}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -135,8 +232,16 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>유저 평가 불러오기</h3>
-    <p>작동 방법 : user/comment?user_id={user_id}</p>
-    <p>ex : {{url}}/user/comment?user_id=2</p>
+    <p>작동 방법 : {{url}}/user/comment</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -186,8 +291,28 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>유저 평가 추가, 수정</h3>
-    <p>작동 방법 : user/comment/add?user_id={writer_id}&his_id={target_user_id}&score={score in range(0, 11)}&content={content}</p>
-    <p>ex : {{url}}/user/comment/add?user_id=1&his_id=2&score=10&content=너무 좋아요</p>
+    <p>작동 방법 : {{url}}/user/comment/add</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{writer_id}</td>
+        </tr>
+        <tr>
+            <td>his_id</td>
+            <td>{target_user_id}</td>
+        </tr>
+        <tr>
+            <td>score</td>
+            <td>{score} (1~10)</td>
+        </tr>
+        <tr>
+            <td>content</td>
+            <td>{content}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -202,8 +327,16 @@
     <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>사용자 프로필</h3>
-    <p>사용 방법 : user/profile?user_id={user_id}</p>
-    <p>ex : {{url}}/user/profile?user_id=1</p>
+    <p>사용 방법 : {{url}}/user/profile</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -233,8 +366,20 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>사용자 프로필사진 변경</h3>
-    <p>사용 방법 : user/profile/image/set?user_id={user_id}&image_url={image_url}</p>
-    <p>ex : {{url}}/user/profile/image/set?user_id=2&image_url=http://google.com/image/1</p>
+    <p>사용 방법 : {{url}}/user/profile/image/set</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>image_url</td>
+            <td>{image_url}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -259,8 +404,16 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>닉네임 사용 가능 확인</h3>
-    <p>사용 방법 : user/posible_nickname?nickname={nickname}</p>
-    <p>ex : {{url}}/user/posible_nickname?nickname=닉네임</p>
+    <p>사용 방법 : {{url}}/user/posible_nickname</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>nickname</td>
+            <td>{nickname}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -274,9 +427,21 @@
     </table>
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
-    <h3>푸시 알림을 위한 firebase 토큰 저장</h3>
-    <p>사용 방법 : user/push_token/set?token={firebase_token}</p>
-    <p>ex : {{url}}/user/push_token/set?token=askjefhablsjk</p>
+    <h3>firebase 토큰 저장</h3>
+    <p>사용 방법 : {{url}}/user/push_token/set</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>token</td>
+            <td>{firebase_token}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -291,8 +456,16 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>채팅 사용자 프로필 가져오기</h3>
-    <p>사용 방법 : user/profile/chat?user_id={user_id}</p>
-    <p>ex : {{url}}/user/profile/chat?user_id=2</p>
+    <p>사용 방법 : {{url}}/user/profile/chat</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>

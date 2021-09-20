@@ -12,7 +12,7 @@ def intro(request):
     return render(request, 'cafe/cafe_intro.html', {'url' : url})
 
 def cafe_list(request):
-    data = request.GET
+    data = request.POST
     user_id = data['user_id']
     if 'coords' in data.keys():
         coords = data['coords'].split(',')
@@ -57,7 +57,7 @@ def cafe_list(request):
     return returnjson(cafes)
 
 def cafe_get(request, cafe_id):
-    data = request.GET
+    data = request.POST
     user_id = data['user_id']
     cafe = Cafe.objects.get(id=cafe_id)
     cafe_images = CafeImage.objects.filter(cafe_id=cafe.id).order_by('order')
@@ -71,7 +71,7 @@ def cafe_get(request, cafe_id):
     return returnjson(cafe)
 
 def get_fav_cafe(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
 
     usercafes = UserCafe.objects.filter(user_id=user_id).order_by('-id')
@@ -84,7 +84,7 @@ def get_fav_cafe(request):
     return returnjson(cafes)
 
 def add_fav_cafe(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     cafe_id = int(data['cafe_id'])
 
@@ -93,7 +93,7 @@ def add_fav_cafe(request):
     return returnjson(boolean)
 
 def del_fav_cafe(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     cafe_id = int(data['cafe_id'])
 

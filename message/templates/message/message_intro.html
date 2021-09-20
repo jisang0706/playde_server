@@ -6,8 +6,24 @@
 </head>
 <body>
     <h3>메시지 전송 알림</h3>
-    <p>작동 방법 : message/send?writer_id={writer_id}&target_id={target_user_id}&content={content}</p>
-    <p>ex : {{url}}/message/send?writer_id=1&target_id=2&content=이미지</p>
+    <p>작동 방법 : {{url}}/message/send</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>writer_id</td>
+            <td>{writer_id}</td>
+        </tr>
+        <tr>
+            <td>target_id</td>
+            <td>{target_user_id}</td>
+        </tr>
+        <tr>
+            <td>content</td>
+            <td>{content}</td>
+        </tr>
+    </table>
     <p>존재하지 않는 토큰일경우 오류 발생</p>
     <p>응답</p>
     <table border="2">
@@ -22,8 +38,16 @@
     </table>
 <!-- ---------------------------------------------------------------------------------- -->
     <h3>채팅방 목록 불러오기</h3>
-    <p>작동 방법 : message/room/list?user_id={user_id}</p>
-    <p>ex: {{url}}/message/room/list?user_id=2</p>
+    <p>작동 방법 : {{url}}/message/room/list</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -67,8 +91,20 @@
     </table>
 <!-- ---------------------------------------------------------------------------------- -->
     <h3>채팅방 불러오기</h3>
-    <p>작동 방법 : message/room?user_id={user_id}&his_id={other_user_id}</p>
-    <p>ex: {{url}}/message/room?user_id=2&his_id=3</p>
+    <p>작동 방법 : {{url}}/message/room</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>his_id</td>
+            <td>{other_user_id}</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>

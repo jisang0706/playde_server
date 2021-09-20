@@ -11,7 +11,7 @@ def intro(request):
     return render(request, 'game/game_intro.html', {'url' : url})
 
 def game_list(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     game_range = [int(num)-1 for num in data['range'].split(',')]
     games = Game.objects.order_by('-interest')[game_range[0]:game_range[1]]
@@ -27,7 +27,7 @@ def game_list(request):
     return returnjson(games)
 
 def game_info(request, game_id):
-    data = request.GET
+    data = request.POST
     user_id = data['user_id']
     game = Game.objects.get(id=game_id)
     game.interest += 1
@@ -40,7 +40,7 @@ def game_info(request, game_id):
     return returnjson(game)
 
 def game_search(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     game_name = data['game_name']
     game_range = [int(num) - 1 for num in data['range'].split(',')]
@@ -57,7 +57,7 @@ def game_search(request):
     return returnjson(games)
 
 def game_wish_add(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     game_id = int(data['game_id'])
     UserWishlist.objects.get_or_create(user_id=user_id, game_id=game_id)
@@ -65,7 +65,7 @@ def game_wish_add(request):
     return returnjson(boolean)
 
 def game_wish_get(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     wishlist = UserWishlist.objects.filter(user_id=user_id)
     games = [Game.objects.get(id=wish[1].game_id) for wish in enumerate(wishlist)]
@@ -74,7 +74,7 @@ def game_wish_get(request):
     return returnjson(games)
 
 def game_wish_del(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     game_id = int(data['game_id'])
     UserWishlist.objects.get_or_create(user_id=user_id, game_id=game_id).delete()
@@ -82,7 +82,7 @@ def game_wish_del(request):
     return returnjson(boolean)
 
 def game_playde(request):
-    data = request.GET
+    data = request.POST
     user_id = int(data['user_id'])
     game_ids = [int(game_id) for game_id in data['game_ids'].split(',')]
     for game_id in game_ids:

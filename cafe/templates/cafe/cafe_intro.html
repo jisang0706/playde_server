@@ -6,8 +6,32 @@
 </head>
 <body>
     <h3>카페 리스트</h3>
-    <p>작동 방법 : cafe/list?user_id={user_id}&coords={user coords (NULLABLE)}&sort={기본순:0, 가까운순:1 (coords가 주어졌을때만 가능), 찜 많은 순:2, 가격 낮은순:3}&range={range}&cafe_name={search_cafename (NULLABLE)}</p>
-    <p>ex : {{url}}/cafe/list?user_id=1&coors=127.12123,12.134&sort=1&range=1,11</p>
+    <p>작동 방법 : {{url}}/cafe/list</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>coords</td>
+            <td>{latitude},{longitude} (NULLABLE)</td>
+        </tr>
+        <tr>
+            <td>sort</td>
+            <td>기본순:{0}, 가까운순:{1} (coords가 주어졌을때만 가능), 찜많은순:{2}, 가격낮은순:{3}</td>
+        </tr>
+        <tr>
+            <td>range</td>
+            <td>{start},{end}</td>
+        </tr>
+        <tr>
+            <td>cate_name</td>
+            <td>{검색하려는 카페 이름} (NULLABLE)</td>
+        </tr>
+    </table>
     <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
@@ -82,8 +106,17 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>카페 상세</h3>
-    <p>작동 방법 : cafe/{cafe_id}?user_id={user_id}</p>
-    <p>ex : {{url}}/cafe/1?user_id=1</p>
+    <p>작동 방법 : {{url}}/cafe/{cafe_id}</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+    </table>
+    <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
         <th scope="col">데이터타입</th>
@@ -142,8 +175,17 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>찜한 카페 목록</h3>
-    <p>작동 방법 : cafe/fav?user_id={user_id}</p>
-    <p>ex : {{url}}/cafe/fav?user_id=1</p>
+    <p>작동 방법 : {{url}}/cafe/fav</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+    </table>
+    <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
         <th scope="col">데이터타입</th>
@@ -172,8 +214,21 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>찜 카페 추가</h3>
-    <p>작동 방법 : cafe/fav/add?user_id={user_id}&cafe_id={cafe_id}</p>
-    <p>ex : {{url}}/cafe/fav/add?user_id=1&cafe_id=1</p>
+    <p>작동 방법 : {{url}}/cafe/fav/add</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>cafe_id</td>
+            <td>{cafe_id}</td>
+        </tr>
+    </table>
+    <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
         <th scope="col">데이터타입</th>
@@ -187,8 +242,21 @@
 <!-- ---------------------------------------------------------------------------------- -->
     <br>
     <h3>찜 카페 삭제</h3>
-    <p>작동 방법 : cafe/fav/delete?user_id={user_id}&cafe_id={cafe_id}</p>
-    <p>ex : {{url}}/cafe/fav/delete?user_id=1&cafe_id=1</p>
+    <p>작동 방법 : {{url}}/cafe/fav/delete</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>cafe_id</td>
+            <td>{cafe_id}</td>
+        </tr>
+    </table>
+    <p>응답</p>
     <table border="2">
         <th scope="col">속성</th>
         <th scope="col">데이터타입</th>
