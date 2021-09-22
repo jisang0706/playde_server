@@ -5,7 +5,7 @@
     <title>COMMUNITY INTRO</title>
 </head>
 <body>
-    <h3>커뮤니티 글 목록 불러오기</h3>
+    <h3>커뮤니티 글 목록 불러오기, 검색</h3>
     <p>작동 방법 : {{url}}/community/get</p>
     <p>body</p>
     <table border="2">
@@ -26,6 +26,10 @@
         <tr>
             <td>top_id</td>
             <td>{top_board_id} (NULLABLE)</td>
+        </tr>
+        <tr>
+            <td>content</td>
+            <td>{search_content} (NULLABLE)</td>
         </tr>
     </table>
     <p>응답</p>

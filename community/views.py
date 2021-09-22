@@ -36,6 +36,7 @@ def upload_community(request):
 
 def get_community(request):
     data = request.POST
+    print(data)
     user_id = int(data['user_id'])
     board_range = [int(rng)-1 for rng in data['range'].split(',')]
 
