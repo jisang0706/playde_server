@@ -189,6 +189,7 @@ def set_push_token(request):
     push_token = data['token']
     user = User.objects.get(id=user_id)
     user.push_token = push_token
+    user.save()
     boolean = JsonDictionary.BoolToDictionary(True)
     return returnjson(boolean)
 
