@@ -19,7 +19,7 @@ def CommunityToDirectory(community, users, likes, my_likes, comments, rng):
                 'content': board.content,
                 'like': like,
                 'my_like': bool(my_like),
-                'created_at': board.created_at,
+                'created_at': board.created_at.strftime("%Y.%m.%d %H:%M"),
                 'comment_cnt': comment,
                 'visit': board.visit,
                 'tag': board.tag,
@@ -39,7 +39,7 @@ def BoardToDirectory(board, board_images, writer, like, my_like, comment_cnt, co
         'content': board.content,
         'like': like,
         'my_like': bool(my_like),
-        'created_at': board.created_at,
+        'created_at': board.created_at.strftime("%Y.%m.%d %H:%M"),
         'comment_cnt': comment_cnt,
         'visit': board.visit,
         'tag': board.tag,
@@ -61,7 +61,7 @@ def BoardToDirectory(board, board_images, writer, like, my_like, comment_cnt, co
         temp = {
             'id': comment.id,
             'content': comment.content if comment_writer not in user_block else '차단한 사용자의 댓글입니다.',
-            'created_at': comment.created_at,
+            'created_at': board.created_at.strftime("%Y.%m.%d %H:%M"),
             'writer': {
                 'id': comment_writer.id if comment_writer not in user_block else 0,
                 'nickname': comment_writer.nickname if comment_writer not in user_block else '',
@@ -74,7 +74,7 @@ def BoardToDirectory(board, board_images, writer, like, my_like, comment_cnt, co
             temp = {
                 'id': reply.id,
                 'content': reply.content if reply_writer not in user_block else '차단한 사용자의 답글입니다.',
-                'created_at': reply.created_at,
+                'created_at': board.created_at.strftime("%Y.%m.%d %H:%M"),
                 'writer': {
                     'id': reply_writer.id if reply_writer not in user_block else 0,
                     'nickname': reply_writer.nickname if reply_writer not in user_block else '',
@@ -97,6 +97,7 @@ def TempCommunityToDirectory(community, rng):
         output['community'].append({
             'id': board.id,
             'content': board.content,
+            'created_at': board.created_at.strftime("%Y.%m.%d %H:%M"),
             'tag': board.tag,
         })
     return output
