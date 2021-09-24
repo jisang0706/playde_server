@@ -4,7 +4,7 @@ from django.contrib import admin
 from .models import User, UserComment, UserBlock, UserWishlist, Boss, Cafe, CafeWorktime, CafeGame, UserCafe,\
     CafeBook, CafeBookWantGame, CafeSales, CafeImage, Game, Genre, GameGenre, PlaySystem, GamePlaySystem, GameImage, GameComment,\
     Funding, FundingSchedule, UserFriend, UserRecent, UserPlayde, Community, CommunityLike, Comment, CommentReply, CommunityImage,\
-    Room, UserRoom
+    Room, UserRoom, CommunityReport
 
 admin.site.register(User)
 admin.site.register(UserComment)
@@ -38,3 +38,4 @@ admin.site.register(CafeImage)
 admin.site.register(CommunityImage)
 admin.site.register(Room)
 admin.site.register(UserRoom)
+admin.site.register(CommunityReport)

@@ -207,3 +207,9 @@ class Room(models.Model):
 class UserRoom(models.Model):
     room_id = models.IntegerField()
     user_id = models.IntegerField()
+
+class CommunityReport(models.Model):
+    board_id = models.IntegerField()
+    user_id = models.IntegerField()
+    content = models.TextField()
+    kind = models.IntegerField()

@@ -3,7 +3,7 @@ from io import BytesIO
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.shortcuts import render
-from main.models import User, Community, CommunityLike, Comment, CommentReply, UserBlock, CommunityImage
+from main.models import User, Community, CommunityLike, Comment, CommentReply, UserBlock, CommunityImage, CommunityReport
 import my_settings
 from django.db.models import Q
 from main.helper.JsonDictionary import returnjson
@@ -83,6 +83,7 @@ def del_community(request):
             CommentReply.objects.filter(board_id=obj.id).delete()
             CommunityLike.objects.filter(board_id=obj.id).delete()
             CommunityImage.objects.filter(board_id=obj.id).delete()
+            CommunityReport.objects.filter(board_id=obj.id).delete()
             obj.delete()
             boolean = True
     finally:
@@ -203,3 +204,40 @@ def get_temp_community(request):
     community = Community.objects.filter(user_id=user_id, temp=True).order_by('-created_at')[board_range[0]:board_range[1]]
     community = JsonDictionary.TempCommunityToDirectory(community, board_range)
     return returnjson(community)
+
+def board_report(request, kind):
+    data = request.POST
+    kind = 0 if kind == 'board' else 1 if kind == 'comment' else 2
+    user_id = int(data['user_id'])
+    board_id = int(data['content_id'])
+    content = data['content']
+
+    obj, create = CommunityReport.objects.get_or_create(user_id=user_id, board_id=board_id, kind=kind)
+    obj.content = content
+    obj.save()
+
+    boolean = False
+    if len(CommunityReport.objects.filter(board_id=board_id, kind=kind)) >= 10:
+        if kind == 0 and len(CommunityReport.objects.filter(board_id=board_id, kind=kind)) > len(CommunityLike.objects.filter(board_id=board_id)):
+            Comment.objects.filter(board_id=board_id).delete()
+            CommentReply.objects.filter(board_id=board_id).delete()
+            CommunityLike.objects.filter(board_id=board_id).delete()
+            CommunityImage.objects.filter(board_id=board_id).delete()
+            CommunityReport.objects.filter(board_id=board_id, kind=kind).delete()
+            boolean = True
+        elif kind == 1:
+            if len(CommentReply.objects.filter(comment_id=board_id)):
+                obj = Comment.objects.get(id=board_id)
+                obj.content = "삭제된 댓글입니다."
+                obj.save()
+            else:
+                Comment.objects.get(id=board_id).delete()
+            CommunityReport.objects.filter(board_id=board_id, kind=kind).delete()
+            boolean = True
+        elif kind == 2:
+            CommentReply.objects.get(id=board_id).delete()
+            CommunityReport.objects.filter(board_id=board_id, kind=kind).delete()
+            boolean = True
+
+    boolean = JsonDictionary.BoolToDictionary(boolean)
+    return returnjson(boolean)

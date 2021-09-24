@@ -534,5 +534,101 @@
             <td>게시판</td>
         </tr>
     </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>커뮤니티 글 신고</h3>
+    <p>작동 방법 : {{url}}/community/board/report</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>content_id</td>
+            <td>{board_id}</td>
+        </tr>
+        <tr>
+            <td>content</td>
+            <td>{content}</td>
+        </tr>
+    </table>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>boolean</td>
+            <td>신고가 누적돼서 게시글이 삭제됐을경우 True, 신고만 됐을경우 False</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>커뮤니티 댓글 신고</h3>
+    <p>작동 방법 : {{url}}/community/comment/report</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>content_id</td>
+            <td>{comment_id}</td>
+        </tr>
+        <tr>
+            <td>content</td>
+            <td>{content}</td>
+        </tr>
+    </table>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>boolean</td>
+            <td>신고가 누적돼서 댓글이 삭제됐을경우 True, 신고만 됐을경우 False</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>커뮤니티 대댓글 신고</h3>
+    <p>작동 방법 : {{url}}/community/reply/report</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>content_id</td>
+            <td>{reply_id}</td>
+        </tr>
+        <tr>
+            <td>content</td>
+            <td>{content}</td>
+        </tr>
+    </table>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>boolean</td>
+            <td>신고가 누적돼서 대댓글이 삭제됐을경우 True, 신고만 됐을경우 False</td>
+        </tr>
+    </table>
 </body>
 </html>
