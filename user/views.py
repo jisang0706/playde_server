@@ -206,7 +206,12 @@ def get_friends(request):
     data = request.POST
     user_id = int(data['user_id'])
     friends = UserFriend.objects.filter(user_id=user_id)
-    users = [User.objects.filter(id=friend.his_id)[0] for friend in friends]
+    users = []
+    for friend in friends:
+        try:
+            users.append(User.objects.get(id=friend.his_id))
+        except:
+            pass
     users = JsonDictionary.FriendsToDictionary(users)
     return returnjson(users)
 
@@ -249,6 +254,14 @@ def get_friends_request(request, kind):
     user_id = int(data['user_id'])
     query = Q(his_id=user_id) if kind == 'receive' else Q(user_id=user_id)
     receive = UserFriendRequest.objects.filter(query)
-    users = [User.objects.filter(id=user.user_id)[0] if kind == 'receive' else User.objects.filter(id=user.his_id)[0] for user in receive]
+    users = []
+    for user in receive:
+        try:
+            if kind == 'receive':
+                users.append(User.objects.get(id=user.user_id))
+            else:
+                users.append(User.objects.get(id=user.his_id))
+        except:
+            pass
     users = JsonDictionary.FriendsToDictionary(users)
     return returnjson(users)

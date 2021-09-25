@@ -164,7 +164,12 @@ def view_board(request, board_id):
     board.save()
     writer = User.objects.get(id=board.user_id)
     comments = Comment.objects.filter(board_id=board_id).order_by('-created_at')
-    comments_writer = [User.objects.filter(id=comment.user_id)[0] for comment in comments]
+    comments_writer = []
+    for comment in comments:
+        try:
+            comments_writer.append(User.objects.filter(id=comment.user_id))
+        except:
+            pass
     like = len(CommunityLike.objects.filter(board_id=board_id))
     comment_cnt = len(Comment.objects.filter(board_id=board.id)) + len(CommentReply.objects.filter(board_id=board.id))
     try:
@@ -173,7 +178,15 @@ def view_board(request, board_id):
     except:
         my_like = 0
     replyss = [CommentReply.objects.filter(comment_id=comment.id).order_by('-created_at') for comment in comments]
-    replyss_writer = [[User.objects.filter(id=reply.user_id)[0] for reply in replys] for replys in replyss]
+    replyss_writer = []
+    for replys in replyss:
+        temp = []
+        for reply in replys:
+            try:
+                temp.append(User.objects.filter(id=reply.user_id))
+            except:
+                pass
+        replyss_writer.append(temp)
     user_block = [block.user_id_blocked for block in UserBlock.objects.filter(user_id=user_id)]
     board_images = CommunityImage.objects.filter(board_id=board_id).order_by('order')
 

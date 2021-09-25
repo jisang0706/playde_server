@@ -30,7 +30,13 @@ def get_rooms(request):
     user_id = int(data['user_id'])
     rooms = [Room.objects.filter(id=room.room_id)[0] for room in UserRoom.objects.filter(user_id=user_id) if Room.objects.filter(id=room.room_id)]
     for i, room in enumerate(rooms):
-        rooms[i].users = [User.objects.filter(id=userroom.user_id)[0] for userroom in UserRoom.objects.filter(room_id=room.id) if userroom.user_id != user_id]
+        for userroom in UserRoom.objects.filter(room_id=room.id):
+            rooms[i].users = []
+            try:
+                if userroom.user_id != user_id:
+                    rooms[i].users.append(User.objects.get(id=userroom.user_id))
+            except:
+                pass
 
     rooms = JsonDictionary.RoomsToDictionary(rooms)
     return returnjson(rooms)
@@ -52,7 +58,13 @@ def get_room(request):
         UserRoom.objects.create(room_id=rt_room.id, user_id=user_id)
         UserRoom.objects.create(room_id=rt_room.id, user_id=his_id)
 
-    rt_room.users = [User.objects.filter(id=userroom.user_id)[0] for userroom in UserRoom.objects.filter(room_id=rt_room.id) if userroom.user_id != user_id]
+    rt_room.users = []
+    for userroom in UserRoom.objects.filter(room_id=rt_room.id):
+        try:
+            if userroom.user_id != user_id:
+                rt_room.users.append(User.objects.get(id=userroom.user_id))
+        except:
+            pass
 
     rt_room = JsonDictionary.RoomToDictionary(rt_room)
     return returnjson(rt_room)
