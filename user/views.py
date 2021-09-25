@@ -249,6 +249,6 @@ def get_friends_request(request, kind):
     user_id = int(data['user_id'])
     query = Q(his_id=user_id) if kind == 'receive' else Q(user_id=user_id)
     receive = UserFriendRequest.objects.filter(query)
-    users = [User.objects.filter(id=user.user_id) for user in receive]
+    users = [User.objects.filter(id=user.user_id)[0] for user in receive]
     users = JsonDictionary.FriendsToDictionary(users)
     return returnjson(users)
