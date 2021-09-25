@@ -81,3 +81,14 @@ def ChatprofileToDictionary(user):
         'image': user.image,
     }
     return output
+
+def FriendsToDictionary(users):
+    output = {
+        'count': len(users),
+        'friends': [{
+            'id': user.id,
+            'nickname': user.nickname,
+            'image': user.image,
+        } for user in users],
+    }
+    return output

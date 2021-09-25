@@ -213,3 +213,7 @@ class CommunityReport(models.Model):
     user_id = models.IntegerField()
     content = models.TextField()
     kind = models.IntegerField()
+
+class UserFriendRequest(models.Model):
+    user_id = models.IntegerField()
+    his_id = models.IntegerField()

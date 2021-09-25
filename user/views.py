@@ -6,11 +6,13 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.shortcuts import render
 from main.models import User, UserComment, UserBlock, UserWishlist, Boss, Cafe, CafeGame, UserCafe,\
     CafeBook, CafeBookWantGame, CafeSales, Game, Genre, GameGenre, PlaySystem, GamePlaySystem, GameImage, GameComment,\
-    Funding, FundingSchedule, UserFriend, UserRecent, UserPlayde, Community, CommunityLike, Comment, CommentReply
+    Funding, FundingSchedule, UserFriend, UserRecent, UserPlayde, Community, CommunityLike, Comment, CommentReply, \
+    UserFriendRequest
 import my_settings
 import bcrypt
 from django.db.models import Q
 from main.helper.JsonDictionary import returnjson
+from main.helper import push_fcm_notification
 from user.helper import JsonDictionary, LoginHelper, ImageHelper
 # Create your views here.
 
@@ -199,3 +201,54 @@ def get_profile_chat(request):
     user = User.objects.get(id=user_id)
     user = JsonDictionary.ChatprofileToDictionary(user)
     return returnjson(user)
+
+def get_friends(request):
+    data = request.POST
+    user_id = int(data['user_id'])
+    friends = UserFriend.objects.filter(user_id=user_id)
+    users = [User.objects.filter(id=friend.his_id)[0] for friend in friends]
+    users = JsonDictionary.FriendsToDictionary(users)
+    return returnjson(users)
+
+def add_friends(request):
+    data = request.POST
+    user_id = int(data['user_id'])
+    his_id = int(data['his_id'])
+    try:
+        target_user = User.objects.get(id=his_id)
+        user = User.objects.get(id=user_id)
+        if len(UserFriendRequest.objects.filter(user_id=his_id, his_id=user_id)) > 0:
+            obj, create = UserFriend.objects.get_or_create(user_id=user_id, his_id=his_id)
+            UserFriend.objects.get_or_create(user_id=his_id, his_id=user_id)
+            UserFriendRequest.objects.filter(user_id=his_id, his_id=user_id).delete()
+            if target_user.token and create:
+                push_fcm_notification.send_to_firebase_cloud_messaging(obj.token, f'{user.nickname}님이 친구요청을 수락했습니다', '')
+        else:
+            obj, create = UserFriendRequest.objects.get_or_create(user_id=user_id, his_id=his_id)
+            if target_user.token and create:
+                push_fcm_notification.send_to_firebase_cloud_messaging(obj.token, f'{user.nickname}님이 친구요청했습니다')
+        boolean = True
+    except:
+        boolean = False
+    boolean = JsonDictionary.BoolToDictionary(boolean)
+    return returnjson(boolean)
+
+def del_friends(request):
+    data = request.POST
+    user_id = int(data['user_id'])
+    his_id = int(data['his_id'])
+    UserFriendRequest.objects.filter(user_id=user_id, his_id=his_id).delete()
+    UserFriendRequest.objects.filter(user_id=his_id, his_id=user_id).delete()
+    UserFriend.objects.filter(user_id=user_id, his_id=his_id).delete()
+    UserFriend.objects.filter(user_id=his_id, his_id=user_id).delete()
+    boolean = JsonDictionary.BoolToDictionary(True)
+    return returnjson(boolean)
+
+def get_friends_request(request, kind):
+    data = request.POST
+    user_id = int(data['user_id'])
+    query = Q(his_id=user_id) if kind == 'receive' else Q(user_id=user_id)
+    receive = UserFriendRequest.objects.filter(query)
+    users = [User.objects.filter(id=user.user_id) for user in receive]
+    users = JsonDictionary.FriendsToDictionary(users)
+    return returnjson(users)

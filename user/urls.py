@@ -21,6 +21,10 @@ urlpatterns = [
     path('posible_nickname', views.posible_nickname, name='posiblenickname'),
     path('push_token/set', views.set_push_token, name='setpushtoken'),
     path('profile/chat', views.get_profile_chat, name='getprofilechat'),
+    path('friend', views.get_friends, name='getfriends'),
+    path('friend/add', views.add_friends, name='addfriend'),
+    path('friend/delete', views.del_friends, name='delfriend'),
+    path('friend/<kind>', views.get_friends_request, name='getfriendrequest'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

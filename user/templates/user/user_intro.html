@@ -487,5 +487,148 @@
             <td>사용자 프사 위치</td>
         </tr>
     </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>친구목록</h3>
+    <p>사용 방법 : {{url}}/user/friend</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+    </table>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>count</td>
+            <td>number</td>
+            <td>친구 수</td>
+        </tr>
+        <tr>
+            <td>friends[].id</td>
+            <td>number</td>
+            <td>친구id</td>
+        </tr>
+        <tr>
+            <td>friends[].nickname</td>
+            <td>string</td>
+            <td>친구 닉네임</td>
+        </tr>
+        <tr>
+            <td>friends[].image</td>
+            <td>string</td>
+            <td>친구 프사 경로</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>친구 요청, 수락</h3>
+    <p>사용 방법 : {{url}}/user/friend/add</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>his_id</td>
+            <td>{target_user_id}</td>
+        </tr>
+    </table>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>boolean</td>
+            <td>True, False</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>친구 요청 취소, 친구 삭제</h3>
+    <p>사용 방법 : {{url}}/user/friend/delete</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>his_id</td>
+            <td>{target_user_id}</td>
+        </tr>
+    </table>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>boolean</td>
+            <td>True, False</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>친구 요청받은 목록</h3>
+    <p>사용 방법 : {{url}}/user/friend/receive</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+    </table>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>boolean</td>
+            <td>True, False</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>친구 요청한 목록</h3>
+    <p>사용 방법 : {{url}}/user/friend/send</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+    </table>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>boolean</td>
+            <td>True, False</td>
+        </tr>
+    </table>
 </body>
 </html>
