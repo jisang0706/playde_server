@@ -247,8 +247,8 @@ def del_friends(request):
 def get_friends_request(request, kind):
     data = request.POST
     user_id = int(data['user_id'])
-    query = Q(his_id=user_id) if kind == 'receive' else Q(user_id=user_id)
+    query, users_query = (Q(his_id=user_id), Q(id=user.user_id)) if kind == 'receive' else (Q(user_id=user_id), Q(id=user.his_id))
     receive = UserFriendRequest.objects.filter(query)
-    users = [User.objects.filter(id=user.user_id)[0] for user in receive]
+    users = [User.objects.filter(users_query)[0] for user in receive]
     users = JsonDictionary.FriendsToDictionary(users)
     return returnjson(users)
