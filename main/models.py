@@ -140,7 +140,6 @@ class Game(models.Model):
     max_user = models.IntegerField(default=1, blank=True)
     small_image = models.TextField(default="", blank=True)
     content = models.TextField(default="", blank=True)
-    exist = models.BooleanField(default=True, blank=True)
     interest = models.IntegerField(default=0, blank=True)
     level = models.IntegerField(default=0, blank=True)
 
@@ -179,17 +178,6 @@ class GameComment(models.Model):
     user_id = models.IntegerField()
     content = models.TextField()
 
-class Funding(models.Model):
-    game_id = models.IntegerField()
-    user_id = models.IntegerField()
-    now_amount = models.IntegerField()
-    target_amount = models.IntegerField(default=0, blank=True)
-
-class FundingSchedule(models.Model):
-    funding_id = models.IntegerField()
-    schedule = models.DateTimeField()
-    content = models.TextField()
-
 class UserMessage(models.Model):
     first_user_id = models.IntegerField()
     second_user_id = models.IntegerField()
@@ -217,3 +205,55 @@ class CommunityReport(models.Model):
 class UserFriendRequest(models.Model):
     user_id = models.IntegerField()
     his_id = models.IntegerField()
+
+class Funding(models.Model):
+    name = models.TextField()
+    content = models.TextField()
+    user_id = models.IntegerField()
+    goal = models.IntegerField()
+    goal_date = models.DateField()
+    upload_date = models.DateTimeField(auto_now_add=True)
+    link = models.TextField()
+    image = models.TextField(default="")
+
+class FundingTag(models.Model):
+    tag = models.TextField()
+    funding_id = models.IntegerField()
+
+class FundingImage(models.Model):
+    funding_id = models.IntegerField()
+    image = models.TextField()
+
+class FundingNews(models.Model):
+    funding_id = models.IntegerField()
+    writer_id = models.IntegerField()
+    title = models.TextField()
+    image = models.TextField()
+    content = models.TextField()
+    written_date = models.DateTimeField(auto_now_add=True)
+
+class FundingCommunity(models.Model):
+    funding_id = models.IntegerField()
+    content = models.TextField()
+    writer_id = models.IntegerField()
+    tag = models.TextField()
+    written_date = models.DateTimeField(auto_now_add=True)
+    parent_id = models.IntegerField(default=0, blank=True)
+
+class FundingTalk(models.Model):
+    title = models.TextField()
+    image = models.TextField()
+    content = models.TextField()
+    writer_id = models.IntegerField()
+    written_date = models.DateTimeField(auto_now_add=True)
+    tag = models.TextField()
+
+class FundingSchedule(models.Model):
+    funding_id = models.IntegerField()
+    writer_id = models.IntegerField()
+    date = models.DateTimeField()
+    content = models.TextField()
+
+class FundingFav(models.Model):
+    funding_id = models.IntegerField()
+    user_id = models.IntegerField()

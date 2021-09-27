@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'cafe.apps.CafeConfig',
     'user.apps.UserConfig',
     'message.apps.MessageConfig',
+    'funding.apps.FundingConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

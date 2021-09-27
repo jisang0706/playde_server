@@ -3,8 +3,9 @@ from django.contrib import admin
 # Register your models here.
 from .models import User, UserComment, UserBlock, UserWishlist, Boss, Cafe, CafeWorktime, CafeGame, UserCafe,\
     CafeBook, CafeBookWantGame, CafeSales, CafeImage, Game, Genre, GameGenre, PlaySystem, GamePlaySystem, GameImage, GameComment,\
-    Funding, FundingSchedule, UserFriend, UserRecent, UserPlayde, Community, CommunityLike, Comment, CommentReply, CommunityImage,\
-    Room, UserRoom, CommunityReport, UserFriendRequest
+    UserFriend, UserRecent, UserPlayde, Community, CommunityLike, Comment, CommentReply, CommunityImage,\
+    Room, UserRoom, CommunityReport, UserFriendRequest, Funding, FundingSchedule, FundingCommunity, FundingImage, FundingTag,\
+    FundingFav, FundingTalk, FundingNews
 
 admin.site.register(User)
 admin.site.register(UserComment)
@@ -40,3 +41,9 @@ admin.site.register(Room)
 admin.site.register(UserRoom)
 admin.site.register(CommunityReport)
 admin.site.register(UserFriendRequest)
+admin.site.register(FundingCommunity)
+admin.site.register(FundingImage)
+admin.site.register(FundingTag)
+admin.site.register(FundingFav)
+admin.site.register(FundingTalk)
+admin.site.register(FundingNews)
