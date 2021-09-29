@@ -239,14 +239,7 @@ class FundingCommunity(models.Model):
     tag = models.TextField()
     written_date = models.DateTimeField(auto_now_add=True)
     parent_id = models.IntegerField(default=0, blank=True)
-
-class FundingTalk(models.Model):
-    title = models.TextField()
-    image = models.TextField()
-    content = models.TextField()
-    writer_id = models.IntegerField()
-    written_date = models.DateTimeField(auto_now_add=True)
-    tag = models.TextField()
+    secret = models.IntegerField(default=0, blank=True)
 
 class FundingSchedule(models.Model):
     funding_id = models.IntegerField()

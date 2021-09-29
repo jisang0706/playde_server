@@ -184,4 +184,266 @@
             <td>작성 시간 (Y.m.d H:M)</td>
         </tr>
     </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>펀딩글 뉴스 상세</h3>
+    <p>작동 방법 : {{url}}/funding/news/{funding_news_id}</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+    </table>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>id</td>
+            <td>number</td>
+            <td>펀딩 소식 id</td>
+        </tr>
+        <tr>
+            <td>title</td>
+            <td>string</td>
+            <td>펀딩 소식 제목</td>
+        </tr>
+        <tr>
+            <td>content</td>
+            <td>string</td>
+            <td>펀딩 소식 내용</td>
+        </tr>
+        <tr>
+            <td>image</td>
+            <td>string</td>
+            <td>펀딩 소식 사진 경로</td>
+        </tr>
+        <tr>
+            <td>created_at</td>
+            <td>string</td>
+            <td>글 작성 시간 (%Y.%m.%d %H:%M)</td>
+        </tr>
+        <tr>
+            <td>writer.id</td>
+            <td>number</td>
+            <td>소식 작성자 id</td>
+        </tr>
+        <tr>
+            <td>writer.nickname</td>
+            <td>string</td>
+            <td>소식 작성자 닉네임</td>
+        </tr>
+        <tr>
+            <td>writer.image</td>
+            <td>string</td>
+            <td>소식 작성자 프사 경로</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>펀딩 소식&톡</h3>
+    <p>작동 방법 : {{url}}/funding/news</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>range</td>
+            <td>{start,end}</td>
+        </tr>
+        <tr>
+            <td>top_id</td>
+            <td>{top_news_id (NULLABLE)}</td>
+        </tr>
+    </table>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>meta.count</td>
+            <td>number</td>
+            <td>소식 수</td>
+        </tr>
+        <tr>
+            <td>meta.start</td>
+            <td>number</td>
+            <td>시작점</td>
+        </tr>
+        <tr>
+            <td>meta.end</td>
+            <td>number</td>
+            <td>끝점</td>
+        </tr>
+        <tr>
+            <td>news[].id</td>
+            <td>number</td>
+            <td>뉴스 id</td>
+        </tr>
+        <tr>
+            <td>news[].title</td>
+            <td>string</td>
+            <td>뉴스 제목</td>
+        </tr>
+        <tr>
+            <td>news[].funding_name</td>
+            <td>string</td>
+            <td>펀딩 이름</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>펀딩 커뮤니티 글 불러오기</h3>
+    <p>작동 방법 : {{url}}/funding/{funding_id}/community</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id</td>
+        </tr>
+        <tr>
+            <td>tag</td>
+            <td>{tag}</td>
+        </tr>
+        <tr>
+            <td>range</td>
+            <td>{start,end}</td>
+        </tr>
+        <tr>
+            <td>top_id</td>
+            <td>{top_board_id (NULLABLE)}</td>
+        </tr>
+    </table>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>meta.count</td>
+            <td>number</td>
+            <td>커뮤니티 글 수 (댓글 포함으로 인해 요청한 수보다 많을 수 있음)</td>
+        </tr>
+        <tr>
+            <td>meta.start</td>
+            <td>number</td>
+            <td>시작점</td>
+        </tr>
+        <tr>
+            <td>meta.end</td>
+            <td>number</td>
+            <td>끝점</td>
+        </tr>
+        <tr>
+            <td>community[].kind</td>
+            <td>string</td>
+            <td>글일경우:board, 댓글일경우:reply</td>
+        </tr>
+        <tr>
+            <td>community[].id</td>
+            <td>number</td>
+            <td>글 id</td>
+        </tr>
+        <tr>
+            <td>community[].content</td>
+            <td>string</td>
+            <td>글 내용</td>
+        </tr>
+        <tr>
+            <td>community[].created_at</td>
+            <td>string</td>
+            <td>글 작성 시간 (%Y.%m.%d %H:%M)</td>
+        </tr>
+        <tr>
+            <td>community[].parent_id</td>
+            <td>number</td>
+            <td>해당 글이 댓글일 경우 부모 글 (댓글일경우에만 주어짐)</td>
+        </tr>
+        <tr>
+            <td>community[].user.id</td>
+            <td>number</td>
+            <td>작성자 id</td>
+        </tr>
+        <tr>
+            <td>community[].user.nickname</td>
+            <td>string</td>
+            <td>작성자 닉네임</td>
+        </tr>
+        <tr>
+            <td>community[].user.image</td>
+            <td>string</td>
+            <td>작성자 프사 url</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>펀딩 커뮤니티 글, 댓글 작성</h3>
+    <p>작동 방법 : {{url}}/funding/{funding_id}/community/upload</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id</td>
+        </tr>
+        <tr>
+            <td>tag</td>
+            <td>{tag}</td>
+        </tr>
+        <tr>
+            <td>content</td>
+            <td>{content}</td>
+        </tr>
+        <tr>
+            <td>board_id</td>
+            <td>{parent_board_id (댓글 작성일때만 작성 가능)}</td>
+        </tr>
+        <tr>
+            <td>secret</td>
+            <td>{비밀글:True, 안비밀글:False (NULLABLE)}</td>
+        </tr>
+    </table>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>boolean</td>
+            <td>작성 성공시 True, 아닐시 False</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>펀딩 커뮤니티 글, 댓글 삭제</h3>
+    <p>작동 방법 : {{url}}/funding/{funding_id}/community/delete</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id</td>
+        </tr>
+        <tr>
+            <td>board_id</td>
+            <td>{board_id}</td>
+        </tr>
+    </table>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>boolean</td>
+            <td>작성 성공시 True, 아닐시 False</td>
+        </tr>
+    </table>
 </body>

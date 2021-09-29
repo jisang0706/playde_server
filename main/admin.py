@@ -5,7 +5,7 @@ from .models import User, UserComment, UserBlock, UserWishlist, Boss, Cafe, Cafe
     CafeBook, CafeBookWantGame, CafeSales, CafeImage, Game, Genre, GameGenre, PlaySystem, GamePlaySystem, GameImage, GameComment,\
     UserFriend, UserRecent, UserPlayde, Community, CommunityLike, Comment, CommentReply, CommunityImage,\
     Room, UserRoom, CommunityReport, UserFriendRequest, Funding, FundingSchedule, FundingCommunity, FundingImage, FundingTag,\
-    FundingFav, FundingTalk, FundingNews
+    FundingFav, FundingNews
 
 admin.site.register(User)
 admin.site.register(UserComment)
@@ -45,5 +45,4 @@ admin.site.register(FundingCommunity)
 admin.site.register(FundingImage)
 admin.site.register(FundingTag)
 admin.site.register(FundingFav)
-admin.site.register(FundingTalk)
 admin.site.register(FundingNews)
