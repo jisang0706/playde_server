@@ -167,7 +167,7 @@ def view_board(request, board_id):
     comments_writer = []
     for comment in comments:
         try:
-            comments_writer.append(User.objects.filter(id=comment.user_id))
+            comments_writer.append(User.objects.get(id=comment.user_id))
         except:
             pass
     like = len(CommunityLike.objects.filter(board_id=board_id))
@@ -183,7 +183,7 @@ def view_board(request, board_id):
         temp = []
         for reply in replys:
             try:
-                temp.append(User.objects.filter(id=reply.user_id))
+                temp.append(User.objects.get(id=reply.user_id))
             except:
                 pass
         replyss_writer.append(temp)
