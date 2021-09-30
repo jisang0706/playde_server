@@ -218,8 +218,9 @@ def get_temp_community(request):
     community = JsonDictionary.TempCommunityToDirectory(community, board_range)
     return returnjson(community)
 
-def board_report(request, kind):
+def board_report(request):
     data = request.POST
+    kind = data['kind']
     kind = 0 if kind == 'board' else 1 if kind == 'comment' else 2
     user_id = int(data['user_id'])
     board_id = int(data['content_id'])
