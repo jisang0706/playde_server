@@ -169,7 +169,7 @@ def view_board(request, board_id):
         try:
             comments_writer.append(User.objects.get(id=comment.user_id))
         except:
-            pass
+            comments_writer.append(0)
     like = len(CommunityLike.objects.filter(board_id=board_id))
     comment_cnt = len(Comment.objects.filter(board_id=board.id)) + len(CommentReply.objects.filter(board_id=board.id))
     try:
@@ -185,7 +185,7 @@ def view_board(request, board_id):
             try:
                 temp.append(User.objects.get(id=reply.user_id))
             except:
-                pass
+                temp.append(0)
         replyss_writer.append(temp)
     user_block = [block.user_id_blocked for block in UserBlock.objects.filter(user_id=user_id)]
     board_images = CommunityImage.objects.filter(board_id=board_id).order_by('order')
@@ -218,9 +218,8 @@ def get_temp_community(request):
     community = JsonDictionary.TempCommunityToDirectory(community, board_range)
     return returnjson(community)
 
-def board_report(request):
+def board_report(request, kind):
     data = request.POST
-    kind = data['kind']
     kind = 0 if kind == 'board' else 1 if kind == 'comment' else 2
     user_id = int(data['user_id'])
     board_id = int(data['content_id'])

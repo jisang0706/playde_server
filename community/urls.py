@@ -19,7 +19,7 @@ urlpatterns = [
     path('board/<int:board_id>', views.view_board, name='board'),
     path('board/image/delete', views.del_board_image, name='boardimagedelete'),
     path('temp/get', views.get_temp_community, name='tempget'),
-    path('comment/report', views.board_report, name='boardreport'),
+    path('<kind>/report', views.board_report, name='boardreport'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
