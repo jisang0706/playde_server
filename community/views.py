@@ -18,7 +18,9 @@ def upload_community(request):
     data = request.POST
     user_id = int(data['user_id'])
     content = data['content']
-    temporary = bool(data['temp'])
+    temporary = False
+    if 'temp' in data.keys():
+        temporary = bool(data['temp'])
 
     obj = Community.objects.create(user_id=user_id, content=content, temp=temporary)
     if 'tag' in data.keys():
@@ -72,13 +74,12 @@ def get_community(request):
 
 def del_community(request):
     data = request.POST
-    community_id = int(data['board_id'])
+    board_id = int(data['board_id'])
     user_id = int(data['user_id'])
+    boolean = False
     try:
-        obj = Community.objects.get(id=community_id)
-        if obj.user_id != user_id:
-            boolean = False
-        else:
+        obj = Community.objects.get(id=board_id)
+        if obj.user_id == user_id:
             Comment.objects.filter(board_id=obj.id).delete()
             CommentReply.objects.filter(board_id=obj.id).delete()
             CommunityLike.objects.filter(board_id=obj.id).delete()
@@ -86,9 +87,10 @@ def del_community(request):
             CommunityReport.objects.filter(board_id=obj.id).delete()
             obj.delete()
             boolean = True
-    finally:
-        boolean = JsonDictionary.BoolToDictionary(boolean)
-        return returnjson(boolean)
+    except:
+        pass
+    boolean = JsonDictionary.BoolToDictionary(boolean)
+    return returnjson(boolean)
 
 def like_community(request):
     data = request.POST

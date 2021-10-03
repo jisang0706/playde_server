@@ -132,3 +132,29 @@ def FundingCommunityToDictionary(community, user_id, funding_user_id, rng):
 
     output['meta']['count'] = len(output['community'])
     return output
+
+def IdToDictionary(boolean, id):
+    output = {
+        'act': boolean,
+        'id': id,
+    }
+    return output
+
+def CalendarToDictionary(schedules):
+    output = {
+        'calendar': [],
+    }
+    for schedule in schedules:
+        output['calendar'].append({
+            'schedule': {
+                'id': schedule.id,
+                'date': schedule.date.strftime("%Y.%m.%d"),
+                'content': schedule.content,
+                'user_id': schedule.writer_id,
+            },
+            'funding': {
+                'id': schedule.funding_id,
+                'name': schedule.funding_name,
+            }
+        })
+    return output

@@ -1,5 +1,7 @@
+from datetime import datetime
+
 from django.shortcuts import render
-from main.models import User, Funding, FundingTag, FundingFav, FundingNews, FundingCommunity
+from main.models import User, Funding, FundingTag, FundingFav, FundingNews, FundingCommunity, FundingSchedule
 import my_settings
 import bcrypt
 from django.db.models import Q
@@ -136,3 +138,37 @@ def delete_funding_community(request, funding_id):
         FundingCommunity.objects.get(id=board_id).delete()
         return returnjson(JsonDictionary.BoolToDictionary(True))
     return returnjson(JsonDictionary.BoolToDictionary(False))
+
+def upload_funding_calendar(request, funding_id):
+    data = request.POST
+    user_id = int(data['user_id'])
+    if user_id != Funding.objects.get(id=funding_id).user_id:
+        return returnjson(JsonDictionary.BoolToDictionary(False))
+    date = datetime.strptime(data['date'], '%Y.%m.%d')
+    content = data['content']
+    object = FundingSchedule.objects.create(funding_id=funding_id, writer_id=user_id,\
+                                   date=date, content=content)
+    return returnjson(JsonDictionary.IdToDictionary(True, object.id))
+
+def delete_funding_calendar(request, funding_id):
+    data = request.POST
+    user_id = int(data['user_id'])
+    schedule_id = int(data['schedule_id'])
+    if Funding.objects.get(id=funding_id).user_id != user_id:
+        return returnjson(JsonDictionary.BoolToDictionary(False))
+    FundingSchedule.objects.get(id=schedule_id).delete()
+    return returnjson(JsonDictionary.BoolToDictionary(True))
+
+def get_funding_calendar(request):
+    data = request.POST
+    date = data['date'].split('.')
+    date[0], date[1] = Q(date__year=date[0]), Q(date__month=date[1])
+    funding_id = Q(id__gte=0)
+    if 'funding_id' in data.keys():
+        funding_id = int(data['funding_id'])
+        funding_id = Q(funding_id=funding_id)
+    calendar = FundingSchedule.objects.filter(funding_id, date[0], date[1]).order_by('date')
+    for i in range(len(calendar)):
+        calendar[i].funding_name = Funding.objects.get(id=calendar[i].funding_id).name
+    schedules = JsonDictionary.CalendarToDictionary(calendar)
+    return returnjson(schedules)

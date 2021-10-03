@@ -16,6 +16,9 @@ urlpatterns = [
     path('<int:funding_id>/community', views.get_funding_community, name='fundingcommunity'),
     path('<int:funding_id>/community/upload', views.upload_funding_community, name='fundingcommunityupload'),
     path('<int:funding_id/community/delete', views.delete_funding_community, name='fundingcommunitydelete'),
+    path('<int:funding_id>/calendar/upload', views.upload_funding_calendar, name='fundinguploadcalendar'),
+    path('<int:funding_id>/calendar/delete', views.delete_funding_calendar, name='fundingdeleteschedule'),
+    path('calendar', views.get_funding_calendar, name='fundinggetcalendar'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
