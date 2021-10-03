@@ -258,3 +258,27 @@ def board_report(request, kind):
 
     boolean = JsonDictionary.BoolToDictionary(boolean)
     return returnjson(boolean)
+
+def get_user_board(request):
+    data = request.POST
+    user_id = Q(user_id=int(data['user_id']))
+    rng = [int(rng)-1 for rng in data['range'].split(',')]
+    top_id = Q(id__lte=int(data['top_id'])) if 'top_id' in data.keys() else Q(id__gte=0)
+    community = Community.objects.filter(user_id, top_id).order_by('-created_at')[rng[0]:rng[1]]
+    community = JsonDictionary.TempCommunityToDirectory(community, rng)
+    return returnjson(community)
+
+def get_user_comment(request):
+    data = request.POST
+    user_id = Q(user_id=int(data['user_id']))
+    rng = [int(rng)-1 for rng in data['range'].split(',')]
+    top_id = Q(board_id__lte=int(data['top_id'])) if 'top_id' in data.keys() else Q(board_id__gte=0)
+    community = list(set.union({Comment.objects.filter(user_id, top_id).board_id}, {Comment.objects.filter(user_id, top_id).board_id}))
+    community = sorted(community, key=lambda board: -board)[rng[0]:rng[1]]
+    for i in range(len(community)):
+        try:
+            community[i] = Community.objects.get(id=community[i])
+        except:
+            pass
+    community = JsonDictionary.TempCommunityToDirectory(community, rng)
+    return returnjson(community)
