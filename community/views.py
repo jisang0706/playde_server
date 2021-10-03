@@ -126,9 +126,10 @@ def del_comment(request):
         else:
             CommentReply.objects.filter(comment_id=obj.id).delete()
             obj.delete()
-    finally:
-        boolean = JsonDictionary.BoolToDictionary(boolean)
-        return returnjson(boolean)
+    except:
+        pass
+    boolean = JsonDictionary.BoolToDictionary(boolean)
+    return returnjson(boolean)
 
 def upload_reply(request):
     data = request.POST
@@ -153,9 +154,10 @@ def delete_reply(request):
             boolean = False
         else:
             obj.delete()
-    finally:
-        boolean = JsonDictionary.BoolToDictionary(boolean)
-        return returnjson(boolean)
+    except:
+        pass
+    boolean = JsonDictionary.BoolToDictionary(boolean)
+    return returnjson(boolean)
 
 def view_board(request, board_id):
     data = request.POST
