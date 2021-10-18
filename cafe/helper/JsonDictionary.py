@@ -65,3 +65,17 @@ def FavCafesToDictionary(cafes):
         })
 
     return output
+
+def WorktimeToDictionary(worktimes):
+    output = {
+        'act': True,
+        'worktimes': [],
+    }
+
+    for worktime in worktimes:
+        output['worktimes'].append({
+            'weekday': worktime.weekday,
+            'open': worktime.open.strftime("%H:%M"),
+            'close': worktime.close.strftime("%H:%M"),
+        })
+    return output

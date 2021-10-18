@@ -267,5 +267,144 @@
             <td>true, false</td>
         </tr>
     </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>카페 이미지 설정</h3>
+    <p>작동 방법 : {{url}}/cafe/manage/image/set</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>cafe_id</td>
+            <td>{cafe_id}</td>
+        </tr>
+        <tr>
+            <td>images</td>
+            <td>{images (쉼표로 구분되어 여러개 설정 가능 ex: image1,image2,image3)}</td>
+        </tr>
+    </table>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>boolean</td>
+            <td>True, False</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>카페 보유 게임 설정</h3>
+    <p>작동 방법 : {{url}}/cafe/manage/game/set</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>cafe_id</td>
+            <td>{cafe_id}</td>
+        </tr>
+        <tr>
+            <td>game_ids</td>
+            <td>{game_ids (쉼표로 구분되어 여러개 설정 가능 ex: 1,2,3)}</td>
+        </tr>
+    </table>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>boolean</td>
+            <td>True, False</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>카페 운영시간 설정</h3>
+    <p>작동 방법 : {{url}}/cafe/manage/worktime/set</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>cafe_id</td>
+            <td>{cafe_id}</td>
+        </tr>
+        <tr>
+            <td>worktimes</td>
+            <td>{월요일오픈시각:월요일오픈분,월요일클로즈시각:월요일클로즈분,화요일오픈시각:화요일오픈분,화요일클로즈시각:화요일클로즈분~}</td>
+        </tr>
+    </table>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>boolean</td>
+            <td>True, False</td>
+        </tr>
+    </table>
+<!-- ---------------------------------------------------------------------------------- -->
+    <br>
+    <h3>카페 운영시간 가져오기 (해당 카페 사장만 이용 가능)</h3>
+    <p>작동 방법 : {{url}}/cafe/manage/worktime</p>
+    <p>body</p>
+    <table border="2">
+        <th scope="col">KEY</th>
+        <th scope="col">VALUE</th>
+        <tr>
+            <td>user_id</td>
+            <td>{user_id}</td>
+        </tr>
+        <tr>
+            <td>cafe_id</td>
+            <td>{cafe_id}</td>
+        </tr>
+    </table>
+    <p>응답</p>
+    <table border="2">
+        <th scope="col">속성</th>
+        <th scope="col">데이터타입</th>
+        <th scope="col">설명</th>
+        <tr>
+            <td>act</td>
+            <td>boolean</td>
+            <td>True, False</td>
+        </tr>
+        <tr>
+            <td>worktimes[i].weekday</td>
+            <td>number</td>
+            <td>월:0~일:6</td>
+        </tr>
+        <tr>
+            <td>worktimes[i].open</td>
+            <td>string</td>
+            <td>%H:%M</td>
+        </tr>
+        <tr>
+            <td>worktimes[i].close</td>
+            <td>string</td>
+            <td>%H:%M</td>
+        </tr>
+    </table>
 </body>
 </html>

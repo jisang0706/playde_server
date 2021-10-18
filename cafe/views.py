@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from main.models import Cafe, CafeWorktime, UserCafe, CafeImage
+from main.models import Cafe, CafeWorktime, UserCafe, CafeImage, CafeGame
 import my_settings
 from django.db.models import Q, Min
 from main.helper.JsonDictionary import returnjson
@@ -100,3 +100,54 @@ def del_fav_cafe(request):
     UserCafe.objects.get_or_create(user_id=user_id, cafe_id=cafe_id)[0].delete()
     boolean = JsonDictionary.BoolToDictionary(True)
     return returnjson(boolean)
+
+def set_cafe_image(request):
+    data = request.POST
+    user_id = int(data['user_id'])
+    cafe_id = int(data['cafe_id'])
+    images = data['images'].split(',')
+
+    if user_id == Cafe.objects.get(id=cafe_id).boss_id:
+        CafeImage.objects.filter(cafe_id=cafe_id).delete()
+        for i, image in enumerate(images):
+            CafeImage.objects.create(cafe_id=cafe_id, order=i, content_image=image)
+        return returnjson(JsonDictionary.BoolToDictionary(True))
+    return returnjson(JsonDictionary.BoolToDictionary(False))
+
+def set_cafe_game(request):
+    data = request.POST
+    user_id = int(data['user_id'])
+    cafe_id = int(data['cafe_id'])
+    games = [int(game_id) for game_id in data['game_ids'].split(',')]
+
+    if user_id == Cafe.objects.get(id=cafe_id).boss_id:
+        for game_id in games:
+            CafeGame.objects.get_or_create(cafe_id=cafe_id, game_id=game_id)
+        return returnjson(JsonDictionary.BoolToDictionary(True))
+    return returnjson(JsonDictionary.BoolToDictionary(False))
+
+def set_cafe_worktime(request):
+    data = request.POST
+    user_id = int(data['user_id'])
+    cafe_id = int(data['cafe_id'])
+    worktimes = data['worktimes'].split(',')
+
+    if user_id == Cafe.objects.get(id=cafe_id).boss_id:
+        CafeWorktime.objects.filter(cafe_id=cafe_id).delete()
+        for i in range(0, len(worktimes), 2):
+            CafeWorktime.objects.create(cafe_id=cafe_id, weekday=i//2,\
+                open=datetime.datetime.strptime(worktimes[i], "%H:%M"),\
+                    close=datetime.datetime.strptime(worktimes[i+1], "%H:%M"))
+        return returnjson(JsonDictionary.BoolToDictionary(True))
+    return returnjson(JsonDictionary.BoolToDictionary(False))
+
+def get_cafe_worktime(request):
+    data = request.POST
+    user_id = int(data['user_id'])
+    cafe_id = int(data['cafe_id'])
+
+    if user_id == Cafe.objects.get(id=cafe_id).boss_id:
+        worktimes = CafeWorktime.objects.filter(cafe_id=cafe_id).order_by("weekday")
+        worktimes = JsonDictionary.WorktimeToDictionary(worktimes)
+        return returnjson(worktimes)
+    return returnjson(JsonDictionary.BoolToDictionary(False))
